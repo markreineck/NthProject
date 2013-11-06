@@ -1,0 +1,18 @@
+<IfModule mod_rewrite.c>
+Options +FollowSymLinks
+RewriteEngine on
+RewriteBase /
+IndexIgnore * 
+
+# Rewrite URLs of the form 'x' to the form 'loader.php?p=x'.
+
+#Attempt to allow css and other such files be accessed
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# $1 !^(index\.php|public|css|js|datepicker|image|robots\.txt)
+
+# RewriteRule ^(.*)\.html$ $1 [R=301]
+# RewriteRule ^(.*)$ loader.php?p=$1
+#RewriteRule ^(.*)\.html$ index.php?p=$1 [L,QSA]
+RewriteRule ^(.*)$ index.php?p=$1 [L,QSA]
+</IfModule>

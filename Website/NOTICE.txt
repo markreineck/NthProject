@@ -1,0 +1,18 @@
+NthProject
+Copyright (c) 2012, 2013, Nth Generation. All rights reserved.
+
+This product includes software developed at Nth Generation
+(http://www.nth-generation.com).
+
+********************************************************************
+
+Third-Party Component Notices
+
+*********************************************************************
+
+NthFramework
+
+This NthFramework is released under the version 2 of the Apache License. 
+
+Copyright (c) 2012, 2013, Nth Generation. All rights reserved.
+

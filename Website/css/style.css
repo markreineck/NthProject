@@ -1,0 +1,237 @@
+@charset "utf-8";
+* { margin: 0; }
+
+/*----------------------*/
+.innercontent
+{
+	float:left;
+	width:100%;	
+}
+.errormsg {
+	color: #AA0000;
+	font-size: 14px;
+}
+.datacontent
+{
+	padding:10px;
+	font-size:12px;
+	min-height:420px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.memoarea
+{
+	padding:10px;
+	background:#EFF;
+	border:1px solid #999999;
+	border-radius: 4px;
+	width: 650px;
+}
+.memoarea .memoarea {
+    width: 700px;
+}
+.ListTable
+{
+	border:0;
+	border-spacing:0;
+	border-collapse:collapse;
+	font-size:12px;
+	font-family:Arial, Helvetica, sans-serif;
+	text-align:left;
+}
+table.ListTable td
+{
+	padding:4px;
+}
+table.ListTable th
+{
+	padding-left:8px;
+	padding-bottom:4px;
+	padding-top:4px;
+	padding-right:8px;
+	background: #C1E0FF;
+	text-align:left;
+	font-weight:bold;
+}
+.ColumnTitles
+{
+	background: #C1E0FF;
+	text-align:left;
+}
+.tabletitle
+{
+	font-size:14px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	background: #E0D0B9;
+	text-align:left;
+}
+.tablesupertitle
+{
+	font-size:14px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	background: #C1E0FF;
+	text-align:left;
+}
+.stripe1
+{
+	background: #ffffff;
+}
+
+.stripe2
+{
+	background: #eeeeee;
+}
+
+/*
+textarea
+{
+	border:1px #015890 solid;
+	color:#003366;
+	width:600px;
+	font-family:"Trebuchet MS";	
+	font-size:14px;
+}
+.textbox {
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	color: #036;
+}
+*/
+.tabledata{
+	padding:2px;
+}
+
+.tabledata a
+{
+	color:#0066FF;
+}
+.tabledata a:hover
+{
+	color: #483D8B;
+
+}
+/*----------------------
+.tableheader{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	font-weight:bold;
+}
+
+td
+{	
+font-family: Arial, Helvetica, sans-serif;
+font-size: 1em;
+line-height:1.7em;
+color: #333333;
+}
+th 
+{	
+font-family: Arial, Helvetica, sans-serif;
+font-size: 12px;
+font-weight:bold;
+background-color:#CDF
+}
+*/
+.footer{margin:0 0 10px 0}
+
+.footer a
+{ 
+min-height:45px;
+font-family:Arial, Helvetica, sans-serif;
+font-size:12px;
+color: #000;
+padding:10px 0 0 10px;
+border-top:1px solid #999999;
+}
+.footer a:hover
+{
+text-decoration:none;
+color: #6E6E6E;
+}
+h1{
+	font-size:20px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	margin-bottom:20px;
+}
+h2{
+	font-size:16px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+	color:#03C;
+}
+.SectionTitle{
+	font-size:14px;
+	font-family:Arial, Helvetica, sans-serif;
+	font-weight:bold;
+}
+.icons {
+	cursor:pointer;
+	margin:0 3px;
+}
+.tabletasklist .icons {
+	cursor:pointer;
+	margin:0;
+}
+h1 .icons {
+	margin:0 5px 0 0;
+}
+h2 .icons {
+	margin-bottom:-5px;
+}
+.tabletitle th {
+	padding:2px 0;	
+}
+.tabletasklist td {
+	border-color: #C1E0FF #C1E0FF #FFFFF2;
+    border-style: solid;
+    border-width: 0;
+    padding: 3px 0 3px 5px;
+}
+.ColumnTitles th {
+	border-color: #C1E0FF #C1E0FF #FFFFF2;
+    border-style: solid;
+    border-width: 1px 0;
+	padding:2px 0;
+}
+.tabletitle td {
+	border-color: #E0D0B9 #E0D0B9 #FFFFF2;
+    border-style: solid;
+    border-width: 1px 0;
+    padding: 3px 0 3px 5px;
+}
+.tablesupertitle td {
+	border-color: #FFFFF2 #C1E0FF #FFFFF2;
+    border-style: solid;
+    border-width: 1px 0;
+    padding: 3px 0 3px 5px;
+}
+/*
+.btnadditem{
+	  background-color:transparent;
+	  background-position:center;
+      height: 30px;
+      color: #003;
+	  border:none;
+	  font-family:Arial, Helvetica, sans-serif;
+	  font-size:12px; font-weight:bold;
+	  text-decoration:none;
+}
+.btnadditem:hover{
+	color:#F90;
+	text-decoration:underline;
+	cursor:pointer;
+	
+}
+
+.tb{
+	width: 150px;
+	background: transparent url(../image/bg.jpg) no-repeat;
+	color : #747862;
+	height:20px;
+	border:0;
+	padding:4px 8px;
+	margin-bottom:0px;
+}
+*/

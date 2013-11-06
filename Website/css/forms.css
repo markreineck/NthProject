@@ -1,0 +1,87 @@
+/* CSS Document */
+.ButtonClass {
+	background:url(/image/btnbg.png) repeat-x #528B8B;
+    border: 1px solid #528B8B;
+    border-radius: 4px 4px 4px 4px;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: block;
+    float: left;
+    margin: 1px;
+    padding: 2px;
+    text-decoration: none;
+}
+.ButtonClass:hover {
+	background:url(/image/btnbg.png) repeat-x #029A81;   
+}
+
+.FormComments {
+	border: 1px solid #FEE5B9;
+	background:#FFF3DD;
+    color: #333333;
+    font-style: italic;
+    font-weight: bold;
+    margin: 0 5px 10px;
+    padding: 5px 10px;
+	
+}
+.FormRequirements {
+    clear: both;
+    color: #FF3333;
+    font-style: italic;
+    font-weight: bold;
+    margin-top: 20px;
+    text-align: center;
+    width: 100%;
+}
+.LabelClass {
+	float:left;
+	margin:0 0 0 10px;
+	font-weight:bold;
+	padding-top: 3px;
+}
+td.LabelClass {
+	float:none;	
+	margin:0 0 0 10px;
+	font-weight:bold;
+	padding-top: 0;
+}
+.TextInputClass {
+    border: 1px solid #029A81;
+    border-radius: 4px 4px 4px 4px;
+	padding:3px 5px;
+}
+.SelectListClass {
+    border: 1px solid #029A81;
+    border-radius: 4px 4px 4px 4px;
+	padding:2px 5px;	
+}
+.TextAreaClass {
+	border: 1px solid #029A81;
+    border-radius: 4px 4px 4px 4px;
+	padding:3px 5px;
+}
+.MessageClass {
+	background:#CCFFCC;
+    border: 1px dotted #99CC99;
+    color: #339900;
+    font-size: 16px;
+    font-weight: bold;
+	margin:0 0 5px 0;
+    padding: 3px;
+    text-align: center;
+}
+.ErrorClass {
+	background:#ffcccc;
+    border: 1px dotted #FF9999;
+    color: #DD0000;
+    font-size: 16px;
+    font-weight: bold;
+	margin:0 0 5px 0;
+    padding: 3px;
+    text-align: center;
+}
+.CharityLoginForm label, .LostPassWordFrom label{
+	float:right;	
+}
+

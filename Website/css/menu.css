@@ -1,0 +1,53 @@
+.MenuList, .MenuList li ul{
+list-style-type: none;
+margin: 0;
+padding: 0;
+width: 150px; /*WIDTH OF MAIN MENU ITEMS#CCCCCC;*/
+font-family:Verdana, Geneva, sans-serif;
+font-size:12px;
+}
+
+.MenuList li{
+position: relative;
+}
+
+.MenuList li a{
+background: #CCCCCC;
+color: #2362F3;
+display: block;
+width: auto;
+padding: 5px;
+padding-left: 5px;
+text-decoration: none;
+font-weight:600;
+border-top: 1px solid #FFFFFF;
+border-right: 1px solid #666666;
+border-bottom: 1px solid #666666;
+border-left: 1px solid #FFFFFF;
+}
+
+.MenuList li ul{ /*SUB MENU STYLE*/
+position: absolute;
+width: 150px; /*WIDTH OF SUB MENU ITEMS*/
+left: 0;
+top: 0;
+display: none;
+}
+
+.MenuList li ul li{
+float: left;
+}
+
+.MenuList li ul a{
+width: 150px; /*WIDTH OF SUB MENU ITEMS - 10px padding-left for A elements */
+}
+
+.MenuList li a:hover{
+background: #747474;
+color:#FFFFFF;
+}
+
+/* Holly Hack for IE \*/
+* html .MenuList li { float: left; height: 1%; }
+* html .MenuList li a { height: 1%; }
+/* End */
