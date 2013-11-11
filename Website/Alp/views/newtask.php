@@ -57,7 +57,7 @@ $prjlist = $db->ReadSubmitProjects();
 $form->ShowTextField ('Description', 'Description', 80, 80, '', 1);
 $form->ShowListField ('Project', 'DefaultPrj', $prjlist, 1, $PrjID, "jprj.ChangeProject(this.value)");
 $form->ShowListField ('Area', 'Area', $arealist, 1, $AreaID);
-$form->ShowListField ('Status', 'Status', $statuslist, 1);
+$form->ShowListField ('Status', 'Status', $statuslist, 1, $db->GetDefaultTaskStatus());
 $form->ShowNumericListField ('Priority', 'Priority', 1, 5, 1, $def->defpriority, 2);
 if ($this->UserSetting('Milestones')) {
 	$form->ShowListField ('Start After', 'StartMS', $mslist, 0);

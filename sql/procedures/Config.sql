@@ -1,3 +1,29 @@
+DROP PROCEDURE IF EXISTS SetDefaultTaskStatus$$
+
+create procedure SetDefaultTaskStatus (
+	i_ses	bigint unsigned,
+	i_id	int unsigned
+) begin
+
+declare v_me int unsigned;
+
+declare exit handler for sqlexception begin
+	select -1460 into @err;
+end;
+
+call ValidateOrgSuperUser(i_ses, 0, v_me);
+
+if @err = 0 then
+update subscription set defaulttaskstatus=i_id;
+
+if row_count() < 1 then
+	select -1461 into @err;
+end if;
+end if;
+
+end$$
+
+
 DROP PROCEDURE IF EXISTS CreateTaskStatus$$
 
 create procedure CreateTaskStatus (

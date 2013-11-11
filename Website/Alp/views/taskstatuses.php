@@ -1,12 +1,12 @@
 <h1>Task Status List</h1>
-<div id="ProjectList" name="ProjectList">
+<div id="AjaxList" name="AjaxList">
 <?php
 $db = $this->Database();
-$c = $this->Cookie();
+//$c = $this->Cookie();
 $form = $this->Forms();
 
-$this->PutData ('Company', $c->GetDefaultCompany());
-$this->PutData ('ProjectStatus', $c->GetDefaultProjectStatus());
+//$this->PutData ('Company', $c->GetDefaultCompany());
+//$this->PutData ('ProjectStatus', $c->GetDefaultProjectStatus());
 $this->LoadView('widgets/showtaskstatus');
 ?>
 </div>

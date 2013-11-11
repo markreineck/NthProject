@@ -9,8 +9,9 @@ if ($db->IsSupervisor()) {
 <table class="ListTable" cellpadding="3" cellspacing="0">
     <tr>
       <th>Status Name</th>
-      <th>Hold</th>
       <th></th>
+      <th>Available/Hold</th>
+      <th colspan="2"></th>
     </tr>
 <?php
 		$stripe = 1;
@@ -19,20 +20,31 @@ if ($db->IsSupervisor()) {
 ?>
     <tr class="stripe<?php echo $stripe; ?>">      
       <td align="left" ><?php echo $row->name; ?></td>
-      <?php if ($row->hold==1)  {	
-					$statcc = "Hold";					
-					$color = '#E4201B';
+      <td align="center" ><?php if ($statusid == $db->GetDefaultTaskStatus()) echo "Default"; ?></td>
+<?php 
+			if ($row->hold==1)  {	
+				$statcc = "Hold";
+				$color = '#E4201B';
 			} else {	
-					$statcc = "Active";
-					$color = '#00A000';
+				$statcc = "Active";
+				$color = '#00A000';
 			}
 ?>
 
-      <td>
+      <td align="center">
      	 <div style="color:<?php echo $color; ?>"><?php echo $statcc; ?></div>
       </td>
       <td>
       	<a href='taskstatusedit?id=<?php echo $statusid; ?>'><img src="/image/pencil.png" width="32" height="32" alt="Edit" title="Edit"></a>
+      </td>
+      <td>
+<?php
+			if ($statusid != $db->GetDefaultTaskStatus()) {
+?>
+	<a href='taskstatuses?def=<?php echo $statusid; ?>'>Make Default</a>
+<?php
+			}
+?>
       </td>
       </tr>
 <?php

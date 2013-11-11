@@ -14,7 +14,7 @@ var $OwnerID;
 var $ProjectSuper;
 var $ProjectRelease;
 var $ProjectSubmit;
-
+var $DefaultTaskStatus;
 
 function DatabaseDB($framework, $pwd='', $username='', $dbname='', $host='')
 {
@@ -40,8 +40,10 @@ where expireson>now() and s.sessionid=' . $sid;
 		$this->UserMaint = $data->usermaint;
 		$this->SuperUser = $data->superuser;
 
-		$sql = 'select orgid from subscription limit 1';
-		$this->OwnerID = $this->Select($sql);
+		$sql = 'select orgid, defaulttaskstatus from subscription limit 1';
+		$subscr = $this->SelectRow($sql);
+		$this->OwnerID = $subscr->orgid;
+		$this->DefaultTaskStatus = $subscr-> defaulttaskstatus;
 
 		if ($this->SuperUser) {
 			$this->ProjectSuper = true;
@@ -132,6 +134,16 @@ function CanSubmit()
 function GetSubscriptionName()
 {
 	return ($this->SubscrName);
+}
+
+function GetDefaultTaskStatus()
+{
+	return ($this->DefaultTaskStatus);
+}
+
+function SetTaskStatus($id)
+{
+	$this->DefaultTaskStatus = $id;
 }
 
 function GetUserID()

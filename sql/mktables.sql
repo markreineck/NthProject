@@ -6,6 +6,7 @@ CREATE TABLE IF NOT EXISTS subscription (
 	subscr int unsigned NOT NULL AUTO_INCREMENT,
 	orgid int unsigned,
 	name varchar(80),
+	defaulttaskstatus int unsigned,
 	PRIMARY KEY (subscr)
 ) ENGINE=InnoDB;
 

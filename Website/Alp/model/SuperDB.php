@@ -68,6 +68,17 @@ function UpdateSubscription($name, $time, $ms, $orgs, $fixed)
 	return $this->ExecuteProc ($sql);
 }
 
+function SetDefaultTaskStatus($id)
+{
+	$sid = $this->GetSessionID();
+	$id = $this->MakeNumericValue($id);
+	$sql = "call SetDefaultTaskStatus($sid, $id)";
+	$err = $this->ExecuteProc ($sql);
+	if (!$err)
+		$this->SetTaskStatus($id);
+	return $err;
+}
+
 function CreateTaskStatus($hold, $name)
 {
 	$sid = $this->GetSessionID();
