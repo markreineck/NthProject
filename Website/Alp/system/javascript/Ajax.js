@@ -13,6 +13,9 @@ function GetXmlHttpObject(){
 }
 
 function showLoader(){
+	var storage=document.getElementById("TestList");
+	//storage.innerHTML="<img src='NthFramework/icons/ajax-loader-list.gif'><style>body{cursor:wait;}</style>";
+	storage.innerHTML="<style>body, input{cursor:wait;}</style>";
 }
 
 function hideLoader(){
