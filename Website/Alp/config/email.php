@@ -1,6 +1,6 @@
 <?php
 $settings = array (
-'From' => 'mark@nth-generation.com',
+'From' => 'project@nth-generation.com',
 'ReplyTo' => 'mark@nth-generation.com'
 );
 ?>
