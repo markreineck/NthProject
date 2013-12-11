@@ -294,13 +294,13 @@ function Forms($classname='')
 	return $this->FormClass;
 }
 
-function DBForm($binding, $key, $classname='')
+function DBForm($binding, $classname='')
 {
 	if (!$this->FormClass) {
 		$this->IncludeSystemClass('FormClass');
 		if (empty($classname)) {
 			$this->IncludeSystemClass('DBFormClass');
-			$this->FormClass = new DBFormClass($this, $binding, $key);
+			$this->FormClass = new DBFormClass($this, $binding);
 		} else {
 			$this->IncludeSystemClass('DBFormClass');
 			include ($this->FrameworkFilePath('classes',$classname));

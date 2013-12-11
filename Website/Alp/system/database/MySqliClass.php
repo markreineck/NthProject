@@ -229,34 +229,33 @@ function ExecuteBoundProc ($proc, $data)
 	if (!$stmt) {
 		$this->SetError(-1,'Statement preparation error');
 	} else {
-	$types = '';
-	$params = array();
-	foreach ($data as $field) {
-		switch ($field['type']) {
-			case 'I':
-				$type = 'i';	break;
-			case 'F':
-				$type = 'd';	break;
-			case 'B':
-				$type = 'b';	break;
-			default:
-				$type = 's';
+		$types = '';
+		$params = array();
+		foreach ($data as $field) {
+			switch ($field['type']) {
+				case 'I':
+					$type = 'i';	break;
+				case 'F':
+					$type = 'd';	break;
+				case 'B':
+					$type = 'b';	break;
+				default:
+					$type = 's';
+			}
+			$types .= $type;
+			$params[] = $field['value'];
+			$this->Debug("$field ($type) = " . $field['value']);
 		}
-		$types .= $type;
-		$params[] = $field['value'];
-		$this->Debug("$field ($type) = " . $field['value']);
-	}
-	array_unshift($params, $types);
+		array_unshift($params, $types);
 
-	call_user_func_array( array( $stmt, 'bind_param' ), $params);
-	if (!$stmt->execute()) {
-		$this->errorcode = $stmt->errno;
-		$this->errormsg = $stmt->error;
-		$this->Debug($this->errormsg);
-	}
-	$stmt->close();
-	$this->SaveErrors();
-
+		call_user_func_array( array( $stmt, 'bind_param' ), $params);
+		if (!$stmt->execute()) {
+			$this->errorcode = $stmt->errno;
+			$this->errormsg = $stmt->error;
+			$this->Debug($this->errormsg);
+		}
+		$stmt->close();
+		$this->SaveErrors();
 	}
 	return $this->CaptureProcErrors();
 }
@@ -330,6 +329,39 @@ function SelectRow ($sql, $fieldtype=0)
 
 // SelectRow returns all of the records in the row as an array 
 // or as an object depending on the query type indicated
+function QueryTableRow ($table, $where)
+{
+/*
+		$where = '';
+	foreach ($key as $k) {
+		if ($where)
+			$where .= ' and ';
+		else
+			$where .= ' where ';
+		$where .= $k->Field . '=';
+		switch ($k->DataType) {
+			case 'I'
+				$where .= $this->MakeNumericValue($k->Value);
+				break;
+			case 'D'
+				$where .= $this->MakeDateValue($k->Value);
+				break;
+			default:
+				$where .= $this->MakeStringValue($k->Value);
+		}
+	}
+*/
+	$sql = 'select * from ' . $table . $where;
+	$result = $this->PrepareQuery($sql); 
+//	if (strtolower(substr($sql,0,5)) == 'call ')
+//		$this->next_result();
+
+	if (!$result)
+		return NULL;
+
+	return $this->GetNextRow ($result, 1);
+}
+/*
 function QueryTableRow ($table, $key)
 {
 	$where = '';
@@ -351,7 +383,7 @@ function QueryTableRow ($table, $key)
 
 	return $this->GetNextRow ($result, 3);
 }
-
+*/
 // SelectAll is intended for multi-row queries. It returns an array of records.
 // Each record is either an array or as an object depending on the query type indicated.
 function SelectAll($sql, $fieldtype=0)

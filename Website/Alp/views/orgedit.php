@@ -9,16 +9,14 @@ if ($db->IsGlobalSupervisor()) {
 ?>
 <form method="post" name="form" id="form" <?php $form->ShowOnSubmit(); ?>>
 <?php
-	if ($OrgID)
-		$form->Populate();
-	else if (!$db->HasError())
+	if (!$db->HasError())
 		$form->Populate();
 ?>
-	<table width="100%" border="0" cellpadding="3" cellspacing="0" class="">
+	<table border="0" cellpadding="3" cellspacing="0" class="">
 <?php
 	$typelist = $db->GetOrgTypeList();
-	$form->ShowBoundListField ('Organization Type', 'OrgType', $typelist, 2);
-	$form->ShowBoundTextField ('Name', 'Name', 80, 80, 1);
+	$form->ShowBoundListField ('OrgType', $typelist);
+	$form->ShowBoundTextField ('Name');
 ?>
 		<tr>
 			<td></td><td>

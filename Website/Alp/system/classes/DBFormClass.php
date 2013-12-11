@@ -40,7 +40,6 @@ var $data;
 var $updateproc;
 var $createproc;
 var $deleteproc;
-var $where;
 
 /********************************************************************************
 Constructor
@@ -49,7 +48,7 @@ The constructor should not be called directly. It is called by the framework
 when the form() method is called to implement the form class. It initiates the 
 class by reading the setting from the configuration file.
 *********************************************************************************/
-function DBFormClass($framework, $binding, $keyval)
+function DBFormClass($framework, $binding)
 {
 	$data = NULL;
 	$this->FormClass($framework);
@@ -63,16 +62,9 @@ function DBFormClass($framework, $binding, $keyval)
 	$this->where = '';
 
 	if (is_array($keyfield)) {
-		for ($x=0; $x<count($bindings); $x++) {
-			if (isset($keyval[$x])) {
-				$this->key[] = array($bindings[$x] => $keyval[$x]);
-				$this->where .= $bindings[$x].'='.$this->MakeFieldValue($bindings[$x], $keyval[$x]);
-			} else
-				$framework->ShowErrorMessage('No value found for key field ' . $keyfield[$x]);
-		}
+		$this->key = $keyfield;
 	} else {
-		$this->key = array($keyfield => $keyval);
-		$this->where = $keyfield.'='.$this->MakeFieldValue($keyfield, $keyval);
+		$this->key = array($keyfield);
 	}
 }
 
@@ -82,15 +74,70 @@ function NewData()
 {
 	$data = NULL;
 	parent::NewData();
+	foreach ($this->key as $k) {
+		$k->SetValue('');
+	}
+}
+
+function HasKey()
+{
+	$haskey = true;
+	foreach ($this->key as $k) {
+		if (!$k->Value)
+			$haskey = false;
+	}
+	return $haskey;
+}
+
+function SetPostedKey()
+{
+	foreach ($this->key as $k) {
+		$keyidx = 'key'.$k->Field;
+		if (isset($_POST[$keyidx]))
+			$k->SetValue($_POST[$keyidx]);
+		else
+			$k->SetValue('');
+	}
+}
+
+function SetKey($keyval)
+{
+	foreach ($this->key as $k) {
+		if (isset($keyval[$k->Field]))
+			$k->SetValue($keyval[$k->Field]);
+		else
+			$framework->ShowErrorMessage('No value found for key field ' . $k->Field);
+	}
 }
 
 function Populate()
 {
-	$this->data = $this->Framework()->Database()->QueryTableRow($this->table, $this->key);
+	if (!$this->HasKey()) {
+		$data = NULL;
+	} else {
+		$db = $this->Framework()->Database();
+		$this->data = $db->QueryTableRow($this->table, $this->MakeWhere());
 
-	foreach ($this->key as $var => $val) {
-		$this->ShowHiddenField ($this->tablefields[$var][0], $val);
+		if ($this->data) {
+			$x = 1;
+			foreach ($this->key as $k) {
+				$this->ShowHiddenField ('key'.$k->Field, $k->FormattedValue($db));
+			}
+		}
 	}
+}
+
+private function MakeWhere()
+{
+	$db = $this->Framework()->Database();
+	foreach ($this->key as $k) {
+		if ($where)
+			$where .= ' and ';
+		else
+			$where .= ' where ';
+		$where .= $k->Field . '=' . $k->FormattedValue($db);
+	}
+	return $where;
 }
 
 private function MakeFieldValue($fldid, $posted=NULL)
@@ -103,30 +150,17 @@ private function MakeFieldValue($fldid, $posted=NULL)
 
 	$data = $this->tablefields[$fldid];
 
-	if (!$posted && isset($_POST[$data[0]]))
-		$posted = $_POST[$data[0]];
+	if (!$posted && isset($_POST[$data->Field]))
+		$posted = $_POST[$data->Field];
 
 	if ($posted) {
 		$db = $this->Framework()->Database();
-
-		switch ($data[1]) {
-			case 'S':
-				$val = $db->MakeStringValue($posted);
-				break;
-			case 'I':
-			case 'F':
-				$val = $db->MakeNumericValue($posted);
-				break;
-			case 'D':
-				$val = $db->MakeDateValue($posted);
-				break;
-			default:
-				$framework->ShowErrorMessage('No bound database field type for ' . $fldid);
-		}
+		$val = $data->FormattedValue($db, $posted);
 	}
+
 	return $val;
 }
-
+/*
 private function FindFieldname($name)
 {
 	foreach ($this->tablefields as $fld => $val) {
@@ -135,7 +169,7 @@ private function FindFieldname($name)
 	}
 	$this->Framework()->ShowErrorMessage('No bound database field for ' . $name);
 }
-
+*/
 function DoProcedure($data)
 {
 	$db = $this->Framework()->Database();
@@ -144,28 +178,18 @@ function DoProcedure($data)
 		$args[] = array('field'=>'SessionID', 'type'=>'I', 'value'=>$db->GetSessionID());
 	}
 	foreach ($data['Fields'] as $fldid) {
-		$binding = $this->tablefields[$fldid];
-		$args[] = array('field'=>$fldid, 'type'=>$binding[1], 'value'=>$_POST[$binding[0]]);
+		if ($fldid == 'SessionID') {
+			$args[] = array('field'=>'SessionID', 'type'=>'I', 'value'=>$db->GetSessionID());
+		} else if (substr($fldid,0,4) == 'Key-') {
+			$keyidx = substr($fldid,4);
+			$fld = $this->key[$keyidx-1];
+			$args[] = array('field'=>$fld->Field, 'type'=>$fld->DataType, 'value'=>$fld->Value);
+		} else {
+			$fld = $this->tablefields[$fldid];
+			$args[] = array('field'=>$fld->Field, 'type'=>$fld->DataType, 'value'=>$_POST[$fldid]);
+		}
 	}
 	return $db->ExecuteBoundProc($data['Name'], $args);
-/*
-	$sql = $data['Name'] . '(';
-	$x = 0;
-	if ($data['SessionID']) {
-		$sql .= $this->Framework()->Database()->GetSessionID();
-		$x++;
-	}
-	foreach ($data['Fields'] as $fldid) {
-		$val = $this->MakeFieldValue($fldid);
-		if ($x > 0)
-			$sql .= ',';
-		$sql .= $val;
-		$x++;
-	}
-	$sql .= ')';
-
-	return $this->Framework()->Database()->ExecuteProc($sql);
-*/
 }
 
 function DoUpdate()
@@ -181,7 +205,7 @@ function DoUpdate()
 			$sql .= $fldid . '=' . $this->MakeFieldValue($fldid);
 			$x++;
 		}
-		$sql .= ' where ' . $this->where;
+		$sql .= ' where ' . $this->MakeWhere();
 		return $this->Framework()->Database()->Execute($sql);
 	}
 }
@@ -213,30 +237,36 @@ function DoDelete()
 	if ($this->deleteproc) {
 		return $this->DoProcedure($this->deleteproc);
 	} else {
-		$sql = "delete from $this->table where $this->where";
+		$sql = "delete from $this->table where " . $this->MakeWhere();
 		return $this->Framework()->Database()->Execute($sql);
 	}
 }
 
-function GetQueryValue($fieldname)
+function GetQueryValue($fld)
 {
-	if ($this->data) {
-		$key = $this->FindFieldname($fieldname);
-		$value = $this->data->$key;
-	} else {
+	if ($this->data && $fld && isset($this->data[$fld->Field]))
+		$value = $this->data[$fld->Field];
+	else
 		$value = '';
-	}
+
 	return $value;
 }
 
-function ShowBoundListField ($label, $name, $list=NULL, $req=0, $sel='', $onchange='')
+function ShowBoundListField ($fieldname, $list=NULL, $onchange='')
 {
-	parent::ShowListField ($label, $name, $list, $req, $this->GetQueryValue($name), $onchange);
+	if (isset($this->tablefields[$fieldname])) {
+		$fld = $this->tablefields[$fieldname];
+		parent::ShowListField ($fld->Label, $fieldname, $list, $fld->Required, $this->GetQueryValue($fld), $onchange);
+	}
 }
 
-function ShowBoundTextField ($label, $name, $maxlen, $size, $value='', $minlen=0, $help='')
+function ShowBoundTextField ($fieldname)
 {
-	parent::ShowTextField ($label, $name, $maxlen, $size, $this->GetQueryValue($name), $minlen, $help);
+	if (isset($this->tablefields[$fieldname])) {
+		$fld = $this->tablefields[$fieldname];
+		parent::ShowTextField ($fld->Label, $fieldname, $fld->MaxLen, $fld->MaxLen, 
+			$this->GetQueryValue($fld), $fld->MinLen, $fld->Hint);
+	}
 }
 
 }
