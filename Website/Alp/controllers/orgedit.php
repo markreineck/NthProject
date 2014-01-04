@@ -6,22 +6,20 @@ class orgedit extends OrgController implements AlpController {
 public function __construct($url)
 {
 	parent::OrgController($url);
-	$form = $this->DBForm('orgedit');
+//	$form = $this->DBForm('orgedit');
 }
 
 function Post()
 {
-	$form = $this->Forms();
-	$form->SetPostedKey();
+	$orgtbl = $this->DBTable();
+
+	$orgtbl->SetPostedKey();
 	if ($this->PostData['SaveBtn'] == 'Delete') {
-		$err = $form->DoDelete();
-	} else if ($this->DataChanged(array('Name', 'OrgType'))) {
-		if ($form->HasKey()) {
-			$err = $form->DoUpdate();
-		} else {
-			$err = $form->DoCreate();
-		}
+		$err = $orgtbl->DoDelete();
+	} else if ($orgtbl->DataChanged()) {
+		$err = $orgtbl->DoUpdateOrCreate();
 	}
+
 	if (!$err)
 		$this->RedirectTo('companies');
 	else
@@ -30,12 +28,13 @@ function Post()
 
 function Start()
 {
+	$orgtbl = $this->DBTable();
 	if (isset($this->GetData['id']))
 		$orgid = $this->GetData['id'];
 	else
 		$orgid = 0;
-	$form = $this->Forms();
-	$form->SetKey(array('orgid' => $orgid));
+
+	$orgtbl->SetKey(array('orgid' => $orgid));
 	$this->ShowOrg();
 }
 

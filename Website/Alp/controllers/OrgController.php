@@ -7,6 +7,8 @@ public function OrgController($url)
 	$c = $this->Cookie('ProjectCookie');
 	$db = $this->LoadModel(array('DatabaseDB', 'OrgDB'));
 	$db->ValidateUserSession($this->Cookie());
+	$this->DBTable('Organization');
 }
+
 }
 ?>

@@ -26,47 +26,5 @@ function GetOrgTypeList()
 	return $this->SelectAll($sql, 2);
 }
 
-function ReadOrg($orgid)
-{
-	$sql = 'select status, name from organizations where orgid='.$orgid;
-	return $this->SelectRow($sql);
-}
-
-/**********************************************************************
- *	Update Functions
- **********************************************************************
-function CreateCompany($status, $name)
-{
-	$sid = $this->GetSessionID();
-	$name = $this->MakeStringValue($name);
-	$status = $this->MakeNumericValue($status);
-	$sql = "call CreateCompany($sid, $status, $name)";
-	return $this->ExecuteProc ($sql);
-}
-
-function UpdateOrganization($orgid, $status, $name)
-{
-	$sid = $this->GetSessionID();
-	$name = $this->MakeStringValue($name);
-	$status = $this->MakeNumericValue($status);
-	$sql = "call UpdateOrganization($sid, $orgid, $status, $name)";
-	return $this->ExecuteProc ($sql);
-}
-
-function UpdateOrgField($orgid, $fld, $val)
-{
-	$sid = $this->GetSessionID();
-	$val = $this->MakeStringValue($val);
-	$sql = "call UpdateOrgField($sid, $orgid, $fld, $val)";
-	return $this->ExecuteProc ($sql);
-}
-
-function DeleteOrganization($orgid)
-{
-	$sid = $this->GetSessionID();
-	$sql = "call DeleteOrganization($sid, $orgid)";
-	return $this->ExecuteProc ($sql);
-}
-*/
 }
 ?>

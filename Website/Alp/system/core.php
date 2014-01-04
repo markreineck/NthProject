@@ -28,6 +28,7 @@ var $DateFormat;
 
 var $DatabaseLoaded = 0;
 var $ModelList = array();
+var $TableList = array();
 var $LoadedClassList = array();
 var $DataList = array();
 var $PostData = array();
@@ -294,10 +295,55 @@ function Forms($classname='')
 	return $this->FormClass;
 }
 
+function GetForm()
+{
+	return $this->FormClass;
+}
+
+function DBTable($modelname='', $myclassname='')
+{
+	if (count($this->TableList)) {
+		// We already have at least one DB table loaded so see if the one we are looking for is already loaded
+		if (!$modelname) {
+			reset($this->TableList);
+			return current($this->TableList);
+		}
+		if ($modelname) {
+			if (isset($this->TableList[$modelname]))
+				return current($this->TableList[$modelname]);
+		}
+	} else {
+		// If we have not loaded any DB tables yet then load the necessary classes
+		include ($this->FrameworkFilePath($this->SystemPath,'model/DBField'));
+		include ($this->FrameworkFilePath($this->SystemPath,'model/DBTable'));
+	}
+
+	if (is_array($modelname)) {
+		foreach ($modelname as $mname) {
+			include ($this->FrameworkFilePath($this->ModelPath,$mname));
+			$classname = $mname;
+		}
+	} else {
+		if ($modelname) {
+			include ($this->FrameworkFilePath($this->ModelPath,$modelname));
+			$classname = $modelname;
+		}
+	}
+
+	if (!empty($classname)) {
+		if (!$myclassname)
+			$myclassname = $classname;
+		return $this->TableList[$myclassname] = new $myclassname($this);
+	} else
+		return FALSE;
+}
+
 function DBForm($binding, $classname='')
 {
 	if (!$this->FormClass) {
 		$this->IncludeSystemClass('FormClass');
+		$path = $this->FrameworkFilePath($this->SystemPath,'model/DBField');
+		include ($path);
 		if (empty($classname)) {
 			$this->IncludeSystemClass('DBFormClass');
 			$this->FormClass = new DBFormClass($this, $binding);

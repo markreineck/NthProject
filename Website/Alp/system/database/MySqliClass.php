@@ -327,63 +327,30 @@ function SelectRow ($sql, $fieldtype=0)
 	return $this->GetNextRow ($result, $fieldtype);
 }
 
-// SelectRow returns all of the records in the row as an array 
+// QueryTableRow returns all of the records in the row as an array 
 // or as an object depending on the query type indicated
 function QueryTableRow ($table, $where)
 {
-/*
-		$where = '';
-	foreach ($key as $k) {
-		if ($where)
-			$where .= ' and ';
-		else
-			$where .= ' where ';
-		$where .= $k->Field . '=';
-		switch ($k->DataType) {
-			case 'I'
-				$where .= $this->MakeNumericValue($k->Value);
-				break;
-			case 'D'
-				$where .= $this->MakeDateValue($k->Value);
-				break;
-			default:
-				$where .= $this->MakeStringValue($k->Value);
-		}
-	}
-*/
 	$sql = 'select * from ' . $table . $where;
 	$result = $this->PrepareQuery($sql); 
-//	if (strtolower(substr($sql,0,5)) == 'call ')
-//		$this->next_result();
 
 	if (!$result)
 		return NULL;
 
 	return $this->GetNextRow ($result, 1);
 }
-/*
-function QueryTableRow ($table, $key)
+
+// SelectAll is intended for multi-row queries. It returns an array of records.
+// Each record is either an array or as an object depending on the query type indicated.
+function QueryTableRows($table, $where='')
 {
-	$where = '';
-	foreach ($key as $field => $val) {
-		if ($where)
-			$where .= ' and ';
-		else
-			$where .= ' where ';
-		$where .= $field . '=';
-		$where .= $this->MakeStringValue($val);
-	}
-	$sql = 'select * from ' . $table . $where;
-	$result = $this->PrepareQuery($sql); 
-	if (strtolower(substr($sql,0,5)) == 'call ')
-		$this->next_result();
-
-	if (!$result)
-		return NULL;
-
-	return $this->GetNextRow ($result, 3);
+	$sql = 'select * from ' . $table;
+	if ($where)
+		$sql .= ' orde by ' . $where;
+echo $sql;
+	return $this->SelectAll($sql); 
 }
-*/
+
 // SelectAll is intended for multi-row queries. It returns an array of records.
 // Each record is either an array or as an object depending on the query type indicated.
 function SelectAll($sql, $fieldtype=0)

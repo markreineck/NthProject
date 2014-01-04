@@ -1,5 +1,4 @@
 <?php
-/*
 class FieldBase {
 	
 	public $Field, $DataType;
@@ -109,26 +108,5 @@ class DateField extends TextField {
 		parent::TextField ($label, $field, 'D', $max, $min, $help);
 	}
 }
-*/
-$bindings = array (
-	'TableName' => 'organizations',
-	'FieldList' => array (
-		'Name' => new TextField ('Organization Name', 'name', 80, 1),
-		'OrgType' =>  new SelectField ('Organization Type', 'status', 2)
-	),
-	'KeyField' => new KeyField ('orgid','I'),
 
-	'UpdateProc' => array(
-		'Name' => 'UpdateOrganization',
-		'Fields' => array('SessionID', 'Key-1', 'OrgType', 'Name')
-	),
-	'CreateProc' => array(
-		'Name' => 'CreateCompany',
-		'Fields' => array('SessionID', 'OrgType', 'Name')
-	),
-	'DeleteProc' => array(
-		'Name' => 'DeleteOrganization',
-		'Fields' => array('SessionID', 'Key-1')
-	)
-);
 ?>
