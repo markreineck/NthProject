@@ -11,18 +11,9 @@ function Organization($framework)
 		),
 		'KeyField' => new KeyField ('orgid','I'),
 
-		'UpdateProc' => array(
-			'Name' => 'UpdateOrganization',
-			'Fields' => array('SessionID', 'Key-1', 'OrgType', 'Name')
-		),
-		'CreateProc' => array(
-			'Name' => 'CreateCompany',
-			'Fields' => array('SessionID', 'OrgType', 'Name')
-		),
-		'DeleteProc' => array(
-			'Name' => 'DeleteOrganization',
-			'Fields' => array('SessionID', 'Key-1')
-		)
+		'UpdateProc' => new DBProcedure('UpdateOrganization', array('SessionID', 'Key-1', 'OrgType', 'Name')),
+		'CreateProc' => new DBProcedure('CreateCompany', array('SessionID', 'OrgType', 'Name')),
+		'DeleteProc' => new DBProcedure('DeleteOrganization', array('SessionID', 'Key-1'))
 	);
 
 	$this->DBTable($framework, $bindings);

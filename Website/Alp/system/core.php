@@ -315,6 +315,7 @@ function DBTable($modelname='', $myclassname='')
 	} else {
 		// If we have not loaded any DB tables yet then load the necessary classes
 		include ($this->FrameworkFilePath($this->SystemPath,'model/DBField'));
+		include ($this->FrameworkFilePath($this->SystemPath,'model/DBProcedure'));
 		include ($this->FrameworkFilePath($this->SystemPath,'model/DBTable'));
 	}
 

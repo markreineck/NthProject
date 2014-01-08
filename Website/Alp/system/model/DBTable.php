@@ -188,10 +188,12 @@ private function DoProcedure($data)
 {
 	$db = $this->Framework()->Database();
 	$args = array();
+/*
 	if (isset($data['SessionID']) && $data['SessionID']) {
 		$args[] = array('field'=>'SessionID', 'type'=>'I', 'value'=>$db->GetSessionID());
 	}
-	foreach ($data['Fields'] as $fldid) {
+*/
+	foreach ($data->Fields as $fldid) {
 		if ($fldid == 'SessionID') {
 			$args[] = array('field'=>'SessionID', 'type'=>'I', 'value'=>$db->GetSessionID());
 		} else if (substr($fldid,0,4) == 'Key-') {
@@ -203,7 +205,7 @@ private function DoProcedure($data)
 			$args[] = array('field'=>$fld->Field, 'type'=>$fld->DataType, 'value'=>$_POST[$fldid]);
 		}
 	}
-	return $db->ExecuteBoundProc($data['Name'], $args);
+	return $db->ExecuteBoundProc($data->Name, $args);
 }
 
 function DoUpdateOrCreate()

@@ -54,6 +54,7 @@ $supermenu = array(
 	array('priv'=>'G',	'opt'=>'Organizations',	'link'=>'companies',		'name'=>'Organizations'),
 	array('priv'=>'U',	'opt'=>'',				'link'=>'users',			'name'=>'Users'),
 	array('priv'=>'U',	'opt'=>'',				'link'=>'useradd',			'name'=>'Create User'),
+	array('priv'=>'G',	'opt'=>'Organizations',	'link'=>'orgtypes ',	'name'=>'Organizaton Types'),
 	array('priv'=>'G',	'opt'=>'',				'link'=>'userstatuses ',	'name'=>'User Status'),
 	array('priv'=>'G',	'opt'=>'',				'link'=>'taskstatuses ',	'name'=>'Task Status')
 /*

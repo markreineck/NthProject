@@ -62,6 +62,14 @@ class EditField extends FieldBase {
 	}
 }
 
+class CheckField extends EditField {
+
+	function TextField ($label, $field, $help='')
+	{
+		parent::EditField ($label, $field, 'C', $help);
+	}
+}
+
 class SelectField extends EditField {
 
 	public $Required;
