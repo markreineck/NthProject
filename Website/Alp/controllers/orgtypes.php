@@ -14,26 +14,30 @@ function Post()
 {
 	$orgtbl = $this->DBTable();
 	$cnt = $_POST['RowCnt'];
+
 	for ($x=0; $x<$cnt; $x++) {
-		$name =  $_POST['Name'.$x];
+		$nameidx = 'Name'.$x;
+		$name =  $_POST[$nameidx];
+
 		if (isset($_POST['ID'.$x])) {
 			$id = $_POST['ID'.$x];
 			$orgtbl->SetKey(array('statusid' => $id));
 
-			if ($_POST['Delete'.$x])
-				$err = $orgtbl->DoDelete($id);
-			else
-				$err = $orgtbl->DoUpdate($id, $name);
+			if ($_POST['Delete'.$x] || !$name)
+				$err = $orgtbl->Delete($id);
+			else if ($this->DataChanged($nameidx))
+				$err = $orgtbl->Update($id, $name);
 			
-		 } else {
-			$err = $orgtbl->DoCreate($name);
+		 } else if ($name) {
+			$err = $orgtbl->Add($name);
 		}
 	}
+
+	$this->LoadView('home');
 }
 
 function Start()
 {
-	$this->PutData ('ListName', 'Organization Status');
 	$this->LoadView('home');
 }
 }

@@ -347,7 +347,6 @@ function QueryTableRows($table, $where='')
 	$sql = 'select * from ' . $table;
 	if ($where)
 		$sql .= ' orde by ' . $where;
-echo $sql;
 	return $this->SelectAll($sql); 
 }
 

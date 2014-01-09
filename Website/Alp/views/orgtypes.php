@@ -2,6 +2,7 @@
 $db = $this->Database();
 $form = $this->Forms();
 $orgtbl = $this->DBTable();
+$orgtbl->NewData();
 
 if ($db->IsGlobalSupervisor()) {
 ?>
