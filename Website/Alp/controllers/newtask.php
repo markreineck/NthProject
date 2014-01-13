@@ -8,16 +8,13 @@ public function __construct($url)
 	parent::TaskController($url);
 }
 
-function Start()
+function Post()
 {
 	$db = $this->Database();
 	$c = $this->Cookie();
-	$errmsg = '';
-
-	if (isset($this->PostData['DefaultPrj']))
-		$c->SetDefaultProject($this->PostData['DefaultPrj']);
-
+	
 	if (isset($this->PostData['DefaultPrj'])) {
+		$c->SetDefaultProject($this->PostData['DefaultPrj']);
 
 		$prjid = $this->PostData['DefaultPrj'];
 		$area = $this->PostData['Area'];
@@ -38,10 +35,15 @@ function Start()
 		if ($taskid) {
 			$email = $this->LoadClass(array('EmailClass', 'TaskEmailClass'));
 			$email->SendTaskAssigned($taskid);
-			$this->RedirectTo($c->GetLastTaskPage());
+			$this->RedirectTo('taskinfo?tid='.$taskid);
 		}
-		 $errmsg = $db->ErrorMsg();
 	}
+}
+
+function Start()
+{
+	$db = $this->Database();
+	$c = $this->Cookie();
 
 	$aid = (isset($this->PostData['areaid'])) ? $this->PostData['areaid'] : 0;
 	if ($aid > 0) {
@@ -50,14 +52,8 @@ function Start()
 		$pid = (isset($this->PostData['prjid'])) ? $this->PostData['prjid'] : $c->GetDefaultProject();
 	}
 
-//	$ajax = $this->Ajax();
-//	$this->Ajax()->SetFields(array("DefaultPrj"));
-//	$ajax->SetAsync(false);
-
 	$this->PutData ('AreaID', $aid);
 	$this->PutData ('PrjID', $pid);
-	$this->PutData ('ErrorMsg', $errmsg);
-//	$this->PutData ('PageHeading', array('projectlist'));
 	$this->LoadView('home');
 }
 }

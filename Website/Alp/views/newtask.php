@@ -31,7 +31,7 @@ jprj.ChangeProject = function(prjid)
 </script>
 <h1>Add A New Task</h1>
 <?php
-$form->ShowFormErrors($ErrorMsg);
+$form->ShowFormErrors($db->ErrorMsg());
 
 if ($PrjID < 1 || !($AreaID > 0)) {
 	$arealist = $db->GetProjectAreaList($PrjID);

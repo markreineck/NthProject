@@ -79,7 +79,7 @@ function Framework()
 function NewData()
 {
 	$this->data = NULL;
-	if ($form = $this->GetForm())
+	if ($form = $this->framework->GetForm())
 		$form->NewData();
 	foreach ($this->key as $k) {
 		$k->SetValue('');
