@@ -12,7 +12,7 @@ function Post()
 {
 	$db = $this->Database();
 	$c = $this->Cookie();
-	
+
 	if (isset($this->PostData['DefaultPrj'])) {
 		$c->SetDefaultProject($this->PostData['DefaultPrj']);
 
@@ -38,6 +38,7 @@ function Post()
 			$this->RedirectTo('taskinfo?tid='.$taskid);
 		}
 	}
+	$this->Start();
 }
 
 function Start()
