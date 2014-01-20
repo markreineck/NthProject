@@ -96,6 +96,11 @@ function AlpFramework($controller)
 */
 }
 
+function PostData($var, $val)
+{
+	$this->PostData[$var] = $val;
+}
+
 /**********************************************************************
  *	Path Construction Utilities
  **********************************************************************/

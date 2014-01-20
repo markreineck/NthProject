@@ -30,13 +30,15 @@ require_once('Alp/system/core.php');
 $pagestr = (empty($_GET['p'])) ? 'index' : $_GET['p'];
 $page = explode('/',$pagestr);
 if ($page[0] == 'test:') {
+	// Run test cases
 	require_once('Alp/system/testcontroller.php');
 	$pagestr = substr($pagestr,6);
-echo "Test " . $pagestr;
 	require_once('Alp/test/' . $pagestr . '.php');
 	$classname = end($page);
-	$controller = new TestController(new $classname($page));
+	$testcase = new $classname($this);
+	$controller = new TestController($testcase);
 } else {
+	// Run a live controller
 	require_once('Alp/controllers/' . $page[0] . '.php');
 	$controller = new $page[0]($page);
 	if (count($_POST) && method_exists($controller, 'Post'))
