@@ -1,53 +1,38 @@
 NthProject Installation and Setup
----------------------------------
 
 Creating the Database
----------------------
-1. Create a mysql database using MySQL tools or tools provided by your hosting provider.
-
-2. Then log in to the database and run the following scripts:
-
-   install.sql
-   procedures.sql
-
-procedures.sql notes - If you are installing view using phpmyadmin then you need to comment out the delimiter command at the top of procedures.sql and set the delimiter to $$ using the phpmyadmin delimiter field.
+-----------------------
+1.	Create a mysql database using MySQL tools or tools provided by your hosting provider.
+2.	Then log in to the database and run the following scripts:
+	a.	install.sql
+	b.	procedures.sql
+		If you are installing view using phpmyadmin then you may need to comment out the delimiter command and set the delimiter to $$ using the phpmyadmin delimiter field.
 
 Installing the website
-----------------------
-1. Edit Website/Alp/config/globals.php
+-----------------------
+1.	Edit Website/Alp/config/globals.php
+	a.	Set the URLBase field to the address where the site will be located. This should be a full url like http://www.mysite.com or //servername/projectfolder.
+	b.	Enable and disable the options that you wish to use in the UserSettings array
+2.	Edit Website/Alp/config/database.php by entering the connection parameters for your database
+3.	Upload the contents of the Website folder to your web server. 
 
-   a. Set the URLBase field to the address where the site will be located. This should be a full url like http://www.mysite.com or //servername/projectfolder.
-
-   b. Enable and disable the options that you wish to use in the UserSettings array
-
-2. Edit Website/Alp/config/database.php by entering the connection parameters for your database.
-
-3. Upload the contents of the Website folder to your web server. 
+Loading the Login Page
+-----------------------
+1.	In a browser load the site by entering the address that you set as the URLBase field in the globals.php file. You should see the login page. If you see a directory listing, if you get a 404 page not found error or if you do not see login page for some other reason make sure that your web server has .htaccess redirects enabled. This is a requirement.
 
 Creating an Account
--------------------
-1. In a browser load the site by entering the address that you set as the URLBase field in the globals.php file. You should see the login page. 
-
-2. Type “startup” in the email field. Do not enter a password. Then click the Sign In button.
-
-3. On the startup page enter the information for your initial administrative account and click the button to create the account.
-
-4. If the account creation is successful you should be logged to the NthProject home page.
+-----------------------
+1.	Type “startup” in the email field. Do not enter a password. Then click the Sign In button.
+2.	On the startup page enter the information for your initial administrative account and click the button to create the account.
+3.	If the account creation is successful you should be logged to the NthProject home page.
 
 Other Startup Activities
-------------------------
+-----------------------
 There are a few optional things that you may want to do to get started. These options can be found under the Supervisor or Project menus.
-
-1. If you have enabled multiple organizations you will probably want to enter some of those organizations now.
-
-2. Customize you list of user types.
-
-3. If you will have multiple users add the user accounts for those users.
-
-4. Customize your list of task statuses.
-
-5. Create projects, project areas and project milestones (if you have enabled the milestones option).
-
-6. Assign users to projects and give them project rights.
-
-7. Begin creating tasks.
+1.	If you have enabled multiple organizations you will probably want to enter some of those organizations now.
+2.	Customize you list of user types.
+3.	If you will have multiple users add the user accounts for those users.
+4.	Customize your list of task statuses
+5.	Create projects, project areas and project milestones (if you have enabled the milestones option).
+6.	Assign users to projects and give them project rights.
+7.	Begin creating tasks.

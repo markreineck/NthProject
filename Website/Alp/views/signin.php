@@ -3,6 +3,7 @@ $db = $this->Database();
 $form = $this->Forms();
 $errmsg = $db->ErrorMsg();
 $ajax = $this->LoadClass('AjaxClass');
+$c = $this->Cookie();
 ?>
 
 <h1>Sign In to a Project</h1>
@@ -24,6 +25,7 @@ $form->ShowListField ('Task', 'Task');
 			<td>
 <?php
 $form->ShowSubmitButton('Sign In');
+$form->ShowHiddenField('SessionID', $c->GetSessionID());
 ?>
 		</td>
 		</tr>

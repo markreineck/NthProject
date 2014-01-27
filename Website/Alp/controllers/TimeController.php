@@ -7,6 +7,7 @@ public function TimeController($url)
 	$c = $this->Cookie('ProjectCookie');
 	$db = $this->LoadModel(array('DatabaseDB', 'TimeDB'));
 	$db->ValidateUserSession($this->Cookie());
+	$this->LoadLibrary('checkfilters');
 }
 }
 ?>

@@ -19,12 +19,27 @@ function Start()
 			echo '<option>Any</option>';
 			if ($prjid > 0) {
 				$db = $this->Database();
-
+echo '<optgroup label="Your Tasks">';
 				$sql = "select t.taskid, concat(a.name,': ',t.name)
-	from tasks t, projectareas a
-	where a.areaid=t.areaid and removed is null and approved is null and a.prjid=$prjid order by a.name, t.name";
+from tasks t, projectareas a, taskstatus s
+where a.areaid=t.areaid and t.status=s.statusid and s.hold is null and t.removed is null and approved is null and a.prjid=$prjid and t.assignedto=$uid
+order by a.name, t.name";
 				$db->FillList($sql);
+echo '</optgroup><optgroup label="Unassigned Tasks">';
+				$sql = "select t.taskid, concat(a.name,': ',t.name)
+from tasks t, projectareas a, taskstatus s
+where a.areaid=t.areaid and t.status=s.statusid and s.hold is null and t.removed is null and approved is null and a.prjid=$prjid and t.assignedto is null
+order by a.name, t.name";
+				$db->FillList($sql);
+echo '</optgroup><optgroup label="Other Tasks">';
+				$sql = "select t.taskid, concat(a.name,': ',t.name,' (',u.name,')')
+from tasks t, projectareas a, taskstatus s, usernames u
+where a.areaid=t.areaid and t.status=s.statusid and s.hold is null and t.removed is null and approved is null and a.prjid=$prjid and t.assignedto=u.userid and t.assignedto!=$uid
+order by a.name, t.name";
+				$db->FillList($sql);
+echo '</optgroup>';
 			}
+
 			break;
 
 		case 'GetProjectAreaSelectList':
