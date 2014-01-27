@@ -10,6 +10,15 @@ function ProjectCookie($framework)
 	$this->framework = $framework;
 }
 
+function SetRangeDates()
+{
+	if (!$this->Get('DefaultStartDate') || !$this->Get('DefaultEndDate')) {
+		$daterange = new DateRange($this->GetDefaultDateRange());
+		$this->SetDefaultStartDate($daterange->StartDate());
+		$this->SetDefaultEndDate($daterange->EndDate());	
+	}	
+}
+
 function SetSiteID($val)
 {
 	$this->Set('SiteID', $val);
@@ -128,6 +137,7 @@ function SetDefaultStartDate($val)
 
 function GetDefaultStartDate()
 {
+	$this->SetRangeDates();
 	return $this->Get('DefaultStartDate');
 }
 
@@ -138,6 +148,7 @@ function SetDefaultEndDate($val)
 
 function GetDefaultEndDate()
 {
+	$this->SetRangeDates();
 	return $this->Get('DefaultEndDate');
 }
 

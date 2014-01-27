@@ -40,7 +40,6 @@ order by starton";
 
 function ReadTimeData($cookie)
 {
-echo $cookie->GetDefaultDateRange().' '.$cookie->GetDefaultStartDate().' '.$cookie->GetDefaultEndDate();
 	$start = $this->MakeDateValue($cookie->GetDefaultStartDate());
 	$end = $this->MakeNextDayValue($cookie->GetDefaultEndDate());
 	$project = $cookie->GetDefaultProject();

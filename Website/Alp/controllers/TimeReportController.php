@@ -17,6 +17,7 @@ public function TimeReportController($url)
 		$err = $db->AdjustTimeProject($_POST['PrjTimeID'], $_POST['Project']);
 	}
 
+	$this->LoadLibrary('DateRange');
 	$this->LoadLibrary('checkfilters');
 
 	if (isset($_POST['From']))

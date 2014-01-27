@@ -10,8 +10,6 @@ public function __construct($url)
 
 function Start()
 {
-$this->Database()->DebugMode(2);
-
 	$this->PutData ('PageHeading', array('projectlist', 'timeperiodlist'));
 	$this->PutData ('NextPage', 'mytime');
 	$this->PutData ('data', $this->Database()->ReadMyTime($this->Cookie()));

@@ -1,4 +1,5 @@
 <?php
+/*
 $c = $this->Cookie('ProjectCookie');
 
 if (isset($this->PostData['DefaultUser']))
@@ -16,4 +17,5 @@ if (isset($this->PostData['DefaultDateRange'])) {
 	$c->SetDefaultStartDate($daterange->StartDate());
 	$c->SetDefaultEndDate($daterange->EndDate());
 }
+*/
 ?>
