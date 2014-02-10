@@ -13,36 +13,30 @@ function Start()
 	$db->DebugMode(0);
 
 	if (isset($this->PostData['UserName'])) {
+		if ($username == 'startup') {
+			$this->RedirectTo('startup');
+		}
 
 		$username = $this->PostData['UserName'];
-		$pwd = $this->PostData['Password'];
-		$salt = $db->ReadSalt ($username);
+		$password = $this->PostData['Password'];
 
-		if (empty($salt)) {
-			if ($username == 'startup') {
-				$this->RedirectTo('startup');
-			}
-			$db->SetError(1, 'Invalid username and password');
-		} else {
-			$enc = $this->LoadClass('EncryptionClass');
-	
-			$pwd = $enc->EncryptString($pwd, $salt);
-			$db->DoLogin($c, $username, $pwd);
-			if ($c->GetSessionID() < 1) {
-				$db->SetError(1, 'Invalid username and password');
-			}
+		$data = $db->LoginToDB ($username, $password);
+
+		if ($data && isset($data->sessionid) && $data->sessionid) {
+			$defuser = ($data->defuser == 1) ? $data->userid : $data->defuser;
+			$c->StartSession($data->sessionid, $data->orgid, $data->owner, $data->superuser, $data->usermaint, $defuser);
 		}
 	} else {
 		$db->DoLogout($c);
 	}
 
 	if ($c->GetSessionID() > 0) {
-		if (isset($_POST['NextPage']) && $_POST['NextPage'])
+		if (isset($_POST['NextPage']) && $_POST['NextPage'] && $_POST['NextPage'] != 'logintest')
 			$this->RedirectTo($_POST['NextPage']);
 		else
 			$this->RedirectTo('home');
 	} else {
-		$this->PutData('ErrorMsg', $this->Database()->ErrorMsg());
+		$this->PutData('ErrorMsg', $db->ErrorMsg());
 		$this->LoadView('login');
 	}
 }
