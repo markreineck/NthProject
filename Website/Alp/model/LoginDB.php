@@ -29,7 +29,7 @@ function LoginToDB ($username, $password)
 			$sesid = $this->SelectMysqlVariable('sessionid');
 
 			if ($sesid > 0) {
-				$sql = 'select s.sessionid, u.userid, u.superuser, u.usermaint, u.orgid, u.status, x.orgid owner, u.defuser
+				$sql = 'select s.sessionid, u.userid, u.superuser, u.usermaint, u.orgid, u.status, x.orgid owner, u.defuser, u.firstname, u.lastname, x.name orgname
 	from users u, usersession s, subscription x
 	where u.userid=s.userid and s.sessionid='.$sesid;
 				return $this->SelectRow($sql);

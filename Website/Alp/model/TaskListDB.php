@@ -461,5 +461,18 @@ function ListApprovedTasksByProject($cookie)
 	return $this->ListTasksByProject($this->TaskApprovedOnWhere($cookie), $cookie);
 }
 
+function SearchTasks($cookie)
+{
+	$uid = $this->GetUserID();
+	$sql = "select p.orgid, t.taskid, t.priority, t.status, p.name as project, a.name as area, t.name task, t.assignedto, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost, t.needby, t.submittedon, t.removed
+from tasks t
+inner join projectareas a on a.areaid=t.areaid
+inner join projects p on p.prjid=a.prjid
+left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) u on p.prjid=u.prjid
+where p.status='A' ".$this->ProjectListWhere($cookie);
+
+	return $this->SelectAll($sql);
+}
+
 }
 ?>

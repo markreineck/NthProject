@@ -8,6 +8,15 @@ public function __construct($url)
 	parent::AlpFramework($url);
 }
 
+function ShowJSONTask ($db, $taskid)
+{
+$json = new Services_JSON();
+
+	$newdata = array('ErrCode' => $db->ErrorCode(), 'ErrMsg' => $db->ErrorMsg(), 'SessionID' => $this->SessionID);
+	$newdata['Data'] = $db->ReadTask($taskid);
+	echo $json->encode(array('Result' => $newdata));
+}
+
 function ShowJSONData ($data)
 {
 $json = new Services_JSON();
@@ -61,13 +70,26 @@ function Start()
 			$password = $_REQUEST['Password'];
 
 			$data = $db->LoginToDB ($username, $password);
-			if ($data && isset($data->sessionid) && $data->sessionid)
-				$this->ShowJSONData ($data);
-			else
+			if ($data && isset($data->sessionid) && $data->sessionid) {
+				$options->SubscriptionName = $this->UserSetting('SubscriptionName');
+				$options->ApproveTasks = ($this->UserSetting('ApproveTasks')) ? 1 : 0;
+				$options->ReleaseTasks = ($this->UserSetting('ReleaseTasks')) ? 1 : 0;
+				$options->Milestones = ($this->UserSetting('Milestones')) ? 1 : 0;
+				$options->Time = ($this->UserSetting('Time')) ? 1 : 0;
+				$options->Organizations = ($this->UserSetting('Organizations')) ? 1 : 0;
+				$options->TaskDates = ($this->UserSetting('TaskDates')) ? 1 : 0;
+				$options->TaskCost = ($this->UserSetting('TaskCost')) ? 1 : 0;
+
+				$this->SessionID = $data->sessionid;
+				$result->User = $data;
+				$result->Options = $options;
+
+				$this->ShowJSONData ($result);
+			} else
 				$this->ShowJSONDBError ($db);
 		break;
 
-		case 'GetProjectList':
+		case 'GetLists':
 			$db = $this->LoadModel(array('DatabaseDB', 'ProjectDB'));
 			$this->ValidateUserSession();
 			$data->Projects = $db->ListProjects(0, 'A', 0);
@@ -86,27 +108,48 @@ select prjid, userid, 1, 1, 1, 1, 1, 1, 1, u.firstname, u.lastname from projects
 			$this->ShowJSONData ($data);
 			break;
 
-/*
-	case 'ReadProject':
-		$db = $this->LoadModel(array('DatabaseDB', 'ProjectDB'));
-		$data = $db->ReadProject(10);
-		$this->ShowJSONData ($data);
-		break;
-*/
-		case 'GetTaskLists':
-			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+		case 'FindTasks':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB', 'TaskListDB'));
+			$this->LoadLibrary('TaskFilter');
+
+			$filter = new TaskListFilter();
+
+			$sid = $_REQUEST['SessionID'];
 			$this->ValidateUserSession();
-			$prjid = @$_GET['PrjID'];
-			$data['Milestones'] = $db->ListProjectMilestones($prjid);
-			$data['Areas'] = $db->ListProjectAreas($prjid);
-			$data['AssignTo'] = $db->GetAssignToList($prjid);
-			$data['ApproveBy'] = $db->GetApproveByList($prjid);
-			$data['Defaults'] = $db->ReadProjectDefaults($prjid);
+
+			$filter->DefaultPrj = (isset($_GET['Project'])) ? $_GET['DefaultPrj'] : 0;
+			$filter->DefaultMilestone = (isset($_GET['Milestone'])) ? $_GET['DefaultMilestone'] : -1;
+			$filter->DefaultUser = (isset($_GET['AssnTo'])) ? $_GET['DefaultUser'] : -1;
+			$filter->DefaultTaskStatus = (isset($_GET['TaskStatus'])) ? $_GET['TaskStatus'] : '';
+
+			$data = $db->SearchTasks($filter);
 			$this->ShowJSONData ($data);
 			break;
 
+			case 'ReadTask':
+				$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+
+				$sid = $_REQUEST['SessionID'];
+				$taskid = $_REQUEST['TaskID'];
+				$this->ValidateUserSession();
+
+//				$data = $db->ReadTask($taskid);
+//				$this->ShowJSONData ($data);
+				$this->ShowJSONTask ($db, $taskid);
+				break;
+
+			case 'ApproveTask':
+				$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+
+				$taskid = $_REQUEST['TaskID'];
+				$this->ValidateUserSession();
+
+				$data = $db->ApproveTask($taskid);
+				$this->ShowJSONTask ($db, $taskid);
+				break;
+
 		default:
-			echo 'AJAX Error';
+			echo 'Unknown Web Service';
 	}
 }
 
