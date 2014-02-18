@@ -9,7 +9,7 @@ function ProjectDB($framework)
 /**********************************************************************
  *	Query Functions
  **********************************************************************/
-function ListProjects($org, $status)
+function ListProjects($org, $status, $mode=0)
 {
 	$sql = 
 "SELECT p.prjid, p.orgid, p.priority, DATE_FORMAT(p.started, '%b %e, %Y') started, 
@@ -20,7 +20,6 @@ FROM projects p, organizations o where p.orgid=o.orgid ";
 	if ($org > 0)
 		$sql .= " AND o.orgid=".$org;
 
-	$status = $status;
 	if ($status == 'A')
 		$sql .= " and p.status='A' and p.completed is null";
 	elseif ($status == 'I')
@@ -44,7 +43,7 @@ FROM projects p, organizations o where p.orgid=o.orgid ";
 */
 	$sql .= " order by p.name";
 
-	return $this->SelectAll($sql);
+	return $this->SelectAll($sql, $mode);
 }
 
 function ListProjectDefaults($org=0)
@@ -87,6 +86,13 @@ function CountProjectAreaCompleteTasks($areaid)
 	return $this->Select($sql);
 }
 
+function ReadAllProjectAreas()
+{
+	$sql = "select a.areaid, a.prjid, a.name, a.price, a.completed, a.due 
+from projectareas a order by name";
+	return $this->SelectAll($sql, 2);
+}
+
 function ReadProjectAreas($prjid)
 {
 	$sql = "select a.areaid, a.name, u.name responsible, a.price, DATE_FORMAT(a.completed, '%b %e, %Y') completed, DATE_FORMAT(a.due, '%b %e, %Y') due 
@@ -98,7 +104,7 @@ where prjid=$prjid order by name";
 
 function ListMilestones($prjid)
 {
-	$sql = "select milestoneid, name, DATE_FORMAT(completion, '%b %e, %Y') completedon, DATE_FORMAT(targetdate, '%b %e, %Y') target 
+	$sql = "select prjid, milestoneid, name, DATE_FORMAT(completion, '%b %e, %Y') completedon, DATE_FORMAT(targetdate, '%b %e, %Y') target 
 from milestones
 where prjid=$prjid order by ifnull(completion, targetdate)";
 	return $this->SelectAll($sql);

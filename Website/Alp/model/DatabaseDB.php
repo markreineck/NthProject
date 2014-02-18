@@ -201,11 +201,11 @@ function GetTaskStatusList()
 	return $this->SelectAll($sql, 2);
 }
 
-function ReadProjectList()
+function ReadProjectList($mode=2)
 {
 	$where = (($this->OwnerID == $this->OrgID)) ? '' : 'and orgid='.$this->OrgID;
-	$sql = "select prjid, name from projects where status='A' and completed is null $where order by name";
-	return $this->SelectAll($sql, 2);
+	$sql = "select prjid, name, orgid from projects where status='A' and completed is null $where order by name";
+	return $this->SelectAll($sql, $mode);
 }
 
 function ReadProjectUserList($prjid)

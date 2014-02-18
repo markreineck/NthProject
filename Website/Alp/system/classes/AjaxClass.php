@@ -161,7 +161,7 @@ var ajaxurl='$this->url';
 ";
 	$this->framework->LoadSystemJavascript('Ajax');
 	if ($this->debug > 0) {
-	echo '
+		echo '
 <br clear="all">
 <div class="debug" id="ajaxdebug">AJAX Debug:</div>
 ';
