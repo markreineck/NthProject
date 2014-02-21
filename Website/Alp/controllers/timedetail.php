@@ -10,9 +10,10 @@ public function __construct($url)
 
 function Start()
 {
+    $c = $this->Cookie('ProjectCookie');
 	$this->Ajax()->SetFunction('GetTimeDetail');
 	$this->PutData ('PageHeading', array('projectlist', 'userlist', 'timeperiodlist'));
-	$this->PutData ('data', $this->Database()->ReadTimeData($this->Cookie()));
+	$this->PutData ('data', $this->Database()->ReadTimeData($c));
 	$this->LoadView('home');
 }
 }

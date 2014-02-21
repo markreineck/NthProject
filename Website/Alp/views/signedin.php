@@ -4,7 +4,7 @@ $c = $this->Cookie();
 $form = $this->Forms();
 $this->LoadLibrary('timeicons');
 ?>
-<h1>Signed In Staff</h1>
+<h1>Signed In Users</h1>
 <table class="ListTable">
 	<tr> </tr>
 	<tr>
@@ -25,8 +25,6 @@ $super = $db->IsGlobalSupervisor();
 foreach ($data as $dx) {
 	$bg = ($bg=='#F0F1F2' ? '#FFFFFF' : '#F0F1F2');		
 	$count ++;
-//$signdate = explode(",", $dx->starton);
-//$signtime = date("g:i", strtotime($dx['min']));
 
 	if (@$evenFlag==1) {
 		$evenFlag=0;
@@ -40,14 +38,13 @@ foreach ($data as $dx) {
 		<td>
 <?php
 	if ($dx->hours>1.5) {
-		echo $dx->hours." hours";
-	} else {
-		if ($dx->minutes>1) {
-			echo $dx->minutes." minutes";
-		} else {
-			echo $dx->minutes." minute";
-		}
-	}
+        $duration = $dx->hours." hours";
+	} else if ($dx->minutes>1) {
+        $duration = $dx->minutes." minutes";
+    } else {
+        $duration = $dx->minutes." minute";
+    }
+    echo $duration;
 ?>
 			</td>
 		<td><?php echo $dx->projectname; ?></td>
@@ -58,9 +55,9 @@ foreach ($data as $dx) {
 		<td>
 <?php
 		$etime = $dx->hours + ($dx->minutes/10);
-		TimeProjectIcon($dx->timeid, $dx->username, $dx->starttime, $etime);
-		TimeAdjustIcon($dx->timeid, $dx->username, $dx->starttime, $etime);
-		LogOutIcon($dx->timeid, $dx->username, $dx->starttime, $etime, 'Log Out');
+		TimeProjectIcon($dx->timeid, $dx->username, $dx->starttime, $duration);
+		TimeAdjustIcon($dx->timeid, $dx->username, $dx->starttime, $duration);
+		LogOutIcon($dx->timeid, $dx->username, $dx->starttime, $duration, 'Log Out');
 ?>
 		</td>
 <?php

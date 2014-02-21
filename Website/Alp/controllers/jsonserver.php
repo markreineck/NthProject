@@ -148,7 +148,18 @@ select prjid, userid, 1, 1, 1, 1, 1, 1, 1, u.firstname, u.lastname from projects
 				$this->ShowJSONTask ($db, $taskid);
 				break;
 
-		default:
+            case 'GetTaskLists':
+                $db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+                $prjid = @$_GET['PrjID'];
+                $data['Milestones'] = $db->ListProjectMilestones($prjid);
+                $data['Areas'] = $db->ListProjectAreas($prjid);
+                $data['AssignTo'] = $db->GetAssignToList($prjid);
+                $data['ApproveBy'] = $db->GetApproveByList($prjid);
+                $data['Defaults'] = $db->ReadProjectDefaults($prjid);
+                $this->ShowJSONData ($data);
+                break;
+
+        default:
 			echo 'Unknown Web Service';
 	}
 }

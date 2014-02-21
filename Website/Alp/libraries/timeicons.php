@@ -69,6 +69,13 @@ function ShowLogOut(tid,person,date,hours)
 		d.innerHTML = date;
 		t.innerHTML = hours;
 		i.value = tid;
+
+        edt = document.getElementById('EditTime');
+        if (edt)
+            edt.style.display = 'none';
+        prj = document.getElementById('EditProject');
+        if (prj)
+            prj.style.display = 'none';
 	}
 }
 
@@ -129,6 +136,13 @@ function ShowEditTime(tid,person,date,hours)
 		d.innerHTML = date;
 		t.innerHTML = hours;
 		i.value = tid;
+
+        lo = document.getElementById('LogOut');
+        if (lo)
+            lo.style.display = 'none';
+        prj = document.getElementById('EditProject');
+        if (prj)
+            prj.style.display = 'none';
 	}
 }
 
@@ -184,6 +198,13 @@ function ShowEditProject(tid,person,date,hours)
 		d.innerHTML = date;
 		t.innerHTML = hours;
 		i.value = tid;
+
+        lo = document.getElementById('LogOut');
+        if (lo)
+            lo.style.display = 'none';
+        edt = document.getElementById('EditTime');
+        if (edt)
+            edt.style.display = 'none';
 	}
 }
 </script>
