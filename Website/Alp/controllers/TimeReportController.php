@@ -6,7 +6,7 @@ public function TimeReportController($url)
 	parent::AlpFramework($url);
 	$c = $this->Cookie('ProjectCookie');
 	$db = $this->LoadModel(array('DatabaseDB', 'TimeDB', 'TimeRptDB'));
-	$db->ValidateUserSession($this->Cookie());
+	$db->ValidateUserSession($c);
 
 	if (isset($_POST['TimeID'])) {
 		$adj = $_POST['Time1'] + (($_POST['Time2'] / 10));
@@ -19,12 +19,12 @@ public function TimeReportController($url)
 
 	$this->LoadLibrary('DateRange');
 	$this->LoadLibrary('checkfilters');
-
+/*
 	if (isset($_POST['From']))
 		$c->SetDefaultStartDate($_POST['From']);
 	if (isset($_POST['To']))
 		$c->SetDefaultEndDate($_POST['To']);
-
+*/
 	$ajax = $this->Ajax();
 	$ajax->SetPage('ajaxtime');
 	$ajax->SetSection('TimeList');

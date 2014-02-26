@@ -4,6 +4,7 @@ $c = $this->Cookie();
 
 $this->LoadLibrary('timeicons');
 $form = $this->Forms();
+echo $c->GetDefaultDateRange().' '.$c->GetDefaultStartDate().' '.$c->GetDefaultEndDate();
 ?>
 
 <h1>Hours for <b><?php echo $c->GetDefaultStartDate().' - '.$c->GetDefaultEndDate(); ?></b></h1>
