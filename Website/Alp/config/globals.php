@@ -1,5 +1,5 @@
 <?php
-$this->URLBase = 'http://localhost/';
+$this->URLBase = 'http://projects.nth-generation.com/';
 $this->DatabaseDriver = 'MySqliClass';
 $this->DebugMode = 0;
 $this->PageNotFound = 'index';

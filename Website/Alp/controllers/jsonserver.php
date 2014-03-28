@@ -12,7 +12,7 @@ function ShowJSONTask ($db, $taskid)
 {
 $json = new Services_JSON();
 
-	$newdata = array('ErrCode' => $db->ErrorCode(), 'ErrMsg' => $db->ErrorMsg(), 'SessionID' => $this->SessionID);
+	$newdata = array('ErrCode' => $db->ErrorCode(), 'ErrMsg' => $db->ErrorMsg(), 'SesID' => $this->SessionID);
 	$newdata['Data'] = $db->ReadTask($taskid);
 	echo $json->encode(array('Result' => $newdata));
 }
@@ -22,7 +22,7 @@ function ShowJSONData ($data)
 $json = new Services_JSON();
 
 	settype($errcode,'string');
-	$newdata = array('ErrCode' => 0, 'ErrMsg' => '', 'SessionID' => $this->SessionID, 'Data' => $data);
+	$newdata = array('ErrCode' => 0, 'ErrMsg' => '', 'Data' => $data);
 	echo $json->encode(array('Result' => $newdata));
 }
 
@@ -36,7 +36,7 @@ function ShowJSONError ($errcode, $errmsg)
 $json = new Services_JSON();
 
 	settype($errcode,'string');
-	$newdata = array('ErrCode' => $errcode, 'ErrMsg' => $errmsg, 'SessionID' => $this->SessionID);
+	$newdata = array('ErrCode' => $errcode, 'ErrMsg' => $errmsg);
 	echo $json->encode(array('Result' => $newdata));
 }
 
@@ -47,7 +47,7 @@ function ShowJSONTestData ()
 
 function ValidateUserSession()
 {
-	$this->SessionID = $this->Database()->ReadUserSession(@$_REQUEST['SessionID']);
+	$this->SessionID = $this->Database()->ReadUserSession(@$_REQUEST['SesID']);
 	if (!$this->SessionID) {
 		$this->ShowJSONError (1, 'You are not logged in');
 		exit;
@@ -80,9 +80,21 @@ function Start()
 				$options->TaskDates = ($this->UserSetting('TaskDates')) ? 1 : 0;
 				$options->TaskCost = ($this->UserSetting('TaskCost')) ? 1 : 0;
 
-				$this->SessionID = $data->sessionid;
+				$result->SessionID = $data->sessionid;
 				$result->User = $data;
 				$result->Options = $options;
+
+				$result->LastUpdate = $db->Select(
+"select UNIX_TIMESTAMP(max(edited)) from (
+select max(edited) edited from projects
+union all
+select max(edited) edited from projectareas
+union all
+select max(edited) edited from milestones
+union all
+select max(edited) edited from projectusers
+union all
+select max(edited) edited from users) x");
 
 				$this->ShowJSONData ($result);
 			} else
@@ -92,6 +104,7 @@ function Start()
 		case 'GetLists':
 			$db = $this->LoadModel(array('DatabaseDB', 'ProjectDB'));
 			$this->ValidateUserSession();
+			$data->TimeStamp = $db->Select('SELECT UNIX_TIMESTAMP( now( ) ) ');
 			$data->Projects = $db->ListProjects(0, 'A', 0);
 			$sql = "select a.areaid, a.prjid, a.name, a.price, a.completed, a.due 
 from projectareas a order by name";
@@ -114,50 +127,110 @@ select prjid, userid, 1, 1, 1, 1, 1, 1, 1, u.firstname, u.lastname from projects
 
 			$filter = new TaskListFilter();
 
-			$sid = $_REQUEST['SessionID'];
-			$this->ValidateUserSession();
+			$sid = $this->ValidateUserSession();
 
-			$filter->DefaultPrj = (isset($_GET['Project'])) ? $_GET['DefaultPrj'] : 0;
-			$filter->DefaultMilestone = (isset($_GET['Milestone'])) ? $_GET['DefaultMilestone'] : -1;
-			$filter->DefaultUser = (isset($_GET['AssnTo'])) ? $_GET['DefaultUser'] : -1;
-			$filter->DefaultTaskStatus = (isset($_GET['TaskStatus'])) ? $_GET['TaskStatus'] : '';
+			$filter->DefaultPrj = (isset($_REQUEST['Project'])) ? $_REQUEST['Project'] : 0;
+			$filter->DefaultArea = (isset($_REQUEST['Area'])) ? $_REQUEST['Area'] : 0;
+			$filter->DefaultMilestone = (isset($_REQUEST['Milestone'])) ? $_REQUEST['Milestone'] : -1;
+			$filter->DefaultUser = (isset($_REQUEST['AssnTo'])) ? $_REQUEST['AssnTo'] : -1;
+			$filter->DefaultTaskStatus = (isset($_REQUEST['TaskStatus'])) ? $_REQUEST['TaskStatus'] : '';
 
 			$data = $db->SearchTasks($filter);
 			$this->ShowJSONData ($data);
 			break;
 
-			case 'ReadTask':
-				$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+		case 'GetTaskNotes':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
 
-				$sid = $_REQUEST['SessionID'];
-				$taskid = $_REQUEST['TaskID'];
-				$this->ValidateUserSession();
+			$taskid = $_REQUEST['TaskID'];
+			$sid = $this->ValidateUserSession();
 
-//				$data = $db->ReadTask($taskid);
-//				$this->ShowJSONData ($data);
-				$this->ShowJSONTask ($db, $taskid);
-				break;
+			$data = $db->ReadTaskComments($taskid);
+			$this->ShowJSONData ($data);
+			break;
 
-			case 'ApproveTask':
-				$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+		case 'CompleteTask':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
 
-				$taskid = $_REQUEST['TaskID'];
-				$this->ValidateUserSession();
+			$taskid = $_REQUEST['TaskID'];
+			$this->ValidateUserSession();
 
-				$data = $db->ApproveTask($taskid);
-				$this->ShowJSONTask ($db, $taskid);
-				break;
+			$data = $db->CompleteTask($taskid, '');
+			$this->ShowJSONTask ($db, $taskid);
+			break;
 
-            case 'GetTaskLists':
-                $db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
-                $prjid = @$_GET['PrjID'];
-                $data['Milestones'] = $db->ListProjectMilestones($prjid);
-                $data['Areas'] = $db->ListProjectAreas($prjid);
-                $data['AssignTo'] = $db->GetAssignToList($prjid);
-                $data['ApproveBy'] = $db->GetApproveByList($prjid);
-                $data['Defaults'] = $db->ReadProjectDefaults($prjid);
-                $this->ShowJSONData ($data);
-                break;
+		case 'ApproveTask':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+
+			$taskid = $_REQUEST['TaskID'];
+			$this->ValidateUserSession();
+
+			$data = $db->ApproveTask($taskid);
+			$this->ShowJSONTask ($db, $taskid);
+			break;
+
+		case 'RejectTask':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+
+			$taskid = $_REQUEST['TaskID'];
+			$this->ValidateUserSession();
+
+			$data = $db->DisapproveTask($taskid, '');
+			$this->ShowJSONTask ($db, $taskid);
+			break;
+
+		case 'DeleteTask':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+
+			$taskid = $_REQUEST['TaskID'];
+			$this->ValidateUserSession();
+
+			$data = $db->DeleteTask($taskid);
+			$this->ShowJSONTask ($db, $taskid);
+			break;
+
+		case 'UpdateTask':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+
+			$taskid = $_REQUEST['TaskID'];
+			$area = $_REQUEST['AreaID'];
+			$status = $_REQUEST['StatusID'];
+			$priority = $_REQUEST['Priority'];
+			$assnto = $_REQUEST['AssignedTo'];
+			$name = $_REQUEST['Name'];
+			$this->ValidateUserSession();
+			$data = $db->EditTask($taskid, $area, $status, $priority, $name);
+			$this->ShowJSONTask ($db, $taskid);
+			break;
+
+		case 'CreateTask':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+
+			$taskid = $_REQUEST['TaskID'];
+			$prj = $_REQUEST['PrjID'];
+			$area = $_REQUEST['AreaID'];
+			$status = $_REQUEST['StatusID'];
+			$priority = $_REQUEST['Priority'];
+			$assnto = $_REQUEST['AssignedTo'];
+			$name = $_REQUEST['Name'];
+			$needby = $_REQUEST['NeedBy'];
+			$descr = $_REQUEST['Descr'];
+			$this->ValidateUserSession();
+			$taskid = $db->CreateTask($prj, $area, $status, $priority, $name, '', '', '', $needby, $assnto, '', $descr, '');
+			$this->ShowJSONTask ($db, $taskid);
+			break;
+
+		// Required for adding a task in web front end			
+		case 'GetTaskLists':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+			$prjid = @$_GET['PrjID'];
+			$data['Milestones'] = $db->ListProjectMilestones($prjid);
+			$data['Areas'] = $db->ListProjectAreas($prjid);
+			$data['AssignTo'] = $db->GetAssignToList($prjid);
+			$data['ApproveBy'] = $db->GetApproveByList($prjid);
+			$data['Defaults'] = $db->ReadProjectDefaults($prjid);
+			$this->ShowJSONData ($data);
+			break;
 
         default:
 			echo 'Unknown Web Service';

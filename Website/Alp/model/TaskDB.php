@@ -45,8 +45,10 @@ order by p.name";
 
 function ReadTask($taskid)
 {
-	$sql = 'select areaid, status, edited, editedby, priority, name, submittedon, removed,
-		startafter, needby, complete, approved, startmilestone, endmilestone from tasks where taskid='.$taskid;
+	$sql = 'select taskid, areaid, status, edited, editedby, priority, submittedon, removed, released,
+startafter, needby, complete, approved, startmilestone, endmilestone, 
+removedby, assignedto, submittedby, approvedby, releasedby, name
+from tasks where taskid='.$taskid;
 	return $this->SelectRow($sql);
 }
 
@@ -83,6 +85,13 @@ left outer join usernames f on n.fromid=f.userid
 left outer join taskmessages m on n.noteid=m.noteid
 left outer join usernames t on m.toid=t.userid
 where taskid=$taskid and n.message is not null order by n.senton";
+	return $this->SelectAll($sql);
+}
+
+function ReadTaskComments($taskid)
+{
+	$sql = "select taskid, noteid, fromid, msgtype, UNIX_TIMESTAMP(senton) senton, subject, message
+from tasknotes n where taskid=$taskid";
 	return $this->SelectAll($sql);
 }
 
@@ -205,6 +214,7 @@ function GetProjectAreaList($prjid)
 function CreateTask($prjid, $area, $status, $priority, $name, $startms, $endms, $starton, $doby, $assnto, $apprby, $descr, $cost)
 {
 	$sid = $this->GetSessionID();
+	$prjid = $this->MakeNumericValue($prjid);
 	$area = $this->MakeNumericValue($area);
 	$status = $this->MakeNumericValue($status);
 	$priority = $this->MakeNumericValue($priority);

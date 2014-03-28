@@ -110,6 +110,11 @@ function GetDefaultProject()
 	return ($this->Get('DefaultPrj') > 0) ? $this->Get('DefaultPrj') : -1;
 }
 
+function GetDefaultArea()
+{
+	return 0;
+}
+
 function SetDefaultUserType($val)
 {
 	$this->Set('DefaultUserType', $val);

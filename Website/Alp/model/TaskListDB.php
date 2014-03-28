@@ -21,6 +21,14 @@ function ProjectWhere($cookie)
 	return $where;
 }
 
+function ProjectAreaWhere($cookie)
+{
+	$where = '';
+	if ($cookie->GetDefaultArea() > 0)
+		$where .= ' and t.areaid='.$cookie->GetDefaultArea();
+	return $where;
+}
+
 function MilestoneWhere($cookie)
 {
 	$where = '';
@@ -145,6 +153,7 @@ function ProjectListWhere($cookie)
 {
 	$where = '';
 	$where .= $this->ProjectWhere($cookie);
+	$where .= $this->ProjectAreaWhere($cookie);
 	$where .= $this->AssignedToWhere($cookie);
 	$where .= $this->TaskStatusWhere($cookie);
 	$where .= $this->MilestoneWhere($cookie);
@@ -464,12 +473,12 @@ function ListApprovedTasksByProject($cookie)
 function SearchTasks($cookie)
 {
 	$uid = $this->GetUserID();
-	$sql = "select p.orgid, t.taskid, t.priority, t.status, p.name as project, a.name as area, t.name task, t.assignedto, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost, t.needby, t.submittedon, t.removed
+	$sql = "select t.taskid, t.priority, t.status, a.areaid, t.name, t.assignedto, t.submittedby, t.approvedby, a.prjid, u.edit, u.assign, u.superuser, UNIX_TIMESTAMP(t.complete) complete, UNIX_TIMESTAMP(t.approved) approved, t.cost, UNIX_TIMESTAMP(t.needby) needby, t.startmilestone, t.endmilestone, UNIX_TIMESTAMP(t.submittedon) submittedon,  UNIX_TIMESTAMP(t.released) released
 from tasks t
 inner join projectareas a on a.areaid=t.areaid
-inner join projects p on p.prjid=a.prjid
+inner join projects p on a.prjid=p.prjid
 left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) u on p.prjid=u.prjid
-where p.status='A' ".$this->ProjectListWhere($cookie);
+where t.removed is null and p.status='A' ".$this->ProjectListWhere($cookie);
 
 	return $this->SelectAll($sql);
 }

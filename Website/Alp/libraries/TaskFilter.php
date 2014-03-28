@@ -24,13 +24,14 @@ to fake out classed that are expecting certain fields to be held in the cookie.
 
 class TaskListFilter {
 
-var $DefaultMilestone, $DefaultUser, $DefaultPaymentStatus, $DefaultTaskStatus, $DefaultPrj;
+var $DefaultMilestone, $DefaultUser, $DefaultPaymentStatus, $DefaultTaskStatus, $DefaultPrj, $DefaultArea;
 var $DefaultDateRange, $DefaultStartDate, $DefaultEndDate;
 
 function TaskListFilter ()
 {
 	$this->DefaultPaymentStatus = 'U';
 	$this->DefaultPrj = -1;
+	$this->DefaultArea = 0;
 }
 
 function SetDefaultMilestone($val)
@@ -78,9 +79,19 @@ function SetDefaultProject($val)
 	$this->DefaultPrj = $val;
 }
 
+function SetDefaultArea($val)
+{
+	$this->DefaultArea = $val;
+}
+
 function GetDefaultProject()
 {
 	return $this->DefaultPrj;
+}
+
+function GetDefaultArea()
+{
+	return $this->DefaultArea;
 }
 
 function SetDefaultStartDate($val)

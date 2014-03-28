@@ -96,19 +96,19 @@ function IsGlobalUserManager()
 {
 	if ($this->UserMaint < 1)
 		return false;
-	return ($this->OwnerID == $this->OrgID);
+	return ($this->GetOwnerCompanyID() == $this->OrgID);
 }
 
 function IsUserManager()
 {
-	return (($this->UserMaint > 0) ? ($this->OwnerID == $this->OrgID) ? 1 : $this->OrgID : 0);
+	return (($this->UserMaint > 0) ? ($this->GetOwnerCompanyID() == $this->OrgID) ? 1 : $this->OrgID : 0);
 }
 
 function IsGlobalSupervisor()
 {
 	if ($this->SuperUser < 1)
 		return false;
-	return ($this->OwnerID == $this->OrgID);
+	return ($this->GetOwnerCompanyID() == $this->OrgID);
 }
 
 function IsSupervisor()
@@ -173,6 +173,8 @@ function GetUserEmail()
 
 function GetOwnerCompanyID()
 {
+	if (!$this->OwnerID)
+		$this->OwnerID = $this->Select('select orgid from subscription limit 1');
 	return ($this->OwnerID);
 }
 
@@ -203,7 +205,7 @@ function GetTaskStatusList()
 
 function ReadProjectList($mode=2)
 {
-	$where = (($this->OwnerID == $this->OrgID)) ? '' : 'and orgid='.$this->OrgID;
+	$where = (($this->GetOwnerCompanyID() == $this->OrgID)) ? '' : 'and orgid='.$this->OrgID;
 	$sql = "select prjid, name, orgid from projects where status='A' and completed is null $where order by name";
 	return $this->SelectAll($sql, $mode);
 }

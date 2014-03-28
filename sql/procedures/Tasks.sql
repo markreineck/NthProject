@@ -27,6 +27,7 @@ declare exit handler for sqlexception begin
 end;
 
 call ValidateAddTaskRights(i_session, i_areaid, v_me);
+
 if @err = 0 then
 	start transaction;
 
@@ -36,7 +37,7 @@ if @err = 0 then
 		startafter, needby, startmilestone, endmilestone, cost
 	) values (
 		i_prjid, i_areaid, i_status, now(), v_me, i_priority, i_name, now(),
-		i_assnto, v_me, i_apprby,
+		i_assnto, v_me, ifnull(i_apprby,v_me),
 		i_starton, i_endby, i_startms, i_endms, i_cost
 	);
 

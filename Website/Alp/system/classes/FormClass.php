@@ -576,7 +576,7 @@ function ShowListField ($label, $name, $list=NULL, $req=0, $sel='', $onchange=''
 }
 
 // Show a selection list field filled with numbers. 
-function ShowNumericListField ($label, $name, $first, $last, $increment=1, $sel='', $req=0) 
+private function MakeNumericList ($first, $last, $increment=1)
 {
 	$list = array();
 	if ($increment>0)
@@ -589,18 +589,28 @@ function ShowNumericListField ($label, $name, $first, $last, $increment=1, $sel=
 			array_push($list,$first);
 			$first += $increment;
 		}
-	
+	return $list;
+}
+
+function ShowNumericListField ($label, $name, $first, $last, $increment=1, $sel='', $req=0) 
+{
+	$list = $this->MakeNumericList ($first, $last, $increment);
 	$this->ShowListField ($label, $name, $list, $req, $sel);
 }
 
 // Show a a field with a set of radio buttons. 
 function ShowRadioField ($label, $name, $list, $req=1, $sel='')
 {
-	$this->AppendFieldName ($name);
 	$this->ShowInputLabel ($label, $name, $req);
-	$xsel = (!$this->newdata && isset($this->framework->PostData[$name])) ? $this->framework->PostData[$name] : $sel;
-
 	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->ShowRadioButtons ($label, $name, $list, $req, $sel);
+	$this->CloseFieldSection();
+}
+function ShowRadioButtons ($label, $name, $list, $req=1, $sel='')
+{
+	$this->AppendFieldName ($name);
+	$xsel = (!$this->newdata && isset($this->framework->PostData[$name])) ? $this->framework->PostData[$name] : $sel;
+	$this->ShowOriginalValue_ ($name, $sel);
 
 	$cnt = 0;
 	foreach ($list as $data) {
@@ -614,8 +624,6 @@ function ShowRadioField ($label, $name, $list, $req=1, $sel='')
 		echo '/><br />';
 		
 	}
-	$this->ShowOriginalValue_ ($name, $sel);
-	$this->CloseFieldSection();
 
 	if ($req > 0)
 		$this->AddValidationField ($name, $label, 'Radio', $cnt);
@@ -641,26 +649,10 @@ function ShowCheckBoxField ($label, $name, $value, $checked, $required=false, $o
 // Shows a textarea field
 function ShowTextAreaField ($label, $name, $rows, $cols, $value='', $minlen=0)
 {
-	$this->AppendFieldName ($name);
-
 	$this->ShowInputLabel ($label, $name, $minlen);
-
-	if (!$this->newdata && isset($this->framework->PostData[$name])) {
-		$val = $this->framework->PostData[$name];
-		if (get_magic_quotes_gpc())
-			$val = stripslashes($val);
-	} else {
-		$val = $value;
-	}
-
 	echo ($this->tableforms) ? '<td>' : '<div>';
-	echo "<textarea class=\"$this->textareaclass\" name=\"$name\" id=\"$name\" cols=\"$cols\" rows=\"$rows\" />$val</textarea>
-";
-	$this->ShowOriginalValue_ ($name, $value);
+	$this->ShowTextArea ($label, $name, $rows, $cols, $value, $minlen);
 	$this->CloseFieldSection();
-
-	if ($minlen)
-		$this->AddValidationField ($name, $label, 'MinLen', $minlen);
 }
 
 /********************************************************************************
@@ -741,6 +733,26 @@ function ShowCheckBox ($name, $value, $checked, $required=false, $onclick='')
 		$this->ShowOriginalValue_ ($name, $value);
 	if ($required)
 		$this->AddValidationField ($name, $label, 'Check', '');
+}
+
+function ShowTextArea ($label, $name, $rows, $cols, $value='', $minlen=0)
+{
+	$this->AppendFieldName ($name);
+
+	if (!$this->newdata && isset($this->framework->PostData[$name])) {
+		$val = $this->framework->PostData[$name];
+		if (get_magic_quotes_gpc())
+			$val = stripslashes($val);
+	} else {
+		$val = $value;
+	}
+
+	echo "<textarea class=\"$this->textareaclass\" name=\"$name\" id=\"$name\" cols=\"$cols\" rows=\"$rows\" />$val</textarea>
+";
+	$this->ShowOriginalValue_ ($name, $value);
+
+	if ($minlen)
+		$this->AddValidationField ($name, $label, 'MinLen', $minlen);
 }
 
 /********************************************************************************
