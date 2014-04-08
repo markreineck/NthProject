@@ -15,7 +15,9 @@ function Start()
 	$sid = @$_GET['sid'];
 	if ($sid) {
 		$sid = $db->ReadUserSession($sid);
-		if ($sid) {
+		if (!$sid) {
+			echo 'Your session has expired';
+		} else {
 			$this->LoadLibrary('iconlinks');
 			$this->LoadLibrary('taskicons');
 			$this->LoadLibrary('DateRange');

@@ -27,7 +27,7 @@ function Start()
 
 		if (!$err) {
 			$c->SetDefaultProject($prjid);
-			$this->RedirectTo('home');
+			$this->RedirectTo('signedin');
 		}
 	}
 

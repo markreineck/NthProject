@@ -69,6 +69,18 @@ function DBTable($framework, $bindings)
 	}
 }
 
+function __call($method, $args)
+{
+	if (isset($this->data[$method]))
+		return $this->data[$method];
+	if (isset($this->tablefields[$method]))
+		return $this->data[$this->tablefields[$method]->Field];
+	foreach ($this->key as $key) {
+		if ($key->Field == $method)
+			return $key->Value;
+	}
+}
+
 function Framework()
 {
 	return $this->framework;
@@ -109,11 +121,17 @@ function SetPostedKey()
 
 function SetKey($keyval)
 {
-	foreach ($this->key as $k) {
-		if (isset($keyval[$k->Field]))
-			$k->SetValue($keyval[$k->Field]);
-		else
-			$framework->ShowErrorMessage('No value found for key field ' . $k->Field);
+	if (is_array($keyval)) {
+		foreach ($this->key as $k) {
+			if (isset($keyval[$k->Field]))
+				$k->SetValue($keyval[$k->Field]);
+			else
+				$framework->ShowErrorMessage('No value found for key field ' . $k->Field);
+		}
+	} else if (count($this->key) > 1) {
+		$framework->ShowErrorMessage('Compound key requited', 'DBTab;e');
+	} else {
+		$this->key[0]->SetValue($keyval);
 	}
 }
 
@@ -126,6 +144,7 @@ function SelectAll($order='')
 function Populate()
 {
 	if (!$this->HasKey()) {
+		$this->framework->ShowErrorMessage('Attempted to read a record without a key', 'DBTable Error');
 		$this->data = NULL;
 	} else {
 		$db = $this->Framework()->Database();
@@ -134,6 +153,7 @@ function Populate()
 		if ($this->data) {
 			$x = 1;
 			$form = $this->Framework()->Forms();
+
 			foreach ($this->key as $k) {
 				$form->ShowHiddenField ('key'.$k->Field, $k->FormattedValue($db));
 			}
@@ -143,6 +163,7 @@ function Populate()
 
 private function MakeWhere()
 {
+	$where = '';
 	$db = $this->Framework()->Database();
 	foreach ($this->key as $k) {
 		if ($where)
@@ -162,37 +183,23 @@ private function MakeFieldValue($fldid, $posted=NULL)
 		return $val;
 	}
 
-	$this->data = $this->tablefields[$fldid];
+	$fld = $this->tablefields[$fldid];
+	if (!$posted && isset($_POST[$fldid]))
+		$posted = $_POST[$fldid];
 
-	if (!$posted && isset($_POST[$this->data->Field]))
-		$posted = $_POST[$this->data->Field];
-
-	if ($posted) {
-		$db = $this->Framework()->Database();
-		$val = $this->data->FormattedValue($db, $posted);
-	}
+	if ($posted)
+		$val = $fld->FormattedValue($this->Framework()->Database(), $posted);
+	else
+		$val = 'null';
 
 	return $val;
 }
-/*
-private function FindFieldname($name)
-{
-	foreach ($this->tablefields as $fld => $val) {
-		if ($val[0] == $name)
-			return $fld;
-	}
-	$this->Framework()->ShowErrorMessage('No bound database field for ' . $name);
-}
-*/
+
 private function DoProcedure($data)
 {
 	$db = $this->Framework()->Database();
+	$args = MakeFieldList();
 	$args = array();
-/*
-	if (isset($data['SessionID']) && $data['SessionID']) {
-		$args[] = array('field'=>'SessionID', 'type'=>'I', 'value'=>$db->GetSessionID());
-	}
-*/
 	foreach ($data->Fields as $fldid) {
 		if ($fldid == 'SessionID') {
 			$args[] = array('field'=>'SessionID', 'type'=>'I', 'value'=>$db->GetSessionID());
@@ -225,13 +232,15 @@ function DoUpdate()
 		$sql = "update $this->table set ";
 		$x=0;
 		foreach ($this->tablefields as $fldid => $binding) {
-			if ($x>0)
-				$sql .= ', ';
-			$sql .= $fldid . '=' . $this->MakeFieldValue($fldid);
-			$x++;
+			if (isset($_POST[$fldid])) {
+				if ($x>0)
+					$sql .= ', ';
+				$sql .= $binding->Field . '=' . $this->MakeFieldValue($fldid);
+				$x++;
+			}
 		}
-		$sql .= ' where ' . $this->MakeWhere();
-		return $this->Framework()->Database()->Execute($sql);
+		$sql .= $this->MakeWhere();
+		return $this->Framework()->Database()->Execute($sql) < 1;
 	}
 }
 
@@ -240,6 +249,7 @@ function DoCreate()
 	if ($this->createproc) {
 		return $this->DoProcedure($this->createproc);
 	} else {
+		$args = array();
 		$sql = "insert into $this->table (";
 		$sql2 = ') values (';
 		$x=0;
@@ -248,12 +258,13 @@ function DoCreate()
 				$sql .= ', ';
 				$sql2 .= ', ';
 			}
-			$sql .= $fldid;
+			$sql .= $binding->Field;
 			$sql2 .= $this->MakeFieldValue($fldid);
 			$x++;
 		}
 		$sql .= $sql2 . ')';
-		return $this->Framework()->Database()->Execute($sql);
+
+		return $this->Framework()->Database()->Execute($sql) < 1;
 	}
 }
 
@@ -262,8 +273,8 @@ function DoDelete()
 	if ($this->deleteproc) {
 		return $this->DoProcedure($this->deleteproc);
 	} else {
-		$sql = "delete from $this->table where " . $this->MakeWhere();
-		return $this->Framework()->Database()->Execute($sql);
+		$sql = "delete from $this->table" . $this->MakeWhere();
+		return $this->Framework()->Database()->Execute($sql) < 1;
 	}
 }
 
@@ -277,7 +288,7 @@ function GetQueryValue($fld)
 	return $value;
 }
 
-function ShowBoundListField ($fieldname, $list=NULL, $onchange='')
+function ShowListField ($fieldname, $list=NULL, $onchange='')
 {
 	if (isset($this->tablefields[$fieldname])) {
 		$fld = $this->tablefields[$fieldname];
@@ -285,12 +296,47 @@ function ShowBoundListField ($fieldname, $list=NULL, $onchange='')
 	}
 }
 
-function ShowBoundTextField ($fieldname)
+function ShowTextField ($fieldname)
 {
 	if (isset($this->tablefields[$fieldname])) {
 		$fld = $this->tablefields[$fieldname];
 		$this->Framework()->GetForm()->ShowTextField ($fld->Label, $fieldname, $fld->Max, $fld->Max, 
 			$this->GetQueryValue($fld), $fld->Min, $fld->Hint);
+	}
+}
+
+function ShowDateField ($fieldname)
+{
+	if (isset($this->tablefields[$fieldname])) {
+		$fld = $this->tablefields[$fieldname];
+		$this->Framework()->GetForm()->ShowTextField ($fld->Label, $fieldname, 
+			$this->GetQueryValue($fld), $fld->Required, $fld->Hint);
+	}
+}
+
+function ShowTextAreaField ($fieldname)
+{
+	if (isset($this->tablefields[$fieldname])) {
+		$fld = $this->tablefields[$fieldname];
+		$this->Framework()->GetForm()->ShowTextAreaField ($fld->Label, $fieldname, $fld->Rows, $fld->Cols, 
+			$this->GetQueryValue($fld));
+	}
+}
+
+function ShowCheckField ($fieldname)
+{
+	if (isset($this->tablefields[$fieldname])) {
+		$fld = $this->tablefields[$fieldname];
+		$this->Framework()->GetForm()->ShowCheckBoxField ($fld->Label, $fieldname, 1, 
+			$this->GetQueryValue($fld), $fld->Hint);
+	}
+}
+
+function ShowHiddenField ($fieldname)
+{
+	if (isset($this->tablefields[$fieldname])) {
+		$fld = $this->tablefields[$fieldname];
+		$this->Framework()->GetForm()->ShowHiddenField ($fieldname, $this->GetQueryValue($fld));
 	}
 }
 

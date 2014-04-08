@@ -13,7 +13,9 @@ function Start()
 	$sid = @$_GET['sid'];
 	if ($sid) {
 		$sid = $db->ReadUserSession($sid);
-		if ($sid && $db->IsGlobalSupervisor()) {
+		if (!$sid) {
+			echo 'Your session has expired';
+		} else if ($db->IsGlobalSupervisor()) {
 
 			$this->LoadLibrary('DateRange');
 			$this->LoadLibrary('TaskFilter');

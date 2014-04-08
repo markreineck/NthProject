@@ -23,7 +23,7 @@ function Start()
 			$pwd = $enc->EncryptString($pwd, $salt);
 			$err = $db->ClockOut($pwd, $this->PostData['Comment']);
 			if ($err == 0)
-				$this->RedirectTo('signin');
+				$this->RedirectTo('mytime');
 		}
 	}
 
