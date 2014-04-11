@@ -35,8 +35,10 @@ function Start()
 					break;
 
 				case 'GetMyTime':
+					$this->PutData ('StartDate', $daterange->StartDate());
+					$this->PutData ('EndDate', $daterange->EndDate());
 					$this->PutData ('data', $this->Database()->ReadMyTime($filter));
-					$this->LoadView('widgets/showtimedetail');
+					$this->LoadView('widgets/showmytime');
 					break;
 
                 case 'GetTimeDetail':

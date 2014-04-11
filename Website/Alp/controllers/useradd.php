@@ -6,13 +6,26 @@ class useradd extends UserController implements AlpController {
 public function __construct($url)
 {
 	parent::UserController($url);
+	$this->DBTable('User');
+}
+
+function Post()
+{
+	$usertbl = $this->DBTable();
+	if ($usertbl->DataChanged()) {
+		$err = $usertbl->DoCreate();
+	}
+
+	if (!$err) {
+		$this->RedirectTo('users');
+	}
 }
 
 function Start()
 {
 	$c = $this->Cookie();
 	$this->PutData ('NextPage', 'useredit');
-
+/*
 	if (isset($this->PostData['Organization'])) {
 		$db = $this->Database();
 	
@@ -45,7 +58,7 @@ function Start()
 	} else {
 		$orgid = (isset($this->GetData['o'])) ? $this->GetData['o'] : $c->GetDefaultCompany();
 	}
-
+*/
 	$this->PutData ('Verb', 'Create');
 	$this->PutData ('OrgID', $orgid);
 	$this->LoadView('home');

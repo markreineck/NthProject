@@ -1,9 +1,8 @@
 <?php
 $db = $this->Database();
+$form = $this->Forms();
 
-if ($this->UserSetting('Organizations') && $db->GetCompanyID() == $db->GetOwnerCompanyID()) {
-
-	$form = $this->Forms();
+if ($this->UserSetting('Organizations') && $db->IsOwnerOrg()) {
 	$c = $this->Cookie();
 ?>
 <td>
@@ -20,11 +19,13 @@ function ChangeOrganization(field) {
 mycookie = new Cookie();
 mycookie.SetValue("DefaultCompany", field.value, 1);
 <?php
-echo $this->Ajax()->DefaultFieldQuery();
+	echo $this->Ajax()->DefaultFieldQuery();
 ?>
 }
 </script>
 </td>
 <?php
+} else {
+	$form->ShowHiddenField('DefaultOrg',$db->GetCompanyID());
 }
 ?>

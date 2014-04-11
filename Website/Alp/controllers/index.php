@@ -13,12 +13,12 @@ function Start()
 	$db->DebugMode(0);
 
 	if (isset($this->PostData['UserName'])) {
+		$username = $this->PostData['UserName'];
+		$password = $this->PostData['Password'];
+
 		if ($username == 'startup') {
 			$this->RedirectTo('startup');
 		}
-
-		$username = $this->PostData['UserName'];
-		$password = $this->PostData['Password'];
 
 		$data = $db->LoginToDB ($username, $password);
 

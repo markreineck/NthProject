@@ -10,6 +10,11 @@ function ProjectCookie($framework)
 	$this->framework = $framework;
 }
 
+function IsOwner()
+{
+	return $this->Get('OwnerID') == $this->Get('OrgID');
+}
+
 function SetRangeDates()
 {
 //	if (!$this->Get('DefaultStartDate') || !$this->Get('DefaultEndDate')) {
@@ -46,7 +51,8 @@ function SetDefaultCompany($val)
 
 function GetDefaultCompany()
 {
-	return $this->Get('DefaultCompany');
+	return ($this->IsOwner()) 
+		? $this->Get('DefaultCompany') : $this->Get('OrgID');
 }
 
 function SetDefaultMilestone($val)

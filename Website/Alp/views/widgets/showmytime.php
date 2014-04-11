@@ -1,9 +1,10 @@
 <?php
 $db = $this->Database();
-//$c = $this->Cookie();
+$c = $this->Cookie();
 //$form = $this->Forms();
 $this->LoadLibrary('timeicons');
 ?>
+<h1>Hours for <?php echo "$StartDate - $EndDate"; ?></h1>
 <table class="ListTable">
 	<tr bordercolordark="#666666">
         <th>Project</th>

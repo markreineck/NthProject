@@ -18,21 +18,21 @@ function ReadMyTime($cookie)
 	$where = "t.userid=u.userid and starton>=$start and endon<$end and t.userid=" . $this->GetUserID();
 
 	if ($project > 0)
-		$where .= " and t.prjid=$project";
+		$where .= " and p.prjid=$project";
 
-	$collist = "t.timeid, u.name, t.adjustment, t.reason, t.comment, p.prjid, p.name project, t.userid, t.starton,
+	$collist = "t.timeid, u.name, t.adjustment, t.reason, p.prjid, p.name project, t.userid, t.starton,
 date_format(t.starton,'%b %e') startdate,
 date_format(t.starton,'%H:%i') starttime,
 date_format(t.endon,'%H:%i') endtime,
 round(time_to_sec(timediff(ifnull(t.endon,now()),t.starton))/3600,1) elapsetime";
 
-	$sql = "select $collist
+	$sql = "select $collist, t.comment
 from usertime t, projects p, usernames u
-where t.prjid=p.prjid and $where
+where t.prjid=p.prjid and t.taskid is null and $where
 union
-select $collist
+select $collist, ifnull(k.name,t.comment)
 from usertime t, tasks k, projectareas a, projects p, usernames u
-where t.prjid is null and t.taskid=k.taskid and k.areaid=a.areaid and t.prjid=p.prjid and $where
+where t.taskid=k.taskid and k.areaid=a.areaid and a.prjid=p.prjid and $where
 order by starton";
 
 	return $this->SelectAll($sql);

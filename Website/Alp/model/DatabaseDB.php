@@ -92,11 +92,16 @@ function IsClockedIn()
 	return $this->TimeID > 0;
 }
 
+function IsOwnerOrg()
+{
+	return ($this->GetOwnerCompanyID() == $this->OrgID);
+}
+
 function IsGlobalUserManager()
 {
 	if ($this->UserMaint < 1)
 		return false;
-	return ($this->GetOwnerCompanyID() == $this->OrgID);
+	return $this->IsOwnerOrg();
 }
 
 function IsUserManager()

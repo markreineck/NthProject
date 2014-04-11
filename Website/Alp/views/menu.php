@@ -96,10 +96,10 @@ function ShowMenu($alp, $menuname, $timemenu)
 	<ul id="verticalmenu" class="MenuList">
 	<li><a href="home">Messages</a></li>
 <?php
-if ($this->UserSetting('Time'))
+if ($this->UserSetting('Time') && $db->IsOwnerOrg())
 	ShowMenu($this, 'Time', $timemenu);
 
-if ($db->IsSupervisor()) {
+if ($db->IsGlobalSupervisor()) {
 	if ($this->UserSetting('Time') || $this->UserSetting('TaskCost'))
 		ShowMenu($this, 'Financial', $timerptmenu);
 }
@@ -111,7 +111,7 @@ ShowMenu($this, 'All Tasks', $alltaskmenu);
 if ($db->IsProjectSupervisor())
 	ShowMenu($this, 'Projects', $projectmenu);
 
-if ($db->IsSupervisor())
+if ($db->IsGlobalSupervisor() || $db->IsUserManager())
 	ShowMenu($this, 'Supervisor', $supermenu);
 ?>
 	</ul>

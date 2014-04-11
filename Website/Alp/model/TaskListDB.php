@@ -47,7 +47,11 @@ function AssignedToWhere($cookie)
 		$where .= ' and t.assignedto is null';
 
 	if (!$this->IsGlobalSupervisor()) {
-		$where .= ' and (t.assignedto='.$this->GetUserID().' or u.prjid is not null)';
+		$org = $this->IsSupervisor();
+		if ($org)
+			$where .= ' and p.orgid=' . $org;
+		else
+			$where .= ' and (t.assignedto='.$this->GetUserID().' or u.prjid is not null)';
 	}
 	return $where;
 }

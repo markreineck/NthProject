@@ -8,7 +8,7 @@ public function __construct($url)
 	parent::TimeController($url);
 }
 
-function Start()
+function Post()
 {
 	$c = $this->Cookie();
 	$db = $this->Database();
@@ -19,7 +19,7 @@ function Start()
 
 		if (!$err) {
 			$c->SetDefaultProject($db->ReadTaskProject($taskid));
-			$this->RedirectTo('home');
+			$this->RedirectTo('signedin');
 		}
 	} else if (isset($_POST['Project']) && $_POST['Project'] > 0) {
 		$prjid = $_POST['Project'];
@@ -31,6 +31,11 @@ function Start()
 		}
 	}
 
+	$this->LoadView('home');
+}
+
+function Start()
+{
 	$this->LoadView('home');
 }
 }
