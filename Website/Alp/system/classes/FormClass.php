@@ -715,7 +715,7 @@ function ShowNumericList ($name, $first, $last, $increment=1, $sel='', $req=0)
 // Show a checkbox field. In this case $value is the value that should be returned
 // if the checkbox is checked. $checked is a rtrue/false value indicating initial state.
 // Required allows you to require that the checkbox be checked for instance to accepts terms.
-function ShowCheckBox ($name, $value, $checked, $required=false, $onclick='')
+function ShowCheckBox ($label, $name, $value, $checked, $required=false, $onclick='')
 {
 	$this->AppendFieldName ($name);
 

@@ -1,24 +1,25 @@
 <?php
 include 'ProjectController.php';
 
-class projectareas extends ProjectController implements AlpController {
+class projectcost extends ProjectController implements AlpController {
 
 public function __construct($url)
 {
-	parent::ProjectController($url);
+	parent::__construct($url);
 }
 
 function Start()
 {
-	$c = $this->Cookie();
+	$prjid = $this->Cookie('ProjectCookie')->GetDefaultProject();
 
 	$ajax = $this->Ajax();
 	$ajax->SetSection('AjaxList');
 	$ajax->AddArg('sid', $this->Cookie()->GetSessionID());
-	$ajax->SetFunction('GetProjectAreaList');
+	$ajax->SetFunction('GetProjectCost');
 	$ajax->SetFields(array("DefaultPrj"));
 
 	$this->PutData ('PageHeading', array('projectlist'));
+	$this->PutData ('ProjectID', $prjid);
 	$this->LoadView('home');
 }
 }

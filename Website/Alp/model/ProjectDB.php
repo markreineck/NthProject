@@ -46,6 +46,44 @@ FROM projects p, organizations o where p.orgid=o.orgid ";
 	return $this->SelectAll($sql, $mode);
 }
 
+function ListProjectTimeCosts($project)
+{
+	$collist = "t.userid, 
+time_to_sec(timediff(ifnull(t.endon,now()),t.starton))/3600-ifnull(t.adjustment,0) elapsetime";
+
+	$sql = "select t.elapsetime, t.userid, u.name, t.elapsetime*u.payrate/100 pay 
+from (
+select round(sum(t.elapsetime),1) elapsetime, t.userid from
+(select $collist
+from usertime t
+where t.prjid=$project
+union all
+select $collist
+from usertime t, tasks k, projectareas a
+where t.prjid is null and t.taskid=k.taskid and k.areaid=a.areaid and a.prjid=$project
+) t
+group by t.userid) t, usernames u
+where t.userid=u.userid
+group by t.userid";
+
+	return $this->SelectAll($sql);
+}
+
+function ListProjectTaskCosts($project)
+{
+	$sql = "select t.assignedto, t.taskcnt, t.cost, u.name
+from (
+select t.assignedto, sum(t.cost) cost, count(*) taskcnt
+from tasks t
+inner join projectareas a on a.areaid=t.areaid
+where t.removed is null and t.cost is not null and a.prjid=$project
+group by t.assignedto
+) t, usernames u
+where t.assignedto=u.userid
+";
+	return $this->SelectAll($sql);
+}
+
 function ListProjectDefaults($org=0)
 {
 	$sql = 

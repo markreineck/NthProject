@@ -119,6 +119,19 @@ function SetPostedKey()
 	}
 }
 
+function SetPostedData()
+{
+	$this->SetPostedKey();
+
+	if ($this->tablefields) {
+		if (!$this->data)
+			$this->data = array();
+		foreach ($this->tablefields as $key => $val) {
+			$this->data[$key] = $_POST[$key];
+		}
+	}
+}
+
 function SetKey($keyval)
 {
 	if (is_array($keyval)) {
@@ -126,10 +139,10 @@ function SetKey($keyval)
 			if (isset($keyval[$k->Field]))
 				$k->SetValue($keyval[$k->Field]);
 			else
-				$framework->ShowErrorMessage('No value found for key field ' . $k->Field);
+				$this->framework->ShowErrorMessage('No value found for key field ' . $k->Field);
 		}
 	} else if (count($this->key) > 1) {
-		$framework->ShowErrorMessage('Compound key requited', 'DBTab;e');
+		$this->framework->ShowErrorMessage('Compound key requited', 'DBTab;e');
 	} else {
 		$this->key[0]->SetValue($keyval);
 	}
@@ -183,13 +196,13 @@ private function MakeFieldValue($fldid, $posted=NULL)
 		return $val;
 	}
 
-	$fld = $this->tablefields[$fldid];
 	if (!$posted && isset($_POST[$fldid]))
 		$posted = $_POST[$fldid];
 
-	if ($posted)
+	if ($posted) {
+		$fld = $this->tablefields[$fldid];
 		$val = $fld->FormattedValue($this->Framework()->Database(), $posted);
-	else
+	} else
 		$val = 'null';
 
 	return $val;
@@ -264,7 +277,11 @@ function DoCreate()
 		}
 		$sql .= $sql2 . ')';
 
-		return $this->Framework()->Database()->Execute($sql) < 1;
+		$result = $this->Framework()->Database()->Execute($sql);
+		if ($result > 0 && count($this->key) == 1) {
+			$this->key[0]->SetValue($this->Framework()->Database()->GetLastID());
+		}
+		return $result < 1;
 	}
 }
 
@@ -296,11 +313,11 @@ function ShowListField ($fieldname, $list=NULL, $onchange='')
 	}
 }
 
-function ShowTextField ($fieldname)
+function ShowTextField ($fieldname, $size=0)
 {
 	if (isset($this->tablefields[$fieldname])) {
 		$fld = $this->tablefields[$fieldname];
-		$this->Framework()->GetForm()->ShowTextField ($fld->Label, $fieldname, $fld->Max, $fld->Max, 
+		$this->Framework()->GetForm()->ShowTextField ($fld->Label, $fieldname, $fld->Max, ($size) ? $size : $fld->Max, 
 			$this->GetQueryValue($fld), $fld->Min, $fld->Hint);
 	}
 }
@@ -309,8 +326,8 @@ function ShowDateField ($fieldname)
 {
 	if (isset($this->tablefields[$fieldname])) {
 		$fld = $this->tablefields[$fieldname];
-		$this->Framework()->GetForm()->ShowTextField ($fld->Label, $fieldname, 
-			$this->GetQueryValue($fld), $fld->Required, $fld->Hint);
+		$this->Framework()->GetForm()->ShowDateField ($fld->Label, $fieldname, 
+			$this->GetQueryValue($fld), $fld->Required);
 	}
 }
 

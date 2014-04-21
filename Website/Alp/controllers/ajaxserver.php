@@ -127,6 +127,16 @@ echo '</optgroup>';
 			}
 			break;
 
+		case 'GetProjectCost':
+			$sid = @$_GET['sid'];
+			if ($sid) {
+				$db = $this->LoadModel(array('DatabaseDB', 'ProjectDB'));
+				$sid = $db->ReadUserSession($sid);
+				$this->PutData ('ProjectID', $_GET['DefaultPrj']);
+				$this->LoadView('widgets/showprojectcost');
+			}
+			break;
+
 		default:
 			echo 'AJAX Error';
 	}

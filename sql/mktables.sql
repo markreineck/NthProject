@@ -119,7 +119,7 @@ CREATE TABLE IF NOT EXISTS users (
 	notify tinyint,
 	defuser tinyint,
 	defprj int unsigned,
-	timezone tinyint,
+	payrate tinyint,
 	password varchar(64) COMMENT 'username of the user in logging in',
 	salt varchar(64)  COMMENT 'username of the user in logging in',
 	secqstn varchar(80) NOT NULL,

@@ -75,9 +75,9 @@ class SelectField extends EditField {
 
 	public $Required;
 
-	function SelectField ($label, $field, $required=0, $help='')
+	function SelectField ($label, $field, $required=0, $type='I', $help='')
 	{
-		parent::EditField ($label, $field, 'I', $help);
+		parent::EditField ($label, $field, $type, $help);
 		$this->Required = $required;
 	}
 }
