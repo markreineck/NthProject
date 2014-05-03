@@ -115,9 +115,10 @@ Page Construction Functions
 *********************************************************************************/
 function OpenFieldSection ()
 {
-	echo ($this->tableforms) ? '
-<tr><td valign="top">' : '
-<div>';
+	$class = ($this->fieldholderclass) ? "class=\"$this->fieldholderclass\"" : '';
+	echo ($this->tableforms) ? "
+<tr><td valign=\"top\" $class>" : "
+<div $class>";
 }
 
 function CloseFieldSection ()
@@ -150,9 +151,9 @@ Validation Construction Functions
 Fields requiring validation are placed into a list along with the type of validation that is required.
 Eventually, typically at the bottom of the page, the FormValidation() function is called which will scan the list and write javascript code to the page to implement the validation.
 *********************************************************************************/
-function AddValidationField ($name, $label, $rule, $data='')
+function AddValidationRule ($field, $label, $rule, $data='')
 {
-	array_push($this->validationlist, array('Name' => $name, 'Label' => $label, 'Rule' => $rule, 'Data' => $data));
+	array_push($this->validationlist, array('Name' => $field, 'Label' => $label, 'Rule' => $rule, 'Data' => $data));
 }
 
 function AddNumValidationField ($name, $label, $min, $max)
@@ -200,6 +201,27 @@ var errmsg = '';
 		$field = $data['Name'];
 		$label = $data['Label'];
 		switch ($data['Rule']) {
+			case 'OneOf':
+				if (!is_array($field)) {
+					echo '
+/* Invalid validation rule: OneOf is not a list */
+';
+				} else {
+					$str = '';
+					foreach ($field as $fld) {
+						if ($str)
+							$str .= ' && ';
+						else
+							$str = 'if (';
+						$str .= "frm.$fld.value.length<=1";
+					}
+					echo $str . ") {
+	errmsg = errmsg + '$label is required.<br>';
+	valid = false;
+}
+";
+				}
+				break;
 			case 'MinLen':
 				$len = $data['Data'];
 				echo "
@@ -305,7 +327,8 @@ if (frm.$field.value.length < $len) {
 ';
 				break;
 			default:
-				echo '/* Unknown validation rule: '.$data['Rule'].' */
+				echo '
+/* Unknown validation rule: '.$data['Rule'].' */
 ';
 		}
 	}
@@ -433,7 +456,7 @@ private function ShowInput_ ($fieldtype, $label, $name, $maxlen, $size, $value, 
 	$this->ShowOriginalValue_ ($name, $value);
 
 	if ($minlen)
-		$this->AddValidationField ($name, $label, 'MinLen', $minlen);
+		$this->AddValidationRule ($name, $label, 'MinLen', $minlen);
 }
 
 // ShowInputField_() is the base constructor for a variable length input field with label and surrounding tags.
@@ -540,7 +563,7 @@ function ShowPasswordTextField ($label, $name, $value='', $minlen='', $size=20, 
 function ShowDigitField ($label, $name, $size, $value='', $minlen=0)
 {
 	$this->ShowInputField_ ('text', $label, $name, $size, $size, $value, ($minlen > 0) ? 1 : 0, false);
-	$this->AddValidationField ($name, $label, 'Digit', $minlen);
+	$this->AddValidationRule ($name, $label, 'Digit', $minlen);
 }
 
 // Show an input field that accepts numeric input (digits plus decimals and signs)
@@ -561,7 +584,7 @@ function ShowFixedLengthField ($label, $name, $size, $next, $value='', $required
 	$this->CloseFieldSection();
 
 	if ($required)
-		$this->AddValidationField ($name, $label, 'MinLen', $size);
+		$this->AddValidationRule ($name, $label, 'MinLen', $size);
 }
 
 // Show a selection list field. 
@@ -572,7 +595,7 @@ function ShowListField ($label, $name, $list=NULL, $req=0, $sel='', $onchange=''
 	$this->ShowList ($name, $list, $req, $sel, $onchange);
 	$this->CloseFieldSection();
 	if ($req == 1)
-		$this->AddValidationField ($name, $label, 'List', '');
+		$this->AddValidationRule ($name, $label, 'List', '');
 }
 
 // Show a selection list field filled with numbers. 
@@ -626,7 +649,7 @@ function ShowRadioButtons ($label, $name, $list, $req=1, $sel='')
 	}
 
 	if ($req > 0)
-		$this->AddValidationField ($name, $label, 'Radio', $cnt);
+		$this->AddValidationRule ($name, $label, 'Radio', $cnt);
 }
 
 // Show a checkbox field. In this case $value is the value that should be returned
@@ -643,7 +666,7 @@ function ShowCheckBoxField ($label, $name, $value, $checked, $required=false, $o
 	$this->CloseFieldSection();
 
 	if ($required)
-		$this->AddValidationField ($name, $label, 'Check', '');
+		$this->AddValidationRule ($name, $label, 'Check', '');
 }
 
 // Shows a textarea field
@@ -666,7 +689,7 @@ You might use this for instance if making a grid of input fields.
 function ShowDigitInput ($label, $name, $size, $value='', $minlen=0, $maxlen=0)
 {
 	$this->ShowInput_ ('text', $label, $name, $maxlen, $size, $value, ($minlen > 0) ? 1 : 0, false);
-	$this->AddValidationField ($name, $label, 'Digit', $minlen);
+	$this->AddValidationRule ($name, $label, 'Digit', $minlen);
 }
 
 function ShowTextInput ($label, $name, $maxlen, $size, $value='', $minlen=0)
@@ -732,7 +755,7 @@ function ShowCheckBox ($label, $name, $value, $checked, $required=false, $onclic
 	if ($checked)
 		$this->ShowOriginalValue_ ($name, $value);
 	if ($required)
-		$this->AddValidationField ($name, $label, 'Check', '');
+		$this->AddValidationRule ($name, $label, 'Check', '');
 }
 
 function ShowTextArea ($label, $name, $rows, $cols, $value='', $minlen=0)
@@ -752,7 +775,7 @@ function ShowTextArea ($label, $name, $rows, $cols, $value='', $minlen=0)
 	$this->ShowOriginalValue_ ($name, $value);
 
 	if ($minlen)
-		$this->AddValidationField ($name, $label, 'MinLen', $minlen);
+		$this->AddValidationRule ($name, $label, 'MinLen', $minlen);
 }
 
 /********************************************************************************
@@ -834,7 +857,7 @@ function ShowDateField ($label, $name, $value='', $required=false)
 {
 	$val = $this->GetDateString ($value);
 	$this->ShowInputField_ ('text', $label, $name, 15, 15, $val, ($required) ? 1 : 0, false);
-	$this->AddValidationField ($name, $label, 'Date', 1);
+	$this->AddValidationRule ($name, $label, 'Date', 1);
 }
 
 // Show a time input field field (24 hour format)
@@ -860,8 +883,8 @@ function ShowTimeField ($label, $name, $next, $value='', $required=false)
 	$this->CloseFieldSection();
 
 	if ($required) {
-		$this->AddValidationField ($name.'1', $label, 'Req', 1);
-		$this->AddValidationField ($name.'2', $label, 'Req', 1);
+		$this->AddValidationRule ($name.'1', $label, 'Req', 1);
+		$this->AddValidationRule ($name.'2', $label, 'Req', 1);
 	}
 	$this->AddNumValidationField ($name.'1', $label, 0, 24);
 	$this->AddNumValidationField ($name.'2', $label, 0, 59);
@@ -898,7 +921,7 @@ function ShowPhoneField ($label, $name, $next, $value='', $minparts=0)
 		default:
 			$phone = array('', '', '');
 	}
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	echo ($this->tableforms) ? '<td>' : '<div class="PhoneField">';
 	$this->ShowFixedLengthInput_ ($name.'1', $name.'2', 3, $phone[0], ($minparts > 2) ? 3 : 0);
 	echo '&nbsp;-&nbsp;';
 	$this->ShowFixedLengthInput_ ($name.'2', $name.'3', 3, $phone[1], ($minparts > 1) ? 3 : 0);
@@ -907,9 +930,9 @@ function ShowPhoneField ($label, $name, $next, $value='', $minparts=0)
 	$this->ShowOriginalValue_ ($name, $value);
 	$this->CloseFieldSection();
 
-	$this->AddValidationField ($name.'1', $label, 'Digit', 3);
-	$this->AddValidationField ($name.'2', $label, 'Digit', 3);
-	$this->AddValidationField ($name.'3', $label, 'Digit', 4);
+	$this->AddValidationRule ($name.'1', $label, 'Digit', 3);
+	$this->AddValidationRule ($name.'2', $label, 'Digit', 3);
+	$this->AddValidationRule ($name.'3', $label, 'Digit', 4);
 }
 
 // Show a phone input field with an extension. 
@@ -944,10 +967,10 @@ function ShowPhoneExtField ($label, $name, $value='', $ext='', $extlen, $minpart
 	$this->ShowOriginalValue_ ($name.'Ext', $ext);
 	$this->CloseFieldSection();
 
-	$this->AddValidationField ($name.'1', $label, 'Digit', 3);
-	$this->AddValidationField ($name.'2', $label, 'Digit', 3);
-	$this->AddValidationField ($name.'3', $label, 'Digit', 4);
-	$this->AddValidationField ($nameext, $label, 'Digit');
+	$this->AddValidationRule ($name.'1', $label, 'Digit', 3);
+	$this->AddValidationRule ($name.'2', $label, 'Digit', 3);
+	$this->AddValidationRule ($name.'3', $label, 'Digit', 4);
+	$this->AddValidationRule ($nameext, $label, 'Digit');
 }
 
 function ReturnPhoneNumber ($name, $delimiter='-')
@@ -1005,11 +1028,11 @@ function ShowZipCodeField ($label, $name, $next, $value='', $minparts=0)
 	$this->CloseFieldSection();
 
 	if ($minparts > 0)
-		$this->AddValidationField ($name.'1', $label, 'Req', 1);
+		$this->AddValidationRule ($name.'1', $label, 'Req', 1);
 	if ($minparts > 1)
-		$this->AddValidationField ($name.'2', $label, 'Digit', 1);
-	$this->AddValidationField ($name.'1', $label, 'Digit', 5);
-	$this->AddValidationField ($name.'2', $label, 'Digit', 4);
+		$this->AddValidationRule ($name.'2', $label, 'Digit', 1);
+	$this->AddValidationRule ($name.'1', $label, 'Digit', 5);
+	$this->AddValidationRule ($name.'2', $label, 'Digit', 4);
 }
 
 function ReturnZipCode ($name)
@@ -1041,14 +1064,14 @@ function ShowStateField ($name, $next, $value='', $minlen='')
 function ShowEmailField ($label, $name, $size, $value='', $required=false)
 {
 	$this->ShowTextField ($label, $name, 60, $size, $value, ($required) ? 1 : 0);
-	$this->AddValidationField ($name, $label, 'Email');
+	$this->AddValidationRule ($name, $label, 'Email');
 }
 
 // Show an input field for a url. This will validate a properly formatted url (but cannot validate that the url is actualy is in use). It will accept partial as well as complete urls.
 function ShowURLField ($label, $name, $size, $value='', $minlen='')
 {
 	$this->ShowTextField ($label, $name, 100, $size, $value, $minlen);
-	$this->AddValidationField ($name, $label, 'URL');
+	$this->AddValidationRule ($name, $label, 'URL');
 }
 
 /********************************************************************************

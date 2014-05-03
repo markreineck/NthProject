@@ -32,8 +32,11 @@ function AjaxClass($framework)
 	if ($settings) {
 		if (isset($settings['AjaxPage']))
 			$this->url = $framework->SiteURL().$settings['AjaxPage'].'/';
+//Depricated, use AjaxContainer
 		if (isset($settings['AjaxSection']))
 			$this->section = $settings['AjaxSection'];
+		if (isset($settings['AjaxContainer']))
+			$this->section = $settings['AjaxContainer'];
 		if (isset($settings['AjaxArgs']))
 			$this->args = $settings['AjaxArgs'];
 		$this->debug = ($framework->DebugMode) ? true : $settings['DebugMode'];
@@ -48,6 +51,11 @@ function SetPage($pagename)
 	$this->url = $this->framework->SiteURL().$pagename.'/';
 }
 
+function SetContainer($section)
+{
+	$this->section = $section;
+}
+// Depricated, use SetContainer
 function SetSection($section)
 {
 	$this->section = $section;
