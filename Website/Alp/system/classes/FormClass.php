@@ -645,7 +645,7 @@ function ShowRadioButtons ($label, $name, $list, $req=1, $sel='')
 		if (!empty($data[2]))
 			echo " onclick=\"$data[2]\"";
 		echo '/><br />';
-		
+
 	}
 
 	if ($req > 0)
@@ -661,7 +661,7 @@ function ShowCheckBoxField ($label, $name, $value, $checked, $required=false, $o
 
 	echo ($this->tableforms) ? '<td>' : '<div>';
 
-	$this->ShowCheckBox ($name, $value, $checked, $required, $onclick);
+	$this->ShowCheckBox ($label, $name, $value, $checked, $required, $onclick);
 
 	$this->CloseFieldSection();
 

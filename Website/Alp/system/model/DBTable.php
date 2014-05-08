@@ -345,7 +345,7 @@ function ShowCheckField ($fieldname)
 	if (isset($this->tablefields[$fieldname])) {
 		$fld = $this->tablefields[$fieldname];
 		$this->Framework()->GetForm()->ShowCheckBoxField ($fld->Label, $fieldname, 1, 
-			$this->GetQueryValue($fld), $fld->Hint);
+			$this->GetQueryValue($fld));
 	}
 }
 
