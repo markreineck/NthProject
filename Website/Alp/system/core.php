@@ -139,6 +139,22 @@ function RedirectTo($page='')
 	exit();
 }
 
+function RedirectPost($url, $vars)
+{
+	echo "<form name=\"Redirect\" method=\"post\" action=\"$url\">";
+	foreach ($vars as $var => $val) {
+		echo "<input type=\"hidden\" name=\"$var\" value=\"$val\">";
+	}
+	echo '</form>
+<script language="JavaScript">
+window.onload = function(){
+  document.forms["Redirect"].submit()
+}
+</script>
+';
+	exit();
+}
+
 /**********************************************************************
  *	CSS Files
  **********************************************************************/

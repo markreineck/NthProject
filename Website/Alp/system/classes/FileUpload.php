@@ -36,6 +36,7 @@ function UploadFile($targetname, $tempname, $targetloc='')
 			$this->errormsg = "Unable to upload file extension \"". $ext . "\"";
 			return '';
 		} else {
+$this->framework->DebugMsg("Move $tempname to $targetPath");
 			if (move_uploaded_file($tempname, $targetPath)) {
 				$resultfile = $targetname;
 			} else {
@@ -45,6 +46,25 @@ function UploadFile($targetname, $tempname, $targetloc='')
 		}
 	}
 	return $resultfile;
+}
+
+function UploadPostedFile($fieldname, $targetloc='')
+{
+	$this->errormsg = '';
+
+	if (!isset($_FILES[$fieldname])) {
+		$this->errormsg = 'No file upload was detected for ' . $fieldname;
+		return '';
+	} else {
+		$file = $_FILES[$fieldname];
+		if ($file['error']) {
+			$this->errormsg = "There was an error uploading the file to the server, Please check the validity of the file you are uploading and try again.";
+			return '';
+		} else {
+			return $this->UploadFile($file['name'], $file['tmp_name'], $targetloc);
+		}
+	}
+	return '';
 }
 
 function DeleteFile($oldname, $targetloc)

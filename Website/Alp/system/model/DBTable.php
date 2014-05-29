@@ -245,7 +245,7 @@ function DoUpdate()
 		$sql = "update $this->table set ";
 		$x=0;
 		foreach ($this->tablefields as $fldid => $binding) {
-			if (isset($_POST[$fldid])) {
+			if (isset($_POST[$fldid]) || isset($_POST[$fldid.'Old'])) {
 				if ($x>0)
 					$sql .= ', ';
 				$sql .= $binding->Field . '=' . $this->MakeFieldValue($fldid);
@@ -317,8 +317,21 @@ function ShowTextField ($fieldname, $size=0)
 {
 	if (isset($this->tablefields[$fieldname])) {
 		$fld = $this->tablefields[$fieldname];
-		$this->Framework()->GetForm()->ShowTextField ($fld->Label, $fieldname, $fld->Max, ($size) ? $size : $fld->Max, 
-			$this->GetQueryValue($fld), $fld->Min, $fld->Hint);
+		switch ($fld->DataType) {
+			case 'I':
+				$size = 1;
+				$m = $fld->Max;
+				while ($m > 1) {
+					$m /= 10;
+					$size++;
+				}
+				$this->Framework()->GetForm()->ShowNumericField ($fld->Label, $fieldname, $fld->Min, $fld->Max, $size, 
+					$this->GetQueryValue($fld));
+					break;
+			default:
+				$this->Framework()->GetForm()->ShowTextField ($fld->Label, $fieldname, $fld->Max, ($size) ? $size : $fld->Max, 
+					$this->GetQueryValue($fld), $fld->Min, $fld->Hint);
+		}
 	}
 }
 

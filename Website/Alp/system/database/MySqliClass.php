@@ -376,6 +376,21 @@ function SelectAll($sql, $fieldtype=0)
 	return $list;
 }
 
+function SelectList ($sql)
+{
+	$cnt = 0;
+	$this->Debug($sql);
+	$this->ClearErrors();
+	$result = $this->query($sql);
+	$data = array();
+	$row = $this->GetNextRow ($result, 2);
+	while ($row) {
+		$data[$row[0]] = $row[1];
+		$row = $this->GetNextRow ($result, 2);
+	}
+	return $data;			
+}
+
 
 // FillList will echo to the page the selected records as options for a selection box
 // The 1st field selected should be the id and the 2nd should be the description

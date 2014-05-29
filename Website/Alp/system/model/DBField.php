@@ -106,19 +106,33 @@ class TextAreaField extends EditField {
 	}
 }
 
-class IntField extends TextField {
+class NumberField extends EditField {
 
-	function IntField ($label, $field, $max=0, $min=0, $help='')
+	public $Min, $Max;
+
+	function NumberField ($label, $field, $max=0, $min=0, $help='', $type)
 	{
-		parent::TextField ($label, $field, 'I', $max, $min, $help);
+		parent::EditField ($label, $field, 'I', $help);
+		$this->Min = $min;
+		$this->Max = $max;
 	}
 }
 
-class FloatField extends TextField {
+class IntField extends NumberField {
+
+	public $Min, $Max;
 
 	function IntField ($label, $field, $max=0, $min=0, $help='')
 	{
-		parent::TextField ($label, $field, 'F', $max, $min, $help);
+		parent::NumberField ($label, $field, $max, $min, $help, 'I');
+	}
+}
+
+class FloatField extends NumberField {
+
+	function IntField ($label, $field, $max=0, $min=0, $help='')
+	{
+		parent::NumberField ($label, $field, $max, $min, $help, 'F');
 	}
 }
 
