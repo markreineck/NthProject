@@ -8,6 +8,7 @@ $taskdata = $db->ListProjectTaskCosts($ProjectID);
 	<tr>
 		<th align="left">Name</th>
 		<th align="right">Time</th>
+		<th align="right">Rate</th>
 		<th align="right">Cost</th>
 	</tr>
 <?php
@@ -20,8 +21,9 @@ $taskdata = $db->ListProjectTaskCosts($ProjectID);
 ?>
 	<tr class="stripe<?php echo $stripe; ?>">
 		<td><?php echo $vals->name; ?></td>
-		<td align="right"><?php echo $vals->elapsetime;?></td>
-		<td align="right"><?php echo number_format($vals->pay,2);?></td>
+		<td align="right"><?php echo $vals->elapsetime; ?></td>
+		<td align="right"><?php echo number_format($vals->payrate,2); ?></td>
+		<td align="right"><?php echo number_format($vals->pay,2); ?></td>
 	</tr>
 <?php
 		$totaltime += $vals->elapsetime;
@@ -32,6 +34,7 @@ $taskdata = $db->ListProjectTaskCosts($ProjectID);
 	<tr>
 		<td align="left">Total Hours:</td>
 		<td align="right"><?php echo $totaltime;?></td>
+		<td></td>
 		<td align="right"><?php echo number_format($totalpay,2);?></td>
 	</tr>
 	<tr><td>&nbsp;</td></tr>
