@@ -35,6 +35,8 @@ function StartDate()
 			break;
 
 	}
+	if (substr($this->range,2) == 'B')
+		$sd->AddDays(15);
 	return $sd->DateString();
 }
 
@@ -42,6 +44,7 @@ function EndDate()
 {
 	$ed = new DateClass();
 	$todate = (substr($this->range,2,1) == '2');
+	$half = (substr($this->range,2,1) == 'A');
 	switch (substr($this->range,0,2)) {
 		case '2W':
 		case 'LW':
@@ -55,7 +58,11 @@ function EndDate()
 			if (!$todate)
 				$ed->AddMonths(-1);
 		case 'TM':
-			$ed->LastDayOfMonth();
+			if ($half) {
+				$ed->FirstDayOfMonth();
+				$ed->AddDays(14);
+			} else
+				$ed->LastDayOfMonth();
 			break;
 
 		case 'LY':

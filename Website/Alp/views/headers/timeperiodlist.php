@@ -15,6 +15,10 @@ $list = array(
 	array('TM', 'This month'),
 	array('LM', 'Last month'),
 	array('LM2', 'Last month to date'),
+	array('TMA', 'This month 1-15'),
+	array('TMB', 'This month 16-EOM'),
+	array('LMA', 'Last month 1-15'),
+	array('LMB', 'Last month 16-EOM'),
 	array('TY', 'This Year'),
 	array('LY', 'Last Year'),
 	array('LY2', 'Last Year to date')
