@@ -320,7 +320,8 @@ function EditTaskNote($taskid, $noteid, $descr)
 {
 	$sid = $this->GetSessionID();
 	if ($taskid > 0 && $noteid > 0) {
-		$descr = $this->MakeStringValue($descr, true);
+		$html = $this->Framework()->LoadClass('HtmlText');
+		$descr = $this->MakeStringValue(htmlentities($descr), true);
 		$sql = "call EditTaskNote($sid, $taskid, $noteid, $descr)";
 		$err = $this->ExecuteProc ($sql);
 	} else {

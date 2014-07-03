@@ -353,8 +353,12 @@ if ($data) {
 	</p>
 	<div class="memoarea" id="ViewNote<?php echo $dx->noteid; ?>">
 		<?php
-		echo str_replace('
+/*
+				echo str_replace('
 ', '<br>', htmlspecialchars ($dx->message));
+*/
+				echo str_replace('
+', '<br>', $dx->message);
 		if ($hasedit || $dx->fromid == $db->GetUserID()) {
 ?>
 		<br>
