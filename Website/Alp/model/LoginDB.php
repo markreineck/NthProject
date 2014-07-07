@@ -42,7 +42,7 @@ function LoginToDB ($username, $password)
 			}
 		}
 
-		if ($c->GetSessionID() < 1) {
+		if ($this->Framework()->Cookie()->GetSessionID() < 1) {
 			$this->SetError(1, 'Invalid username and password');
 		}
 	}

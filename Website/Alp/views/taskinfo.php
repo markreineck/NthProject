@@ -118,7 +118,7 @@ if ($canedit) {
 			</tr>
 			<tr>
 				<td width="100" valign="middle" class="LabelClass">Area:</td>
-				<td><?php echo $data->project.': '.$data->area; ?></td>
+				<td><a href="projectinfo?id=<?php echo $data->prjid; ?>"><?php echo $data->project; ?></a>: <?php echo $data->area; ?></td>
 			</tr>
 			<tr>
 				<td valign="middle" class="LabelClass">Priority:</td>

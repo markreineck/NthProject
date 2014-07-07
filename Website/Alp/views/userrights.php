@@ -24,12 +24,12 @@ if ($db->IsUserManager()) {
 <?php
 		$form->ShowListField ('Add User to Project', 'NewProject', $prjlist);
 ?>
-			<tr><td>
+		<tr>
+			<td>
 <?php
 	$form->ShowSubmitButton('Add Project');
 	$form->ShowHiddenField ('UserID', $UserID);
-?>
-			</td>
+?></td>
 		</tr>
 	</table>
 </form>
@@ -94,30 +94,36 @@ if ($db->IsUserManager()) {
 <?php
 				$form->ShowCheckBox ('Super'.$prjid, 1, $row->superuser);
 ?>
-			</td><td align="center">
+			</td>
+			<td align="center">
 <?php
 				$form->ShowCheckBox ('Submit'.$prjid, 1, $row->submit);
 				if ($this->UserSetting('ApproveTasks')) {
 ?>
-			</td><td align="center">
+			</td>
+			<td align="center">
 <?php
 					$form->ShowCheckBox ('Apprv'.$prjid, 1, $row->approval);
 				}
 ?>
-			</td><td align="center">
+			</td>
+			<td align="center">
 <?php
 				$form->ShowCheckBox ('Assign'.$prjid, 1, $row->assign);
 ?>
-			</td><td align="center">
+			</td>
+			<td align="center">
 <?php
 				$form->ShowCheckBox ('Edit'.$prjid, 1, $row->edit);
 ?>
-			</td><td align="center">
+			</td>
+			<td align="center">
 <?php
 				$form->ShowCheckBox ('BeAssign'.$prjid, 1, $row->assigned);
 				if ($this->UserSetting('ReleaseTasks')) {
 ?>
-			</td><td align="center">
+			</td>
+			<td align="center">
 <?php
 					$form->ShowCheckBox ('Release'.$prjid, 1, $row->publish);
 				}
@@ -130,7 +136,7 @@ if ($db->IsUserManager()) {
 			}
 ?>
 	</table>
-		<input type=hidden name="maxproject" value=<?php echo $cnt;?> />
+	<input type=hidden name="maxproject" value=<?php echo $cnt;?> />
 <?php
 		}
 	}
@@ -144,3 +150,4 @@ if ($db->IsUserManager()) {
 <?php
 }
 ?>
+<br clear="all"
