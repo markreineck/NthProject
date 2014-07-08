@@ -105,7 +105,7 @@ order by name, project, starton";
 function ReadSignedInUsers()
 {
 	$sql = "
-select t.timeid, t.userid, u.name username, p.name projectname, x.name task,
+select t.timeid, t.userid, u.name username, p.name projectname, t.taskid, x.name task,
 round(time_to_sec(timediff(now(), t.starton))/3600,1) hours,
 round(time_to_sec(timediff(now(), t.starton))/60) minutes,
 DATE_FORMAT(t.starton, '%b %e %H:%i') starttime 
@@ -116,7 +116,7 @@ inner join projectareas a on x.areaid=a.areaid
 left outer join projects p on p.prjid=a.prjid
 where t.endon is null
 union all
-select t.timeid, t.userid, u.name username, p.name projectname, null,
+select t.timeid, t.userid, u.name username, p.name projectname, null, null,
 round(time_to_sec(timediff(now(), t.starton))/3600,1) hours,
 round(time_to_sec(timediff(now(), t.starton))/60) minutes,
 DATE_FORMAT(t.starton, '%b %e %H:%i') starttime 

@@ -3,6 +3,7 @@ $db = $this->Database();
 $c = $this->Cookie();
 $form = $this->Forms();
 $this->LoadLibrary('timeicons');
+$this->LoadLibrary('taskicons');
 ?>
 <h1>Signed In Users</h1>
 <table class="ListTable">
@@ -48,7 +49,7 @@ foreach ($data as $dx) {
 ?>
 			</td>
 		<td><?php echo $dx->projectname; ?></td>
-		<td><?php echo $dx->task; ?></td>
+		<td><?php TaskInfoLink($dx->taskid, $dx->task); ?></td>
 <?php
 	if ($super) {
 ?>
