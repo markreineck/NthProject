@@ -28,6 +28,11 @@ $form->ShowPasswordTextField ('Confirm Password', 'Password2', '', 3);
 $form->ShowSubmitButton();
 $form->ShowRedirectButton('users');
 ?>
+</form>
+<form method="post" action="" name="form2" id="form2">
+<?php
+$form->ShowHiddenField('DeActID', $UserID);
+?>
 	<input type="submit" name="deactivate" value="Deactivate" class="ButtonClass" onClick="return confirm('Are you sure you want to deactivate this User?');" />
 </form>
 <?php

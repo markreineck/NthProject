@@ -269,6 +269,7 @@ if ($canedit) {
 	$form->ShowNumericListField ('Priority', 'Priority', 1, 5, 1, $data->priority, 2);
 }
 if ($canassn) {
+	$form->ShowListField ('Submitted by', 'SubmittedBy', $db->GetSubmittedByList($data->prjid), 0, $data->submittedby);
 	$form->ShowListField ('Assign to', 'AssignTo', $db->GetAssignToList($data->prjid), 0, $data->assignedto);
 	$form->ShowListField ('Approve by', 'ApproveBy', $db->GetApproveByList($data->prjid), 0, $data->approvedby);
 }

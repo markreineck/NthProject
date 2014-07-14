@@ -186,6 +186,11 @@ where u.userid=x.userid order by u.lastname, u.firstname";
 	return $this->SelectAll($sql, 2);
 }
 
+function GetSubmittedByList($prjid)
+{
+	return $this->GetProjectPrivList($prjid, 'submit');
+}
+
 function GetAssignToList($prjid)
 {
 	return $this->GetProjectPrivList($prjid, 'assigned');

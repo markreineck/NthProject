@@ -52,6 +52,10 @@ function Start()
 				if (!$db->EditTaskAssignment($taskid, 'A', $this->PostData['ApproveBy']))
 					$okmsg .= 'Task approval resonsibility has been changed. ';
 			}
+			if ($this->DataChanged('SubmittedBy')) {
+				if (!$db->EditTaskAssignment($taskid, 'S', $this->PostData['SubmittedBy']))
+					$okmsg .= 'Task submitted by user has been changed. ';
+			}
 			if ($this->DataChanged(array('StartMS','EndMS'))) {
 				if (!$db->EditTaskMilestones($taskid, $this->PostData['StartMS'], $this->PostData['EndMS']))
 					$okmsg = 'Task milestones were successfully changed. ';
