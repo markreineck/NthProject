@@ -62,5 +62,19 @@ function SendTaskApproved($taskid)
 	$this->SendTaskStatus($taskid, $data, 'S', 'The following task has been approved', 'Task approved');
 }
 
+function SendTaskComplete($taskid, $data='')
+{
+	if (!$data)
+		$data = $this->framework->Database()->ReadTaskDesc($taskid);
+	$this->SendTaskStatus($taskid, $data, 'A', 'The following task has been completed', 'Task complete');
+}
+
+function SendTaskDisapproved($taskid, $data='')
+{
+	if (!$data)
+		$data = $this->framework->Database()->ReadTaskDesc($taskid);
+	$this->SendTaskStatus($taskid, $data, 'T', 'The following task has not been approved', 'Task not approved');
+}
+
 }
 ?>

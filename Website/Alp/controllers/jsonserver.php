@@ -13,7 +13,7 @@ function ShowJSONTask ($db, $taskid)
 $json = new Services_JSON();
 
 	$newdata = array('ErrCode' => $db->ErrorCode(), 'ErrMsg' => $db->ErrorMsg(), 'SesID' => $this->SessionID);
-	$newdata['Data'] = $db->ReadTask($taskid);
+	$newdata['Data'] = $db->ReadTaskUnix($taskid);
 	echo $json->encode(array('Result' => $newdata));
 }
 
@@ -153,9 +153,14 @@ select prjid, userid, 1, 1, 1, 1, 1, 1, 1, u.firstname, u.lastname from projects
 			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
 
 			$taskid = $_REQUEST['TaskID'];
+			$msg = ($_REQUEST['Msg']) ? $_REQUEST['Msg'] : '';
 			$this->ValidateUserSession();
 
-			$data = $db->CompleteTask($taskid, '');
+			$data = $db->CompleteTask($taskid, $msg);
+			if (!$data) {
+				$email = $this->LoadClass(array('EmailClass', 'TaskEmailClass'));
+				$email->SendTaskComplete($taskid);
+			}
 			$this->ShowJSONTask ($db, $taskid);
 			break;
 
@@ -165,6 +170,10 @@ select prjid, userid, 1, 1, 1, 1, 1, 1, 1, u.firstname, u.lastname from projects
 			$taskid = $_REQUEST['TaskID'];
 			$this->ValidateUserSession();
 
+			if (!$data) {
+				$email = $this->LoadClass(array('EmailClass', 'TaskEmailClass'));
+				$email->SendTaskApproved($taskid);
+			}
 			$data = $db->ApproveTask($taskid);
 			$this->ShowJSONTask ($db, $taskid);
 			break;
@@ -173,9 +182,14 @@ select prjid, userid, 1, 1, 1, 1, 1, 1, 1, u.firstname, u.lastname from projects
 			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
 
 			$taskid = $_REQUEST['TaskID'];
+			$msg = ($_REQUEST['Msg']) ? $_REQUEST['Msg'] : $msg;
 			$this->ValidateUserSession();
 
 			$data = $db->DisapproveTask($taskid, '');
+			if (!$data) {
+				$email = $this->LoadClass(array('EmailClass', 'TaskEmailClass'));
+				$email->SendTaskDisapproved($taskid);
+			}
 			$this->ShowJSONTask ($db, $taskid);
 			break;
 
@@ -230,6 +244,41 @@ select prjid, userid, 1, 1, 1, 1, 1, 1, 1, u.firstname, u.lastname from projects
 			$data['ApproveBy'] = $db->GetApproveByList($prjid);
 			$data['Defaults'] = $db->ReadProjectDefaults($prjid);
 			$this->ShowJSONData ($data);
+			break;
+
+		case 'AddTaskNote':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+
+			$taskid = $_REQUEST['TaskID'];
+			$descr = $_REQUEST['Msg'];
+			$this->ValidateUserSession();
+			$error = $db->AddTaskNote($taskid, $descr);
+			if ($error) {
+				$this->ShowJSONTask ($db, $taskid);
+			} else {
+				$data = $db->ReadTaskComments($taskid);
+				$this->ShowJSONData ($data);
+			}
+			break;
+
+		case 'AddTaskMessage':
+			$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+
+			$taskid = $_REQUEST['TaskID'];
+			$to = $_REQUEST['To'];
+			$subj = $_REQUEST['Subject'];
+			$descr = $_REQUEST['Msg'];
+			$this->ValidateUserSession();
+
+			$email = $nth->LoadClass('EmailClass');
+			$email->From($db->GetUserEmail());
+			$email->To($to);
+			$email->Subject($subj);
+			$email->Message($descr);
+			$email->Send();
+
+			$data = $db->AddTaskMessage($taskid, $to, $subj, $descr);
+			$this->ShowJSONTask ($db, $taskid);
 			break;
 
         default:

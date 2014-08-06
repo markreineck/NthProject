@@ -43,6 +43,17 @@ order by p.name";
 	return $this->SelectAll($sql, 2);
 }
 
+function ReadTaskUnix($taskid)
+{
+	$sql = 'select taskid, areaid, status, edited, editedby, priority, 
+UNIX_TIMESTAMP(submittedon) submittedon, UNIX_TIMESTAMP(removed) removed, UNIX_TIMESTAMP(released) released,
+UNIX_TIMESTAMP(startafter) startafter, UNIX_TIMESTAMP(needby) needby, UNIX_TIMESTAMP(complete) complete, 
+UNIX_TIMESTAMP(approved) approved, startmilestone, endmilestone, 
+removedby, assignedto, submittedby, approvedby, releasedby, name
+from tasks where taskid='.$taskid;
+	return $this->SelectRow($sql);
+}
+
 function ReadTask($taskid)
 {
 	$sql = 'select taskid, areaid, status, edited, editedby, priority, submittedon, removed, released,

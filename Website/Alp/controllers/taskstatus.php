@@ -22,25 +22,20 @@ function Start()
 		$taskid = $this->PostData['TaskID'];
 		$notes = $this->PostData['Comment'];
 		$func = $this->PostData['Function'];
-		$data = $db->ReadTaskDesc($taskid);
 		if ($func == 'C') {
 			$err = $db->CompleteTask($taskid, $notes);
 			if (!$err) {
-				$subject = "Task complete";
-				$title = 'The following task has been completed:';
-				$recipient = 'A';
+				$email = $this->LoadClass(array('EmailClass', 'TaskEmailClass'));
+				$email->SendTaskComplete($taskid);
 			}
 		} else if ($func == 'R') {
 			$err = $db->DisapproveTask($taskid, $notes);
 			if (!$err) {
-				$subject = "Task not approved";
-				$title = 'The following task has not been approved: ';
-				$recipient = 'T';
+				$email = $this->LoadClass(array('EmailClass', 'TaskEmailClass'));
+				$email->SendTaskDisapproved($taskid);
 			}
 		}
 		if ($err == 0) {
-			$email = $this->LoadClass(array('EmailClass', 'TaskEmailClass'));
-			$email->SendTaskStatus($taskid, $data, $recipient, $title, $subject, $notes);
 			$this->RedirectTo($this->Cookie()->GetLastTaskPage());
 		}
 	} else if (isset($this->GetData['cid'])) {

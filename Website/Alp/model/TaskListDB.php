@@ -76,11 +76,17 @@ function TaskStatusWhere($cookie)
 //  and (t.startmilestone is null or sm.completion is not null)
 	$where = '';
 	switch ($cookie->GetDefaultTaskStatus()) {
-		case -2:
-			$where .= ' and s.hold is null and (t.startmilestone is null or sm.completion is not null)';
+		case -2:	// All active
+			$where .= ' and s.hold is null and t.complete is null and t.approved is null';
 			break;
-		case -3:
+		case -3:	// All held
 			$where .= ' and s.hold is not null';
+			break;
+		case -4:	// Completed
+			$where .= ' and t.complete is not null and t.approved is null';
+			break;
+		case -5:	// Approved
+			$where .= ' and t.approved is not null';
 			break;
 		default:
 			if ($cookie->GetDefaultTaskStatus() > 0)
@@ -481,6 +487,7 @@ function SearchTasks($cookie)
 from tasks t
 inner join projectareas a on a.areaid=t.areaid
 inner join projects p on a.prjid=p.prjid
+left outer join taskstatus s on t.status=s.statusid
 left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) u on p.prjid=u.prjid
 where t.removed is null and p.status='A' ".$this->ProjectListWhere($cookie);
 
