@@ -29,15 +29,15 @@ var $phpmailerpath;
 
 function EmailClass ($framework)
 {
-	$this->to = '';
-	$this->cc = '';
+	$this->to = array();
+	$this->cc = array();
 
 	$settings = $framework->LoadClassConfig('email');
 	if ($settings) {
-		$this->from = @$settings['From'];
-		$this->replyto = @$settings['ReplyTo'];
-		$this->bcc = @$settings['BCC'];
-		$this->phpmailerpath = @$settings['PHPMailer'];
+		$this->from = isset($settings['From']) ? $settings['From'] : '';
+		$this->replyto = isset($settings['ReplyTo']) ? $settings['ReplyTo'] : '';
+		$this->bcc = isset($settings['BCC']) ? $settings['BCC'] : '';
+		$this->phpmailerpath = isset($settings['PHPMailer']) ? $settings['PHPMailer'] : '';
 	}
 	$this->framework = $framework;
 }
@@ -45,11 +45,9 @@ function EmailClass ($framework)
 function To ($to)
 {
 	if ($to == '') {
-		$this->to = '';
-	} else {
-		if (!empty($this->to))
-			$this->to .= ';';
-		$this->to .= $to;
+		$this->to = array();
+	} else if (!in_array($to,$this->to)) {
+		$this->to[] = $to;
 	}
 }
 
@@ -61,11 +59,9 @@ function From ($from)
 function CC ($cc)
 {
 	if ($cc == '') {
-		$this->cc = '';
-	} else {
-		if (!empty($this->cc))
-			$this->cc .= ';';
-		$this->cc .= $cc;
+		$this->cc = array();
+	} else if (!in_array($cc,$this->cc)) {
+		$this->cc[] = $cc;
 	}
 }
 
@@ -88,11 +84,15 @@ function Message ($msg)
 
 function Debug ()
 {
-	$msg = "Email:<br>
-To: $this->to<br>
+/*
+	echo "Email:<br>
+To: ";
+	print_r($this->to);
+	echo "<br>
 Subject: $this->subject<br>
 " . $this->MakeHeaders();
 	$this->framework->DebugMsg($msg);
+*/
 }
 
 private function MakeHeaders()
@@ -110,22 +110,28 @@ private function MakeHeaders()
 // Returns 0 if the message was sent (not necessarily received)
 function Send ()
 {
-	if (empty($this->to) || empty($this->subject))
+echo "To:$this->to<br>";
+echo "Subject:$this->subject<br>";
+
+	if (!count($this->to) || empty($this->subject))
 		return 1;
+	$this->Debug();
 	if ($this->phpmailerpath) {
 		require_once ($this->phpmailerpath . '/class.phpmailer.php'); 
 		$mail = new PHPMailer();
 		$mail->SetFrom($this->from);
 		$mail->AddReplyTo($this->replyto);
 		$mail->AddBCC($this->bcc);
-		$mail->AddAddress($this->to);
+		foreach($this->to as $to)
+			$mail->AddAddress($to);
+		foreach($this->cc as $cc)
+			$mail->AddCC($cc);
 		$mail->Subject = $this->subject;
 		$mail->MsgHTML($this->msg);
 		$x = $mail->Send();
 		return $x;
 	} else {
 		$headers = $this->MakeHeaders();
-		$this->Debug();
 		return (mail ($this->to, $this->subject, $this->msg, $headers)) ? 0 : 2;
 	}
 }

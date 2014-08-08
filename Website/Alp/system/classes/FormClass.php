@@ -107,7 +107,10 @@ function Framework()
 
 function ShowHiddenField ($name, $value)
 {
-	echo "<textarea name=\"$name\" id=\"$name\" style=\"visibility:hidden;height:0px;width:0px\">$value</textarea>";
+	if (ctype_alnum($value))
+		echo "<input type=\"hidden\" name=\"$name\" id=\"$name\" value=\"$value\">";
+	else
+		echo "<textarea name=\"$name\" id=\"$name\" style=\"visibility:hidden;height:0px;width:0px\">$value</textarea>";
 }
 
 /********************************************************************************
@@ -206,6 +209,15 @@ var errmsg = '';
 				echo "
 if (frm.$field.value.length < $len) {
 	errmsg = errmsg + '$label is required.<br>';
+	valid = false;
+}
+";
+				break;
+			case 'MaxLen':
+				$len = $data['Data'];
+				echo "
+if (frm.$field.value.length > $len) {
+	errmsg = errmsg + 'Please limit $label to $len characters.<br>';
 	valid = false;
 }
 ";
@@ -695,6 +707,8 @@ You might use this for instance if making a grid of input fields.
 // Show an input field accepting only digits (0-9)
 function ShowDigitInput ($label, $name, $size, $value='', $minlen=0, $maxlen=0)
 {
+	if ($maxlen <= 0)
+		$maxlen = $size;
 	$this->ShowInput_ ('text', $label, $name, $maxlen, $size, $value, ($minlen > 0) ? 1 : 0, false);
 	$this->AddValidationField ($name, $label, 'Digit', $minlen);
 }
@@ -740,7 +754,7 @@ function ShowNumericList ($name, $first, $last, $increment=1, $sel='', $req=0)
 // Show a checkbox field. In this case $value is the value that should be returned
 // if the checkbox is checked. $checked is a rtrue/false value indicating initial state.
 // Required allows you to require that the checkbox be checked for instance to accepts terms.
-function ShowCheckBox ($name, $value, $checked, $required=false, $onclick='')
+function ShowCheckBox ($name, $value=1, $checked=false, $required=false, $onclick='')
 {
 	$this->AppendFieldName ($name);
 
@@ -821,12 +835,15 @@ function GetTimeString ($value)
 	$h = $_POST[$value.'1'];
 	$m = $_POST[$value.'2'];
 	$s = (isset($_POST[$value.'3'])) ? $_POST[$value.'3'] : '';
+	$ap = (isset($_POST[$value.'AP'])) ? $_POST[$value.'AP'] : 'AM';
 	if ($h == '' || $m == '' || !is_numeric($h) || !is_numeric($m))
 		return '';
 	else if ($h < 0 || $h > 23 || $m < 0 || $m > 59)
 		return '';
 	if (strlen($m) < 2)
 		$m = '0' . $m;
+	if ($ap == 'PM')
+		$h += 12;
 	$time = $h . ':' . $m;
 	if ($s > 0 && $s < 10)
 		$time .= ':0' . $s;
@@ -888,6 +905,46 @@ function ShowTimeField ($label, $name, $next, $value='', $required=false)
 		$this->AddValidationField ($name.'2', $label, 'Req', 1);
 	}
 	$this->AddNumValidationField ($name.'1', $label, 0, 24);
+	$this->AddNumValidationField ($name.'2', $label, 0, 59);
+}
+
+function ShowTime12Field ($label, $name, $value='', $required=false)
+{
+	$this->ShowInputLabel ($label, $name, ($required) ? 2 : 0);
+	$timeparts = explode (':', $value);
+	$ap = 'AM';
+	switch (count($timeparts)) {
+		case 0:
+			$h = '';
+			$m = '';
+			break;
+		case 1:
+			$h = $timeparts[0];
+			$m = '';
+			break;
+		default:
+			$h = $timeparts[0];
+			$m = $timeparts[1];
+	}
+	if ($h >= 12) {
+		$ap = 'PM';
+		$h -= 12;
+	}
+
+	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->ShowFixedLengthInput_ ($name.'1', $name.'2', 2, $h);
+	echo '&nbsp;:&nbsp;';
+	$this->ShowFixedLengthInput_ ($name.'2', $name.'AP', 2, $m);
+	echo '&nbsp;';
+	$this->ShowList ($name.'AP', array('AM'=>'AM','PM'=>'PM'), 2, $ap);
+	$this->ShowOriginalValue_ ($name, $value);
+	$this->CloseFieldSection();
+
+	if ($required) {
+		$this->AddValidationField ($name.'1', $label, 'Req', 1);
+		$this->AddValidationField ($name.'2', $label, 'Req', 1);
+	}
+	$this->AddNumValidationField ($name.'1', $label, 0, 12);
 	$this->AddNumValidationField ($name.'2', $label, 0, 59);
 }
 

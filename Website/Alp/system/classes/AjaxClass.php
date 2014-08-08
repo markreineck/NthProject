@@ -106,9 +106,15 @@ function FillInnerHTML($func, $sect, $args='')
 function Query($func, $sect, $args=NULL)
 {
 	$arglist = $this->args;
-	if ($args && is_array($args)) {
-		foreach ($args as $var => $val) {
-			$arglist = $this->AppendArg($arglist, $var, $val);
+	if ($args) {
+		if (is_array($args)) {
+			foreach ($args as $var => $val) {
+				$arglist = $this->AppendArg($arglist, $var, $val);
+			}
+		} else {
+			if ($arglist)
+				$arglist .= '&';
+			$arglist .= $args;
 		}
 	}
 	return $this->DoAjaxFill($func, $sect, "'$arglist'");

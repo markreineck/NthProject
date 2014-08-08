@@ -254,7 +254,7 @@ select prjid, userid, 1, 1, 1, 1, 1, 1, 1, u.firstname, u.lastname from projects
 			$this->ValidateUserSession();
 			$error = $db->AddTaskNote($taskid, $descr);
 			if ($error) {
-				$this->ShowJSONTask ($db, $taskid);
+				$this->ShowJSONDBError ($db);
 			} else {
 				$data = $db->ReadTaskComments($taskid);
 				$this->ShowJSONData ($data);
@@ -270,15 +270,20 @@ select prjid, userid, 1, 1, 1, 1, 1, 1, 1, u.firstname, u.lastname from projects
 			$descr = $_REQUEST['Msg'];
 			$this->ValidateUserSession();
 
-			$email = $nth->LoadClass('EmailClass');
+			$email = $this->LoadClass('EmailClass');
 			$email->From($db->GetUserEmail());
 			$email->To($to);
 			$email->Subject($subj);
 			$email->Message($descr);
 			$email->Send();
 
-			$data = $db->AddTaskMessage($taskid, $to, $subj, $descr);
-			$this->ShowJSONTask ($db, $taskid);
+			$error = $db->AddTaskMessage($taskid, $to, $subj, $descr);
+			if ($error) {
+				$this->ShowJSONDBError ($db);
+			} else {
+				$data = $db->ReadTaskComments($taskid);
+				$this->ShowJSONData ($data);
+			}
 			break;
 
         default:

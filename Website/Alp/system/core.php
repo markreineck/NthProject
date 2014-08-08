@@ -482,9 +482,11 @@ function DebugMsg($msg)
 		echo '<br>';
 }
 
-function DebugMode($mode)
+function DebugMode($mode=-1)
 {
-	$this->DebugMode = $mode;
+	if ($mode >= 0)
+		$this->DebugMode = $mode;
+	return $this->DebugMode;
 }
 
 /**********************************************************************

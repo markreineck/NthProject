@@ -3,9 +3,16 @@ class FileUpload {
 var $errormsg;
 var $filetypes;
 var $filelocation;
+var $framework;
+
+function Framework()
+{
+	return $this->framework;
+}
 
 function FileUpload($framework)
 {
+	$this->framework = $framework;
 	$settings = $framework->LoadClassConfig('fileupload');
 	if ($settings) {
 		if (isset($settings['FileTypes']))
@@ -23,6 +30,8 @@ function ErrorMsg()
 
 function UploadFile($targetname, $tempname, $targetloc='')
 {
+	$this->framework->DebugMsg("Upload $tempname to $targetloc / $targetname<br>");
+
 	$this->errormsg = '';
 	$resultfile = '';
 	if ($targetname) {
@@ -34,13 +43,16 @@ function UploadFile($targetname, $tempname, $targetloc='')
 		$ext = substr($targetname, strpos($targetname,'.'), strlen($targetname)-1);
 		if (!in_array(strtolower($ext),$allowedFiletypes)) {
 			$this->errormsg = "Unable to upload file extension \"". $ext . "\"";
+			if ($this->framework->GetDebugMode())
+				echo $this->errormsg . '<br>';
 			return '';
 		} else {
-$this->framework->DebugMsg("Move $tempname to $targetPath");
+			$this->framework->DebugMsg("Move $tempname to $targetPath");
 			if (move_uploaded_file($tempname, $targetPath)) {
 				$resultfile = $targetname;
 			} else {
 				$this->errormsg = "There was an error uploading the file, please try again.";
+				$this->framework->DebugMsg($this->errormsg);
 				return '';
 			}
 		}
@@ -48,7 +60,7 @@ $this->framework->DebugMsg("Move $tempname to $targetPath");
 	return $resultfile;
 }
 
-function UploadPostedFile($fieldname, $targetloc='')
+function UploadPostedFile($fieldname, $targetloc='', $targetname='')
 {
 	$this->errormsg = '';
 
@@ -61,7 +73,7 @@ function UploadPostedFile($fieldname, $targetloc='')
 			$this->errormsg = "There was an error uploading the file to the server, Please check the validity of the file you are uploading and try again.";
 			return '';
 		} else {
-			return $this->UploadFile($file['name'], $file['tmp_name'], $targetloc);
+			return $this->UploadFile(($targetname) ? $targetname : $file['name'], $file['tmp_name'], $targetloc);
 		}
 	}
 	return '';
