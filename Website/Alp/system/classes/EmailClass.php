@@ -41,8 +41,12 @@ function EmailClass ($framework)
 	}
 	$this->framework = $framework;
 }
-	
-function To ($to)
+function Framework()
+{
+	return $this->framework;
+}
+
+function To ($to='')
 {
 	if ($to == '') {
 		$this->to = array();
@@ -110,9 +114,6 @@ private function MakeHeaders()
 // Returns 0 if the message was sent (not necessarily received)
 function Send ()
 {
-echo "To:$this->to<br>";
-echo "Subject:$this->subject<br>";
-
 	if (!count($this->to) || empty($this->subject))
 		return 1;
 	$this->Debug();

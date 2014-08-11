@@ -191,6 +191,7 @@ function FormValidation()
 	$checknum = false;
 	$checkdate = false;
 
+	if ($this->validationfunc) {
 	echo "
 <script type=\"text/javascript\">
 <!--
@@ -339,7 +340,10 @@ echo "
 -->
 </script>
 ";
-
+	}
+	echo "<script type=\"text/javascript\" src=\"$this->jspath/Alp.js\"></script>
+";
+/*
 	if ($this->fixedlength) {
 		echo "<script type=\"text/javascript\" src=\"$this->jspath/TextBoxAutoTab.js\"></script>
 ";
@@ -364,7 +368,7 @@ echo "
 		echo "<script type=\"text/javascript\" src=\"$this->jspath/ValidateDate.js\"></script>
 ";
 	}
-
+*/
 }
 
 /********************************************************************************
@@ -1155,6 +1159,16 @@ function ShowJavaScriptButton ($js, $caption, $name='')
 {
 	echo "<input name=\"$name\" type=\"button\" class=\"$this->buttonclass\" value=\"$caption\" alt=\"Cancel Form\" onclick=\"$js\" />
 ";
+}
+
+function ShowHideButton ($tagid, $caption='Cancel', $name='')
+{
+	$this->ShowJavaScriptButton ("HideTag('$tagid')", $caption, $name);
+}
+
+function ShowUnhideButton ($tagid, $caption, $name='')
+{
+	$this->ShowJavaScriptButton ("ShowTag('$tagid')", $caption, $name);
 }
 
 // Show a button to run form validation without submitting the form. This is a debugging tool.

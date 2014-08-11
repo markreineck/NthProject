@@ -50,6 +50,8 @@ var $SystemPath = 'system';
 var $ConfigPath = 'config';
 var $ViewPath = 'views';
 
+var $DeviceType = '';
+
 /**********************************************************************
  *	Class Initialize
  **********************************************************************/
@@ -556,6 +558,123 @@ function UserSetting($setting)
 {
 	return (isset($this->UserSettings[$setting])) ? $this->UserSettings[$setting] : false;
 }
+
+/**********************************************************************
+ *	Device Type
+ **********************************************************************/
+function DeviceType()
+{
+	if (!$this->DeviceType) {
+		if (isset($_GET['DeviceType'])) {
+			$this->DeviceType = $_GET['DeviceType'];
+		} else {
+			$this->LoadLibrary('Mobile_Detect');
+			$md = new Mobile_Detect();
+			if ($md->isMobile())
+				$this->DeviceType = 'P';
+			else if ($md->isTablet())
+				$this->DeviceType = 'T';
+			else
+				$this->DeviceType = 'C';
+		}
+	}
+	return $this->DeviceType;
+}
+
+function isPhone()
+{
+	return $this->DeviceType() == 'P';
+}
+
+function isTablet()
+{
+	return $this->DeviceType() == 'T';
+}
+
+function isComputer()
+{
+	return $this->DeviceType() == 'C';
+}
+
+/**********************************************************************
+ *	Input Data
+ **********************************************************************/
+
+function FilteredInputData($method, $var, $filter, $options=0)
+{
+	$result = trim(filter_input($method, $var, $filter, $options));
+	$this->DebugMsg("$var=[$result]");
+	return $result;
+}
+
+function PostedData($var)
+{
+	return $this->FilteredInputData(INPUT_POST, $var, FILTER_UNSAFE_RAW);
+}
+
+function PostedNumber($var)
+{
+	return $this->FilteredInputData(INPUT_POST, $var, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+}
+
+function PostedDigit($var)
+{
+	return str_replace(array('+','-'),'',$this->FilteredInputData(INPUT_POST, $var, FILTER_SANITIZE_NUMBER_INT));
+}
+
+function PostedString($var)
+{
+	return $this->FilteredInputData(INPUT_POST, $var, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW | FILTER_FLAG_ENCODE_HIGH);
+}
+
+function PostedHtml($var)
+{
+	return $this->FilteredInputData(INPUT_POST, $var, FILTER_UNSAFE_RAW, FILTER_FLAG_ENCODE_LOW+FILTER_FLAG_ENCODE_HIGH+FILTER_FLAG_ENCODE_AMP);
+}
+
+function GetData($var)
+{
+	return $this->FilteredInputData(INPUT_GET, $var, FILTER_UNSAFE_RAW);
+}
+
+function GetNumber($var)
+{
+	return $this->FilteredInputData(INPUT_GET, $var, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+}
+
+function GetDigit($var)
+{
+	return str_replace(array('+','-'),'',$this->FilteredInputData(INPUT_GET, $var, FILTER_SANITIZE_NUMBER_INT));
+}
+
+function GetString($var)
+{
+	return $this->FilteredInputData(INPUT_GET, $var, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW | FILTER_FLAG_ENCODE_HIGH);
+}
+
+function RequestData($var)
+{
+	return $this->FilteredInputData(INPUT_REQUEST, $var, FILTER_UNSAFE_RAW);
+}
+
+function RequestNumber($var)
+{
+	return $this->FilteredInputData(INPUT_REQUEST, $var, FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+}
+
+function RequestDigit($var)
+{
+	return str_replace(array('+','-'),'',$this->FilteredInputData(INPUT_REQUEST, $var, FILTER_SANITIZE_NUMBER_INT));
+}
+
+function RequestString($var)
+{
+	return $this->FilteredInputData(INPUT_REQUEST, $var, FILTER_SANITIZE_STRING, FILTER_FLAG_ENCODE_LOW | FILTER_FLAG_ENCODE_HIGH);
+}
+
+/**********************************************************************
+ *	User Variables
+ **********************************************************************/
 
 static function ShowErrorMessage($msg, $title='Framework Error')
 {

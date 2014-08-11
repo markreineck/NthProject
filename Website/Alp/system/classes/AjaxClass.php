@@ -168,6 +168,18 @@ function DefaultFieldQuery($fields=NULL)
 	return $this->FieldQuery($this->function, $this->section, $fields);
 }
 
+function FormQuery($func, $sect=NULL, $args=NULL)
+{
+	$arglst = $this->args;
+	if ($args)
+		$arglst = $args;
+	if (!$sect)
+		$sect = $this->section;
+	$dbg = ($this->debug) ? 'ajaxdebug' : '';
+	$async = ($this->async) ? 'true' : 'false';
+	return "DoAjaxFromForm(this, '$func', '$sect', '$arglst', $async, '$dbg');";
+}
+
 function AjaxBase()
 {
 	echo "
