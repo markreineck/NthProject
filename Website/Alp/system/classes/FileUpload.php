@@ -63,13 +63,13 @@ function UploadFile($targetname, $tempname, $targetloc='')
 function UploadPostedFile($fieldname, $targetloc='', $targetname='')
 {
 	$this->errormsg = '';
-
-	if (!isset($_FILES[$fieldname])) {
+	if (!$_FILES[$fieldname]) {
 		$this->errormsg = 'No file upload was detected for ' . $fieldname;
 		return '';
 	} else {
 		$file = $_FILES[$fieldname];
 		if ($file['error']) {
+			$this->framework->DebugMsg($file['error']);
 			$this->errormsg = "There was an error uploading the file to the server, Please check the validity of the file you are uploading and try again.";
 			return '';
 		} else {

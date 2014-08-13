@@ -27,6 +27,32 @@ function AjaxSink(){
 	}
 }
 
+function AppendArg (args, input)
+{
+	if (input.name.length > 0 && input.value.length > 0) {
+		if (args.length > 0)
+			args += '&';
+		args += input.name + '=' + input.value;
+	}
+	return args;
+}
+
+function DoAjaxFromForm(form, func, sect, args, async, debugdiv)
+{
+	if (form.nodeName != "FORM")
+		form = form.form;
+
+	inputs = form.getElementsByTagName('input');
+	for (x = 0; x < inputs.length; ++x) {
+		args = AppendArg (args, inputs[x]);
+	}
+	inputs = form.getElementsByTagName('textarea');
+	for (x = 0; x < inputs.length; ++x) {
+		args = AppendArg (args, inputs[x]);
+	}
+	DoAjaxFill(func, sect, args, async, debugdiv);
+}
+
 function DoAjaxFromFields(func, sect, args, fields, async, debugdiv)
 {
 	for (var x=0; x<fields.length; x++) {
