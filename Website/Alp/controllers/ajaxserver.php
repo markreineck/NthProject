@@ -18,7 +18,7 @@ function Start()
 			$uid = @$_REQUEST['u'];
 			echo '<option>Any</option>';
 			if ($prjid > 0) {
-				$db = $this->Database();
+				$db = $this->Model();
 echo '<optgroup label="Your Tasks">';
 				$sql = "select t.taskid, concat(a.name,': ',t.name)
 from tasks t, projectareas a, taskstatus s
@@ -46,7 +46,7 @@ echo '</optgroup>';
 			echo '<option></option>';
 			$prjid = @$_REQUEST['DefaultPrj'];
 			if ($prjid > 0) {
-				$db = $this->Database();
+				$db = $this->Model();
 				$sql = "select areaid, name from projectareas where prjid=$prjid order by name";
 				$db->FillList($sql);
 			}
@@ -56,7 +56,7 @@ echo '</optgroup>';
 			echo '<option></option>';
 			$prjid = @$_REQUEST['DefaultPrj'];
 			if ($prjid > 0) {
-				$db = $this->Database();
+				$db = $this->Model();
 				$sql = "select milestoneid, name from milestones where prjid=$prjid and completion is null order by name";
 				$db->FillList($sql);
 			}

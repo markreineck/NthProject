@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 ?>
 <h1>By Priority</h1>
 <div id="TaskList" name="TaskList">

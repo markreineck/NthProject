@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 
 header('Content-Type: image/png');
 $sql = "select contents from taskfiles where fileid=$FileID and taskid=$TaskID";

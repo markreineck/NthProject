@@ -10,7 +10,7 @@ public function __construct($url)
 
 function Start()
 {
-	$db = $this->Database();
+	$db = $this->Model();
 
 	$okmsg = '';
 	$emailaddr = array();
@@ -18,10 +18,10 @@ function Start()
 	$this->LoadLibrary('taskicons');
 	$this->ApproveTasks();
 
-	if (isset($this->PostData['TaskID'])) {
-		$taskid = $this->PostData['TaskID'];
-		$notes = $this->PostData['Comment'];
-		$func = $this->PostData['Function'];
+	if ($this->IsPosted('TaskID')) {
+		$taskid = $this->PostedDigit('TaskID');
+		$notes = $this->PostedString('Comment');
+		$func = $this->PostedString('Function');
 		if ($func == 'C') {
 			$err = $db->CompleteTask($taskid, $notes);
 			if (!$err) {
@@ -38,12 +38,12 @@ function Start()
 		if ($err == 0) {
 			$this->RedirectTo($this->Cookie()->GetLastTaskPage());
 		}
-	} else if (isset($this->GetData['cid'])) {
+	} else if (isset($this->GetNumber('cid'))) {
 		$func = 'C';
-		$taskid = $this->GetData['cid'];
-	} else if (isset($this->GetData['rid'])) {
+		$taskid = $this->GetNumber('cid');
+	} else if (isset($this->GetNumber('rid'))) {
 		$func = 'R';
-		$taskid = $this->GetData['rid'];
+		$taskid = $this->GetNumber('rid');
 	} else {
 		$this->RedirectTo($c->GetLastTaskPage());
 	}

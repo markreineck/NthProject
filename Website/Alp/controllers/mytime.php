@@ -16,7 +16,7 @@ function Start()
 	$this->PutData ('NextPage', 'mytime');
 	$this->PutData ('StartDate', $c->GetDefaultStartDate());
 	$this->PutData ('EndDate', $c->GetDefaultEndDate());
-	$this->PutData ('data', $this->Database()->ReadMyTime($c));
+	$this->PutData ('data', $this->Model()->ReadMyTime($c));
 	$this->LoadView('home');
 }
 }

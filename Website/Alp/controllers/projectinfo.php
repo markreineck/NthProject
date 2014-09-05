@@ -15,10 +15,10 @@ function Start()
 	$this->LoadLibrary('iconlinks');
 	$this->LoadLibrary('taskicons');
 
-	if (isset($this->PostData['DefaultPrj']))
-		$c->SetDefaultProject($this->PostData['DefaultPrj']);
-	else if ($this->GetData['id'])
-		$c->SetDefaultProject($this->GetData['id']);
+	if ($this->IsPosted('DefaultPrj'))
+		$c->SetDefaultProject($this->PostedNumber('DefaultPrj'));
+	else if (isset($_GET['id'])
+		$c->SetDefaultProject($_GET['id']);
 
 	$filters = array('projectlist');
 	$this->PutData ('PageHeading', $filters);

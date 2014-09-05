@@ -1,6 +1,4 @@
 <?php
-//$c = $this->Cookie();
-//$db = $this->Database();
 $form = $this->Forms();
 ?>
 <table width="100%" border="0" cellpadding="3" cellspacing="0" class="table">

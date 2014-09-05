@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $form = $this->Forms();
 
 if ($this->UserSetting('Organizations') && $db->IsOwnerOrg()) {

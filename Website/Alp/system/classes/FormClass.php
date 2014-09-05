@@ -130,6 +130,11 @@ function CloseFieldSection ()
 ';
 }
 
+function OpenFieldContainer ()
+{
+	echo ($this->tableforms) ? '<td>' : '<div>';
+}
+
 // This function will place a block onto the page where error messages will be placed. 
 // It can be preloaded with an error message. 
 // Otherwise form validation errors will be placed here whent he form is validated.
@@ -467,7 +472,7 @@ document.getElementById('$name-Help').style.display = 'none';
 private function ShowInputField_ ($fieldtype, $label, $name, $maxlen, $size, $value, $minlen, $autocap, $help='')
 {
 	$this->ShowInputLabel ($label, $name, $minlen);
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
 	$this->ShowInput_ ($fieldtype, $label, $name, $maxlen, $size, $value, $minlen, $autocap);
 	$this->CloseFieldSection();
 }
@@ -581,7 +586,7 @@ function ShowFixedLengthField ($label, $name, $size, $next, $value='', $required
 {
 	$this->ShowInputLabel ($label, $name, $minlen);
 
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
 	$this->ShowFixedLengthInput_ ($name, $next, $size, $value);
 	$this->ShowOriginalValue_ ($name, $value);
 	$this->CloseFieldSection();
@@ -594,7 +599,7 @@ function ShowFixedLengthField ($label, $name, $size, $next, $value='', $required
 function ShowListField ($label, $name, $list=NULL, $req=0, $sel='', $onchange='')
 {
 	$this->ShowInputLabel ($label, $name, $req);
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
 	$this->ShowList ($name, $list, $req, $sel, $onchange);
 	$this->CloseFieldSection();
 	if ($req == 1)
@@ -628,7 +633,7 @@ function ShowNumericListField ($label, $name, $first, $last, $increment=1, $sel=
 function ShowRadioField ($label, $name, $list, $req=1, $sel='')
 {
 	$this->ShowInputLabel ($label, $name, $req);
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
 	$this->ShowRadioButtons ($label, $name, $list, $req, $sel);
 	$this->CloseFieldSection();
 }
@@ -662,7 +667,8 @@ function ShowCheckBoxField ($label, $name, $value, $checked, $required=false, $o
 {
 	$this->ShowInputLabel ($label, $name, $required);
 
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
+
 
 	$this->ShowCheckBox ($name, $value, $checked, $required, $onclick);
 
@@ -696,7 +702,8 @@ function ShowTextArea ($label, $name, $rows, $cols, $value='', $minlen=0)
 function ShowTextAreaField ($label, $name, $rows, $cols, $value='', $minlen=0)
 {
 	$this->ShowInputLabel ($label, $name, $minlen);
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
+
 	$this->ShowTextArea ($label, $name, $rows, $cols, $value, $minlen);
 	$this->CloseFieldSection();
 }
@@ -897,7 +904,8 @@ function ShowTimeField ($label, $name, $next, $value='', $required=false)
 		default:
 			$timeinit = array('', '');
 	}
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
+
 	$this->ShowFixedLengthInput_ ($name.'1', $name.'2', 2, $timeinit[0]);
 	echo '&nbsp;:&nbsp;';
 	$this->ShowFixedLengthInput_ ($name.'2', $next, 2, $timeinit[1]);
@@ -935,7 +943,8 @@ function ShowTime12Field ($label, $name, $value='', $required=false)
 		$h -= 12;
 	}
 
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
+
 	$this->ShowFixedLengthInput_ ($name.'1', $name.'2', 2, $h);
 	echo '&nbsp;:&nbsp;';
 	$this->ShowFixedLengthInput_ ($name.'2', $name.'AP', 2, $m);
@@ -983,7 +992,8 @@ function ShowPhoneField ($label, $name, $next, $value='', $minparts=0)
 		default:
 			$phone = array('', '', '');
 	}
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
+
 	$this->ShowFixedLengthInput_ ($name.'1', $name.'2', 3, $phone[0], ($minparts > 2) ? 3 : 0);
 	echo '&nbsp;-&nbsp;';
 	$this->ShowFixedLengthInput_ ($name.'2', $name.'3', 3, $phone[1], ($minparts > 1) ? 3 : 0);
@@ -1013,7 +1023,8 @@ function ShowPhoneExtField ($label, $name, $value='', $ext='', $extlen, $minpart
 		default:
 			$phone = array('', '', '');
 	}
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
+
 	$this->ShowFixedLengthInput_ ($name.'1', $name.'2', 3, $phone[0], ($minparts > 2) ? 3 : 0);
 	echo '&nbsp;-&nbsp;';
 	$this->ShowFixedLengthInput_ ($name.'2', $name.'3', 3, $phone[1], ($minparts > 1) ? 3 : 0);
@@ -1082,7 +1093,8 @@ function ShowZipCodeField ($label, $name, $next, $value='', $minparts=0)
 		default:
 			$zip = array('', '');
 	}
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
+
 	$this->ShowFixedLengthInput_ ($name.'1', $name.'2', 5, $zip[0]);
 	echo '&nbsp;-&nbsp;';
 	$this->ShowFixedLengthInput_ ($name.'2', $next, 4, $zip[1]);
@@ -1116,7 +1128,8 @@ Other Specialized Input Fields
 function ShowStateField ($name, $next, $value='', $minlen='')
 {
 	$this->ShowInputLabel ('State', $name, $minlen);
-	echo ($this->tableforms) ? '<td>' : '<div>';
+	$this->OpenFieldContainer();
+
 	$this->ShowFixedLengthInput_ ($name, $next, 2, $value, ($minlen > 0) ? 2 : 0);
 	$this->ShowOriginalValue_ ($name, $value);
 	$this->CloseFieldSection();

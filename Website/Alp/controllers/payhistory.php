@@ -10,7 +10,7 @@ public function __construct($url)
 
 function Start()
 {
-	$db = $this->Database();
+	$db = $this->Model();
 
 	$this->Ajax()->SetFunction('GetPaymentHistory');
 	$this->Ajax()->SetFields(array("DefaultPrj","DefaultUser"));

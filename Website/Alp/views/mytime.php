@@ -1,5 +1,4 @@
 <?php
-$db = $this->Database();
 $c = $this->Cookie();
 
 $this->LoadLibrary('timeicons');

@@ -14,7 +14,7 @@ function Start()
 	$this->Ajax()->SetFields(array("DefaultPrj","DefaultUser"));
 
 	$this->DoTaskListPage(array('projectlist', 'assigntolist', 'filters'));
-	$data = $this->Database()->ListCompletedTasksByProject($this->Cookie());
+	$data = $this->Model()->ListCompletedTasksByProject($this->Cookie());
 	$this->PutData ('data', $data);
 	$this->PutData ('icons', false);
 	$this->PutData ('PageTitle', 'Completed Tasks');

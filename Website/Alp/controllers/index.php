@@ -12,9 +12,9 @@ function Start()
 	$db = $this->LoadModel(array('DatabaseDB', 'LoginDB'));
 	$db->DebugMode(0);
 
-	if (isset($this->PostData['UserName'])) {
-		$username = $this->PostData['UserName'];
-		$password = $this->PostData['Password'];
+	if ($this->IsPosted('UserName')) {
+		$username = $this->PostedString('UserName');
+		$password = $this->PostedString('Password');
 
 		if ($username == 'startup') {
 			$this->RedirectTo('startup');

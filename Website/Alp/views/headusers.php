@@ -1,5 +1,5 @@
 <?php
-// 12-28-12 Not used
+12-28-12 Not used
 if (isset($_POST['complist']))
 	$pdb->SetDefaultCompany($_POST['complist']);
 ?>

@@ -37,17 +37,17 @@ function Start()
 				case 'GetMyTime':
 					$this->PutData ('StartDate', $daterange->StartDate());
 					$this->PutData ('EndDate', $daterange->EndDate());
-					$this->PutData ('data', $this->Database()->ReadMyTime($filter));
+					$this->PutData ('data', $this->Model()->ReadMyTime($filter));
 					$this->LoadView('widgets/showmytime');
 					break;
 
                 case 'GetTimeDetail':
-                    $this->PutData ('data', $this->Database()->ReadTimeExport($filter));
+                    $this->PutData ('data', $this->Model()->ReadTimeExport($filter));
                     $this->LoadView('widgets/showtimedetail');
                     break;
 
 				case 'GetTimeExport':
-					$this->PutData ('data', $this->Database()->ReadTimeExport($filter));
+					$this->PutData ('data', $this->Model()->ReadTimeExport($filter));
 					$this->LoadView('widgets/showtimeexport');
 					break;
 

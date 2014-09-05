@@ -1,3 +1,4 @@
+delimiter $$
 
 DROP PROCEDURE IF EXISTS CreateProject$$
 
@@ -29,11 +30,11 @@ if @err = 0 then
 		select -1102 into @err;
 	else
 		insert into projects (
-			edited, editedby, dateedited, dateeditedby, orgid,
-			name, started, targetdate, priority, status, timerpt, notes
+			edited, editedby, dateedited, dateeditedby, defedited, defeditedby, 
+			orgid, name, started, targetdate, priority, status, timerpt, notes
 		) values (
-			now(), v_me, now(), v_me, i_orgid,
-			i_name, i_started, i_target, i_priority, i_status, i_timerpt, i_notes
+			now(), v_me, now(), v_me, now(), v_me, 
+			i_orgid, i_name, i_started, i_target, i_priority, i_status, i_timerpt, i_notes
 		);
 
 		if row_count() < 1 then

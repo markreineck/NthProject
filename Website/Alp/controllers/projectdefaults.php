@@ -10,9 +10,9 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['PrjCnt'])) {
+	if ($this->IsPosted('PrjCnt')) {
 		$err = 0;
-		$cnt = $this->PostData['PrjCnt'];
+		$cnt = $this->PostedDigit('PrjCnt');
 
 		for ($x=0; $x<$cnt; $x++) {
 			$atidx = 'AssignTo'.$x;
@@ -21,12 +21,12 @@ function Start()
 			$ididx = 'PrjID'.$x;
 
 			if ($this->DataChanged(array($atidx, $abidx, $pridx))) {
-				$db = $this->Database();
+				$db = $this->Model();
 
-				$assn = $this->PostData[$atidx];
-				$appr = $this->PostData[$abidx];
-				$pri = $this->PostData[$pridx];
-				$prjid = $this->PostData[$ididx];
+				$assn = $this->PostedDigit($atidx);
+				$appr = $this->PostedDigit($abidx);
+				$pri = $this->PostedDigit($pridx);
+				$prjid = $this->PostedDigit($ididx);
 
 				$e = $db->UpdateProjectDefaults($prjid, $pri, $assn, $appr);
 				if ($e)

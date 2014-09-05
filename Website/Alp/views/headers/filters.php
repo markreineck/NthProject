@@ -1,8 +1,3 @@
-<?php
-//$form = $this->Forms();
-
-//$this->PutData ('PageHeading', $filters); 
-?>
 <td>
 <form method="post" name="form" id="form" style="float:right;margin: 0 10px;">
 <span style="float:left;margin-top: 5px;">Search &nbsp;</span>

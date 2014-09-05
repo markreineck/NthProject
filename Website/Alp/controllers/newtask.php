@@ -10,25 +10,25 @@ public function __construct($url)
 
 function Post()
 {
-	$db = $this->Database();
+	$db = $this->Model();
 	$c = $this->Cookie();
 
-	if (isset($this->PostData['DefaultPrj'])) {
-		$c->SetDefaultProject($this->PostData['DefaultPrj']);
+	if ($this->IsPosted('DefaultPrj')) {
+		$c->SetDefaultProject($this->PostedDigit('DefaultPrj'));
 
-		$prjid = $this->PostData['DefaultPrj'];
-		$area = $this->PostData['Area'];
-		$name = $this->PostData['Description'];
-		$status = $this->PostData['Status'];
-		$priority = $this->PostData['Priority'];
-		$startms = $this->PostData['StartMS'];
-		$endms = $this->PostData['EndMS'];
-		$starton = $this->PostData['StartOn'];
-		$doby = $this->PostData['DoBy'];
-		$assnto = $this->PostData['AssignTo'];
-		$apprby = $this->PostData['ApproveBy'];
-		$descr = $this->PostData['Notes'];
-		$cost = $this->PostData['Cost'];
+		$prjid = $this->PostedDigit('DefaultPrj');
+		$area = $this->PostedDigit('Area');
+		$name = $this->PostedString('Description');
+		$status = $this->PostedDigit('Status');
+		$priority = $this->PostedDigit('Priority');
+		$startms = $this->PostedDigit('StartMS');
+		$endms = $this->PostedDigit('EndMS');
+		$starton = $this->PostedString('StartOn');
+		$doby = $this->PostedString('DoBy');
+		$assnto = $this->PostedDigit('AssignTo');
+		$apprby = $this->PostedDigit('ApproveBy');
+		$descr = $this->PostedString('Notes');
+		$cost = $this->PostedNumber('Cost');
 
 		$taskid = $db->CreateTask($prjid, $area, $status, $priority, $name, $startms, $endms, $starton, $doby, $assnto, $apprby, $descr, $cost);
 
@@ -43,14 +43,14 @@ function Post()
 
 function Start()
 {
-	$db = $this->Database();
+	$db = $this->Model();
 	$c = $this->Cookie();
 
-	$aid = (isset($this->PostData['areaid'])) ? $this->PostData['areaid'] : 0;
+	$aid = ($this->IsPosted('areaid')) ? $this->PostedDigit('areaid') : 0;
 	if ($aid > 0) {
 		$pid = $db->ReadAreaProject($aid);
 	} else {
-		$pid = (isset($this->PostData['prjid'])) ? $this->PostData['prjid'] : $c->GetDefaultProject();
+		$pid = ($this->IsPosted('prjid')) ? $this->PostedDigit('prjid') : $c->GetDefaultProject();
 	}
 
 	$this->PutData ('AreaID', $aid);

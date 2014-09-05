@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 ?>
 <h1>By Target Date</h1>
 <div id="TaskList" name="TaskList">

@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 ?>
 <h1>Fixed Price Tasks</h1>
 <div id="TaskList" name="TaskList">

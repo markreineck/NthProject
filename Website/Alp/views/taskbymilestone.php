@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 ?>
 <h1>By Milestone</h1>
 <div id="TaskList" name="TaskList">

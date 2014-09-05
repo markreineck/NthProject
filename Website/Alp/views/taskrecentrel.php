@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $db->DebugMode(0);
 $cookie = $this->Cookie();
 

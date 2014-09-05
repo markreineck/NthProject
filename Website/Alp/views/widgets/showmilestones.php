@@ -1,7 +1,7 @@
 <h2>
 <?php
 $form = $this->Forms();
-$db = $this->Database();
+$db = $this->Model();
 $ajax = $this->Ajax();
 $args['DefaultPrj'] = $prjid;
 

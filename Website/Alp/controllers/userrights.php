@@ -10,7 +10,7 @@ public function __construct($url)
 
 function Start()
 {
-	$db = $this->Database();
+	$db = $this->Model();
 	$msg = '';
 
 	if (isset($_POST['UserID'])) {
@@ -71,8 +71,8 @@ function Start()
 			}
 		}
 	} else {
-		$userid = $this->GetData['userid'];
-		$prj = $this->GetData['delid'];
+		$userid = $this->GetNumber('userid');
+		$prj = $this->GetNumber('delid');
 		if ($prj > 0)
 			$db->RemoveUserFromProject($userid, $prj);
 	}

@@ -1,7 +1,7 @@
 <h1>Task Status List</h1>
 <div id="AjaxList" name="AjaxList">
 <?php
-$db = $this->Database();
+$db = $this->Model();
 //$c = $this->Cookie();
 $form = $this->Forms();
 

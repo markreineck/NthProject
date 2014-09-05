@@ -1,7 +1,7 @@
 <?php
 $this->LoadLibrary('iconlinks');
 $this->LoadLibrary('taskicons');
-$db = $this->Database();
+$db = $this->Model();
 
 if ($ProjectID > 0) {
 	$canedit = $db->IsProjectSuperUser($ProjectID);

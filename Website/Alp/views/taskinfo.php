@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $form = $this->Forms('ProjectFormClass');
 $c = $this->Cookie();
 $errmsg = $db->ErrorMsg();

@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $form = $this->Forms();
 $c = $this->Cookie();
 $errmsg = $db->ErrorMsg();
@@ -10,7 +10,7 @@ if ($db->IsUserManager() || $UserID == $db->GetUserID()) {
 <h1>Reset User Password</h1>
 <div style="color:#0063C6; font-weight:600;"> Reset User Account for
 <?php
-echo $this->Database()->GetUserName($UserID);
+echo $db->GetUserName($UserID);
 ?>
 </div>
 <?php

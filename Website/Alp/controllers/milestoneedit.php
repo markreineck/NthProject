@@ -10,20 +10,20 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['ProjectID'])) {
-		$db = $this->Database();
+	if ($this->IsPosted('ProjectID')) {
+		$db = $this->Model();
 
 		$err = 0;
-		$mid = $this->PostData['MilestoneID'];
-		$prjid = $this->PostData['ProjectID'];
-		$name = $this->PostData['Name'];
-		$due = $this->PostData['TargetDate'];
-		$descr = $this->PostData['Descr'];
-		$comp = $this->PostData['CompletionDate'];
+		$mid = $this->PostedDigit('MilestoneID');
+		$prjid = $this->PostedDigit('ProjectID');
+		$name = $this->PostedString('Name');
+		$due = $this->PostedString('TargetDate');
+		$descr = $this->PostedString('Descr');
+		$comp = $this->PostedString('CompletionDate');
 
 		if ($mid > 0) {
 			if ($this->DataChanged(array('Name', 'TargetDate', 'CompletionDate', 'Descr'))) {
-				$comp = $this->PostData['CompletionDate'];
+				$comp = $this->PostedString('CompletionDate');
 	
 				$err = $db->UpdateMilestone($mid, $name, $due, $comp, $descr);				
 			}
@@ -35,8 +35,8 @@ function Start()
 			$this->RedirectTo('milestones');
 		}
 	} else {
-		$prjid = $this->GetData['pid'];
-		$mid = $this->GetData['mid'];
+		$prjid = $this->GetNumber('pid');
+		$mid = $this->GetNumber('mid');
 	}
 
 	if (!$prjid && !$mid) {

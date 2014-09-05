@@ -24,10 +24,10 @@ function Post()
 
 function Start()
 {
-	if (isset($this->PostData['UserID'])) {
-		$userid = $this->PostData['UserID'];
+	if ($this->IsPosted('UserID')) {
+		$userid = $this->PostedDigit('UserID');
 	} else {
-		$userid = $this->GetData['userid'];
+		$userid = $this->GetDigit('userid');
 	}
 	$usertbl = $this->DBTable();
 	$usertbl->SetKey(array('userid' => $userid));

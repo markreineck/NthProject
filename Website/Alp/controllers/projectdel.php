@@ -10,11 +10,11 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['ProjectID'])) {
-		$db = $this->Database();
+	if ($this->IsPosted('ProjectID')) {
+		$db = $this->Model();
 
 		$err = 0;
-		$prjid = $this->PostData['ProjectID'];
+		$prjid = $this->PostedDigit('ProjectID');
 
 		$err = $db->DeleteProject($prjid);
 
@@ -22,7 +22,7 @@ function Start()
 			$this->RedirectTo('projects');
 
 	} else {
-		$prjid = $this->GetData['prj'];
+		$prjid = $this->GetNumber('prj');
 	}
 
 	$this->PutData ('PrjID', $prjid);

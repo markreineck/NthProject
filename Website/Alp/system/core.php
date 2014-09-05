@@ -31,8 +31,8 @@ var $ModelList = array();
 var $TableList = array();
 var $LoadedClassList = array();
 var $DataList = array();
-var $PostData = array();
-var $GetData = array();
+//var $PostData = array();
+//var $GetData = array();
 var $FormClass = NULL;
 var $DateClass = NULL;
 var $AjaxClass = NULL;
@@ -51,23 +51,21 @@ var $ConfigPath = 'config';
 var $ViewPath = 'views';
 
 var $DeviceType = '';
+var $ActionList = array();
 
 /**********************************************************************
  *	Class Initialize
  **********************************************************************/
 function AlpFramework($controller)
 {
+	/*
 	foreach ($_POST as $var => $val) {
-// Need to clean the data here
 		$this->PostData[$var] = $val;
 	}
 	foreach ($_GET as $var => $val) {
-// Need to clean the data here
 		$this->GetData[$var] = $val;
 	}
-//	unset($_POST);
-//	unset($_GET);
-
+*/
 	$this->controllerlist = $controller;
 
 	include ('Alp/config/globals.php');
@@ -75,14 +73,14 @@ function AlpFramework($controller)
 		set_exception_handler('exception_handler');
 		set_error_handler("error_handler");
 		if ($this->DebugMode > 2) {
-			if (count($this->PostData) > 0) {
+			if (count($_POST) > 0) {
 				echo '<p>Post:';
-				print_r($this->PostData);
+				print_r($_POST);
 				echo '</p>';
 			}
-			if (count($this->GetData) > 0) {
+			if (count($_GET) > 0) {
 				echo '<p>Get:';
-				print_r($this->GetData);
+				print_r($_GET);
 				echo '</p>';
 			}
 			echo '<p>Cookie:';
@@ -98,6 +96,14 @@ function AlpFramework($controller)
 */
 }
 
+function Process()
+{
+	if (count($_POST) && method_exists($controller, 'Post'))
+		$controller->Post();
+	else
+		$controller->Start();
+}
+/*
 function PostData($var, $val)
 {
 	$this->PostData[$var] = $val;
@@ -472,6 +478,21 @@ function Controller($idx=0)
 	return (isset($this->controllerlist[$idx])) ? $this->controllerlist[$idx] : '';
 }
 
+function DebugPrint($data, $desc='')
+{
+	if ($this->DebugMode == 1)
+		echo '<!-- ';
+	if ($this->DebugMode > 0) {
+		if ($desc)
+			echo $desc . ': ';
+		print_r($data);
+	}
+	if ($this->DebugMode == 1)
+		echo ' -->';
+	else if ($this->DebugMode > 1)
+		echo '<br>';
+}
+
 function DebugMsg($msg)
 {
 	if ($this->DebugMode == 1)
@@ -605,6 +626,11 @@ function FilteredInputData($method, $var, $filter, $options=0)
 	$result = trim(filter_input($method, $var, $filter, $options));
 	$this->DebugMsg("$var=[$result]");
 	return $result;
+}
+
+function IsPosted($var)
+{
+	return isset($_POST[$var]);
 }
 
 function PostedData($var)

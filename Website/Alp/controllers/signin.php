@@ -11,7 +11,7 @@ public function __construct($url)
 function Post()
 {
 	$c = $this->Cookie();
-	$db = $this->Database();
+	$db = $this->Model();
 
 	if (isset($_POST['Task']) && $_POST['Task'] > 0) {
 		$taskid = $_POST['Task'];

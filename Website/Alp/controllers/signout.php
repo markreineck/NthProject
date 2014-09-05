@@ -10,10 +10,10 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['Password'])) {
-		$db = $this->Database();
+	if ($this->IsPosted('Password')) {
+		$db = $this->Model();
 
-		$pwd = $this->PostData['Password'];
+		$pwd = $this->PostedString('Password');
 		$salt = $db->ReadSalt();
 		if (empty($salt)) {
 			$db->SetError(1, 'Invalid username and password');
@@ -21,7 +21,7 @@ function Start()
 			$enc = $this->LoadClass('EncryptionClass');
 	
 			$pwd = $enc->EncryptString($pwd, $salt);
-			$err = $db->ClockOut($pwd, $this->PostData['Comment']);
+			$err = $db->ClockOut($pwd, $this->PostedString('Comment'));
 			if ($err == 0)
 				$this->RedirectTo('mytime');
 		}

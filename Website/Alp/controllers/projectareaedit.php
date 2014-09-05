@@ -10,22 +10,22 @@ public function __construct($url)
 
 function Start()
 {
-if (isset($this->PostData['ProjectID'])) {
-	$db = $this->Database();
+if ($this->IsPosted('ProjectID')) {
+	$db = $this->Model();
 
 	$err = 0;
-	$areaid = $this->PostData['AreaID'];
-	$prjid = $this->PostData['ProjectID'];
-	$name = $this->PostData['Name'];
-	$resp = $this->PostData['Responsible'];
-	$due = $this->PostData['TargetDate'];
-	$price = $this->PostData['Price'];
+	$areaid = $this->PostedDigit('AreaID');
+	$prjid = $this->PostedDigit('ProjectID');
+	$name = $this->PostedString('Name');
+	$resp = $this->PostedDigit('Responsible');
+	$due = $this->PostedString('TargetDate');
+	$price = $this->PostedNumber('Price');
 
 	if ($areaid > 0) {
 		if ($this->DataChanged(array('Name', 'Responsible', 'TargetDate', 'Price'))) {
-			$start = $this->PostData['StartDate'];
-			$target = $this->PostData['TargetDate'];
-			$comp = $this->PostData['CompletionDate'];
+			$start = $this->PostedString('StartDate');
+			$target = $this->PostedString('TargetDate');
+			$comp = $this->PostedString('CompletionDate');
 	
 			$err = $db->UpdateProjectArea($areaid, $resp, $name, $due, $price);
 		}
@@ -37,8 +37,8 @@ if (isset($this->PostData['ProjectID'])) {
 		$this->RedirectTo('projectareas');
 	}
 } else {
-	$prjid = $this->GetData['pid'];
-	$areaid = $this->GetData['aid'];
+	$prjid = $this->GetNumber('pid');
+	$areaid = $this->GetNumber('aid');
 }
 
 if (!$prjid && !$areaid) {

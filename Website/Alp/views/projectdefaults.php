@@ -1,6 +1,6 @@
 <?php
 $c = $this->Cookie();
-$db = $this->Database();
+$db = $this->Model();
 $form = $this->Forms();
 ?>
 <h1>Project Defaults</h1>

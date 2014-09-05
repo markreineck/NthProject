@@ -10,15 +10,17 @@ public function __construct($url)
 
 function Start()
 {
-if (isset($this->PostData['ProjectID'])) {
+if ($this->IsPosted('ProjectID')) {
 	$err = 0;
-	$cnt = $this->PostData['AreaCnt'];
-	$prjid = $this->PostData['ProjectID'];
+	$cnt = $this->PostedDigit('AreaCnt');
+	$prjid = $this->PostedDigit('ProjectID');
 	for ($x=0; $x<$cnt; $x++) {
-		$name = $this->PostData['Name'.$x];
+		$name = $this->PostedString('Name'.$x);
 		if (!empty($name)) {
-			$db = $this->Database();
-			$resp = $this->PostData['Responsible'.$x];
+			$db = $this->Model();
+			$resp = $this->PostedDigit('Responsible'.$x);
+			$due = '';
+			$price = 0;
 			$err = $db->CreateProjectArea($prjid, $resp, $name, $due, $price);
 		}
 	}
@@ -27,7 +29,7 @@ if (isset($this->PostData['ProjectID'])) {
 		$this->RedirectTo('projectareas');
 	}
 } else {
-	$prjid = $this->GetData['pid'];
+	$prjid = $this->GetNumber('pid');
 }
 
 if (!$prjid && !$areaid) {

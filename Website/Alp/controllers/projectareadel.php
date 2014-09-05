@@ -10,12 +10,12 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['SourceArea'])) {
-		$srcarea = $this->PostData['SourceArea'];
-		$destarea = $this->PostData['DestArea'];
-		$prjid = $this->PostData['ProjectID'];
+	if ($this->IsPosted('SourceArea')) {
+		$srcarea = $this->PostedDigit('SourceArea');
+		$destarea = $this->PostedDigit('DestArea');
+		$prjid = $this->PostedDigit('ProjectID');
 
-		$db = $this->Database();
+		$db = $this->Model();
 
 		$err = 0;
 
@@ -29,8 +29,8 @@ function Start()
 			$this->RedirectTo('projectareas');
 		}
 	} else {
-		$prjid = $this->GetData['prj'];
-		$areaid = $this->GetData['area'];
+		$prjid = $this->GetNumber('prj');
+		$areaid = $this->GetNumber('area');
 	}
 
 	if (!$prjid && !$areaid) {

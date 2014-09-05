@@ -14,7 +14,7 @@ function Post()
 	$orgtbl = $this->DBTable();
 
 	$orgtbl->SetPostedKey();
-	if ($this->PostData['SaveBtn'] == 'Delete') {
+	if ($this->PostedString('SaveBtn') == 'Delete') {
 		$err = $orgtbl->DoDelete();
 	} else if ($orgtbl->DataChanged()) {
 		$err = $orgtbl->DoUpdateOrCreate();
@@ -29,8 +29,8 @@ function Post()
 function Start()
 {
 	$orgtbl = $this->DBTable();
-	if (isset($this->GetData['id']))
-		$orgid = $this->GetData['id'];
+	if (isset($this->GetNumber('id')))
+		$orgid = $this->GetNumber('id');
 	else
 		$orgid = 0;
 

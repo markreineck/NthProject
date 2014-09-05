@@ -1,4 +1,6 @@
 <?php
+I dont think this is used anymore
+
 class settings extends AlpFramework implements AlpController {
 
 public function __construct($url)

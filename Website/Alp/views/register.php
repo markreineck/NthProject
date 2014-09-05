@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $form = $this->Forms();
 $errmsg = $db->ErrorMsg();
 $this->LoadCSSFile('login');

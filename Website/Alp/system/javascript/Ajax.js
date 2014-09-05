@@ -37,11 +37,24 @@ function AppendArg (args, input)
 	return args;
 }
 
+function FindArgs (args, form, type)
+{
+	inputs = form.getElementsByTagName(type);
+	for (x = 0; x < inputs.length; ++x) {
+		args = AppendArg (args, inputs[x]);
+	}
+	return args;
+}
+
 function DoAjaxFromForm(form, func, sect, args, async, debugdiv)
 {
 	if (form.nodeName != "FORM")
 		form = form.form;
 
+	args = FindArgs (args, form, 'input');
+	args = FindArgs (args, form, 'textarea');
+	args = FindArgs (args, form, 'select');
+/*
 	inputs = form.getElementsByTagName('input');
 	for (x = 0; x < inputs.length; ++x) {
 		args = AppendArg (args, inputs[x]);
@@ -50,6 +63,11 @@ function DoAjaxFromForm(form, func, sect, args, async, debugdiv)
 	for (x = 0; x < inputs.length; ++x) {
 		args = AppendArg (args, inputs[x]);
 	}
+	inputs = form.getElementsByTagName('select');
+	for (x = 0; x < inputs.length; ++x) {
+		args = AppendArg (args, inputs[x]);
+	}
+*/
 	DoAjaxFill(func, sect, args, async, debugdiv);
 }
 

@@ -1,6 +1,6 @@
 <?php
 $c = $this->Cookie();
-$db = $this->Database();
+$db = $this->Model();
 ?>
 <h1>Billing History</h1>
 <div id="TaskList" name="TaskList">

@@ -14,14 +14,14 @@ function Start()
 	$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
 	$db->ValidateUserSession($this->Cookie());
 
-	if (isset($this->PostData['DefaultPrj']))
-		$c->SetDefaultProject($this->PostData['DefaultPrj']);
+	if ($this->IsPosted('DefaultPrj'))
+		$c->SetDefaultProject($this->PostedDigit('DefaultPrj'));
 
-	if (isset($this->PostData['RowCnt'])) {
-		$max = $this->PostData['RowCnt'];
+	if ($this->IsPosted('RowCnt')) {
+		$max = $this->PostedDigit('RowCnt');
 		for ($x=0; $x<$max; $x++) {
-			if ($this->PostData['chk'.$x] > 0) {
-				$db->MessageSeen($this->PostData['msgid'.$x]);
+			if ($this->PostedDigit('chk'.$x] > 0) {
+				$db->MessageSeen($this->PostedDigit('msgid'.$x));
 			}
 		}
 	} else {

@@ -10,12 +10,12 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['UserID'])) {
-		$db = $this->Database();
+	if ($this->IsPosted('UserID')) {
+		$db = $this->Model();
 
-		$userid = $this->PostData['UserID'];
-		$pwd1 = $this->PostData['Password'];
-		$pwd2 = $this->PostData['Password2'];
+		$userid = $this->PostedDigit('UserID');
+		$pwd1 = $this->PostedString('Password');
+		$pwd2 = $this->PostedString('Password2');
 		if ($pwd1 != $pwd2) {
 			$db->SetError(1, 'The passwords that you entered do not match');
 		} else {
@@ -26,7 +26,7 @@ function Start()
 				$this->RedirectTo('users');
 		}
 	} else {
-		$userid = $this->GetData['userid'];
+		$userid = $this->GetNumber('userid');
 	}
 
 	$this->PutData ('UserID', $userid);

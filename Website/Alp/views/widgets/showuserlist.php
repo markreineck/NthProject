@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $this->LoadLibrary('iconlinks');
 
 if ($db->IsUserManager()) {

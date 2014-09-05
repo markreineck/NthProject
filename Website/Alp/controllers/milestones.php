@@ -12,10 +12,10 @@ function Start()
 {
 	$c = $this->Cookie();
 
-	if (isset($this->PostData['DefaultPrj']))
-		$c->SetDefaultProject($this->PostData['DefaultPrj']);
-	else if (isset($this->GetData['pid']))
-		$c->SetDefaultProject($this->GetData['pid']);
+	if ($this->IsPosted('DefaultPrj'))
+		$c->SetDefaultProject($this->PostedDigit('DefaultPrj'));
+	else if (isset($_GET['pid']))
+		$c->SetDefaultProject($_GET['pid']);
 
 	$ajax = $this->Ajax();
 	$ajax->SetSection('AjaxList');

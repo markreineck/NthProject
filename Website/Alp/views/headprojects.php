@@ -1,12 +1,12 @@
 <?php
-// 12-28-12 Not used
-$db = $this->Database();
+12-28-12 Not used
+$db = $this->Model();
 $form = $this->Forms();
 
-if (isset($this->PostData['DefaultOrg']))
-	$pdb->SetDefaultCompany($this->PostData['DefaultOrg']);
-else if (isset($this->PostData['DefaultStatus']))
-	$pdb->SetDefaultProjectStatus($this->PostData['DefaultStatus']);
+if ($this->IsPosted('DefaultOrg'))
+	$pdb->SetDefaultCompany($this->PostedDigit('DefaultOrg'));
+else if ($this->IsPosted('DefaultStatus'))
+	$pdb->SetDefaultProjectStatus($this->PostedDigit('DefaultStatus'));
 ?>
 <div class="top">
 <table width="100%">

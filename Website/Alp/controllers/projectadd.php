@@ -12,17 +12,17 @@ function Start()
 {
 $c = $this->Cookie();
 
-if (isset($this->PostData['Organization'])) {
-	$db = $this->Database();
+if ($this->IsPosted('Organization')) {
+	$db = $this->Model();
 
-	$orgid = $this->PostData['Organization'];
-	$name = $this->PostData['PrjName'];
-	$priority = $this->PostData['Priority'];
-	$status = $this->PostData['Status'];
-	$start = $this->PostData['StartDate'];
-	$target = $this->PostData['TargetDate'];
-	$timerpt = $this->PostData['TimeRpt'];
-	$notes = $this->PostData['Notes'];
+	$orgid = $this->PostedDigit('Organization');
+	$name = $this->PostedString('PrjName');
+	$priority = $this->PostedDigit('Priority');
+	$status = $this->PostedDigit('Status');
+	$start = $this->PostedString('StartDate');
+	$target = $this->PostedString('TargetDate');
+	$timerpt = $this->PostedDigit('TimeRpt');
+	$notes = $this->PostedString('Notes');
 
 	if (!$db->CreateProject($orgid, $name, $start, $target, $priority, $status, $timerpt, $notes)) {
 		$prjid = $db->SelectMysqlVariable('prjid');
@@ -35,7 +35,7 @@ if (isset($this->PostData['Organization'])) {
 		}
 	}
 } else {
-	$orgid = (isset($this->GetData['o'])) ? $this->GetData['o'] : $c->GetDefaultCompany();
+	$orgid = (isset($this->GetNumber('o'))) ? $this->GetNumber('o') : $c->GetDefaultCompany();
 }
 
 $this->PutData ('NextPage', 'projectedit');

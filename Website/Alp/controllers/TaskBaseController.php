@@ -15,7 +15,7 @@ public function ApproveTasks()
 {
 	if (isset($_GET['apprid'])) {
 		$taskid = $_GET['apprid'];
-		$db = $this->Database();
+		$db = $this->Model();
 		$err = $db->ApproveTask($taskid);
 		if ($err == 0) {
 			$email = $this->LoadClass(array('EmailClass', 'TaskEmailClass'));

@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 
 if ($db->IsSupervisor()) {
 	$data = $db->ListTaskStatuses();

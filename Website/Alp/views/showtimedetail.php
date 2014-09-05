@@ -1,7 +1,4 @@
 <?php
-//$db = $this->Database();
-//$c = $this->Cookie();
-//$form = $this->Forms();
 $this->LoadLibrary('timeicons');
 ?>
 <table class="ListTable">

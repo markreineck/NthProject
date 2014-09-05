@@ -10,15 +10,15 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['User'])) {
-		$defuser = $this->PostData['User'];
-		$db = $this->Database();
+	if ($this->IsPosted('User')) {
+		$defuser = $this->PostedString('User');
+		$db = $this->Model();
 		$err = $db->MyPreferences($defuser, 
-			$this->PostData['NewTasks'], 
-			$this->PostData['CompletedTasks'], 
-			$this->PostData['ApprovedTasks'], 
-			$this->PostData['RejectedTasks'], 
-			$this->PostData['Messages']);
+			$this->PostedString('NewTasks'), 
+			$this->PostedString('CompletedTasks'), 
+			$this->PostedString('ApprovedTasks'), 
+			$this->PostedString('RejectedTasks'), 
+			$this->PostedString('Messages'));
 		if (!$err) {
 			$this->PutData('OKMsg', 'Your information has been saved.');
 			$c = $this->Cookie();

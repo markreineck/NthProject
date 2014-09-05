@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $form = $this->Forms('ProjectFormClass');
 $errmsg = $db->ErrorMsg();
 if (isset($okmsg) && !$db->HasError())

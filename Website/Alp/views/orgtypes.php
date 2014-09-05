@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $form = $this->Forms();
 $orgtbl = $this->DBTable();
 $orgtbl->NewData();

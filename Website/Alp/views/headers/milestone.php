@@ -1,6 +1,6 @@
 <?php
 if ($this->UserSetting('Milestones')) {
-	$db = $this->Database();
+	$db = $this->Model();
 	$form = $this->Forms();
 	$c = $this->Cookie();
 	$statuslist = $db->GetMilestoneList($c->GetDefaultProject());

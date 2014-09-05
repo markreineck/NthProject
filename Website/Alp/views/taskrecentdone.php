@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $data = $db->ListTasksByCompletedOn($this->Cookie());
 $this->PutData ('data', $data);
 ?>

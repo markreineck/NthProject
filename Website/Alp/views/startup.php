@@ -31,6 +31,8 @@ $form->ShowTextField ('Initials', 'Initials', 4, 4, '', 1);
 $form->ShowEmailField ('Email Address', 'Email', 100, '', true);
 $form->ShowPasswordTextField ('Password', 'Password', '', 3);
 $form->ShowPasswordTextField ('Confirm Password', 'Password2', '', 3);
+$form->ShowTextField ('Security Question', 'SecQstn', 80, 80, '', 1);
+$form->ShowTextField ('Security Answer', 'SecAns', 80, 80, '', 1);
 ?>
 		<tr>
 			<td>

@@ -23,16 +23,18 @@ function ReadStartupStatus()
 /**********************************************************************
  *	Update Functions
  **********************************************************************/
-function CreateSubscription($name, $first, $last, $ini, $email, $pwd, $salt)
+function CreateSubscription($name, $first, $last, $ini, $email, $pwd, $salt, $qstn, $ans)
 {
 	$name = $this->MakeStringValue($name);
 	$first = $this->MakeStringValue($first);
 	$last = $this->MakeStringValue($last);
 	$ini = $this->MakeStringValue($ini);
 	$email = $this->MakeStringValue($email);
-	$phone = $this->MakeStringValue($phone);
-	$pay = $this->MakeNumericValue($pay);
-	$sql = "call CreateSubscription($name, $first, $last, $ini, $email, '$pwd', '$salt', null, null)";
+	$qstn = $this->MakeStringValue($qstn);
+	$ans = $this->MakeStringValue($ans);
+//	$phone = $this->MakeStringValue($phone);
+//	$pay = $this->MakeNumericValue($pay);
+	$sql = "call CreateSubscription($name, $first, $last, $ini, $email, '$pwd', '$salt', $qstn, $ans)";
 	return $this->ExecuteProc ($sql);
 }
 

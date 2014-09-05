@@ -3,7 +3,7 @@ if ($data && count($data)) {
 ?>
 <table width="100%" border="0" cellpadding="3" cellspacing="0" class="table">
 <?php
-	$db = $this->Database();
+	$db = $this->Model();
 
 	$lastpr = '_';
 	$stripe = 1;

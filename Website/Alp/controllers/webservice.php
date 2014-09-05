@@ -57,7 +57,7 @@ function AuthenticateDevice()
 	$device = $_POST['DeviceID'];
 
 	$sql = 'select userid, mobilecode from users where mobileid='.$device;
-	$row = $this->Database()->SelectRow($sql);
+	$row = $this->Model()->SelectRow($sql);
 	return $row['userid'];
 }
 

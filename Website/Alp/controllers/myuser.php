@@ -10,15 +10,15 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['UserID'])) {
+	if ($this->IsPosted('UserID')) {
 		if ($this->DataChanged(array('FirstName', 'LastName', 'Initials', 'Email'))) {
-			$db = $this->Database();
+			$db = $this->Model();
 			$err = 0;
 
-			$first = $this->PostData['FirstName'];
-			$last = $this->PostData['LastName'];
-			$init = $this->PostData['Initials'];
-			$email = $this->PostData['Email'];
+			$first = $this->PostedString('FirstName');
+			$last = $this->PostedString('LastName');
+			$init = $this->PostedString('Initials');
+			$email = $this->PostedString('Email');
 
 			if (empty($init))
 				$init = substr($first,0,1) . substr($last,0,1);
@@ -26,11 +26,11 @@ function Start()
 			$err = $db->UpdateMyUser($first, $last, $init, $email);
 
 			if (!$err) {
-				$maxfld = $this->PostData['FieldCnt'];
+				$maxfld = $this->PostedDigit('FieldCnt');
 				for ($x=0; $x<$maxfld && !$err; $x++) {
 					$fldid = 'Field'.$x;
 					if ($this->DataChanged($fldid)) {
-						$err = $db->UpdateUserField($db->GetUserID(), $this->PostData['FieldID'.$x], $this->PostData[$fldid]);
+						$err = $db->UpdateUserField($db->GetUserID(), $this->PostedDigit('FieldID'.$x), $this->PostedString($fldid));
 					}
 				}
 			}
@@ -39,7 +39,7 @@ function Start()
 			}
 		}
 	} else {
-		$userid = $this->GetData['userid'];
+		$userid = $this->GetNumber('userid');
 	}
 
 	$this->LoadView('home');

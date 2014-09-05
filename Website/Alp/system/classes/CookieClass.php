@@ -30,6 +30,15 @@ function CookieClass ($framework)
 	$this->framework = $framework;
 }
 
+function Debug()
+{
+	if ($this->framework->DebugMode()) {
+		echo 'Cookie: ';
+		print_r($_COOKIE);
+		echo '<br>';
+	}
+}
+
 function Clear ($var)
 {
 	setcookie($var, '', 0, '/');

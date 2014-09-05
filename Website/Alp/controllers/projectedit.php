@@ -10,26 +10,26 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['ProjectID'])) {
-		$db = $this->Database();
+	if ($this->IsPosted('ProjectID')) {
+		$db = $this->Model();
 
 		$err = 0;
-		$prjid = $this->PostData['ProjectID'];
+		$prjid = $this->PostedDigit('ProjectID');
 
 		if ($this->DataChanged(array('Organization', 'PrjName', 'Priority', 'Status', 'TimeRpt', 'Notes'))) {
-			$orgid = $this->PostData['Organization'];
-			$name = $this->PostData['PrjName'];
-			$priority = $this->PostData['Priority'];
-			$status = $this->PostData['Status'];
-			$timerpt = $this->PostData['TimeRpt'];
-			$notes = $this->PostData['Notes'];	
+			$orgid = $this->PostedDigit('Organization';
+			$name = $this->PostedString('PrjName');
+			$priority = $this->PostedDigit('Priority');
+			$status = $this->PostedDigit('Status');
+			$timerpt = $this->PostedDigit('TimeRpt');
+			$notes = $this->PostedString('Notes');	
 
 			$err = $db->UpdateProject($prjid, $orgid, $name, $priority, $status, $timerpt, $notes);
 		}
 		if (!$err && $this->DataChanged(array('StartDate', 'TargetDate', 'CompletionDate'))) {
-			$start = $this->PostData['StartDate'];
-			$target = $this->PostData['TargetDate'];
-			$comp = $this->PostData['CompletionDate'];
+			$start = $this->PostedString('StartDate');
+			$target = $this->PostedString('TargetDate');
+			$comp = $this->PostedString('CompletionDate');
 
 			$err = $db->UpdateProjectDates($prjid, $start, $target, $comp);
 		}
@@ -38,7 +38,7 @@ function Start()
 			$this->RedirectTo('projects');
 		}
 	} else {
-		$prjid = $this->GetData['id'];
+		$prjid = $this->GetNumber('id');
 	}
 
 	$this->PutData ('PageHeading', array('projectlinks'));

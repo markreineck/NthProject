@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $form = $this->Forms();
 $errmsg = $db->ErrorMsg();
 $ajax = $this->LoadClass('AjaxClass');

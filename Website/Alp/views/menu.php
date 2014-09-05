@@ -66,7 +66,7 @@ $supermenu = array(
 
 function ShowMenu($alp, $menuname, $timemenu)
 {
-	$db = $alp->Database();
+	$db = $alp->Model();
 
 	echo "
 <li><a>$menuname</a><ul>";

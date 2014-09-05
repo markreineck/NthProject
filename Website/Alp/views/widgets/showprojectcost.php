@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 
 $timedata = $db->ListProjectTimeCosts($ProjectID);
 $taskdata = $db->ListProjectTaskCosts($ProjectID);

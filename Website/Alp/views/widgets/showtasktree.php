@@ -116,7 +116,7 @@ function CloseTable()
 
 <table width="100%" border='0' cellspacing="0" cellpadding="0">
 <?php
-$db = $this->Database();
+$db = $this->Model();
 
 $userid = $db->GetUserID();
 $superrights = $db->IsSupervisor();

@@ -47,7 +47,7 @@ function ShowJSONTestData ()
 
 function ValidateUserSession()
 {
-	$this->SessionID = $this->Database()->ReadUserSession(@$_REQUEST['SesID']);
+	$this->SessionID = $this->Model()->ReadUserSession(@$_REQUEST['SesID']);
 	if (!$this->SessionID) {
 		$this->ShowJSONError (1, 'You are not logged in');
 		exit;

@@ -11,13 +11,13 @@ function Start()
 	$c = $this->Cookie('ProjectCookie');
 	$db = $this->LoadModel(array('DatabaseDB', 'SuperDB'));
 
-	if (isset($this->PostData['StatusName'])) {
+	if ($this->IsPosted('StatusName')) {
 
 		$err = 0;
-		$name = $this->PostData['StatusName'];
-		$pay = $this->PostData['PayType'];
-		if (isset($this->PostData['StatusID'])) {
-			$id = $this->PostData['StatusID'];
+		$name = $this->PostedString('StatusName');
+		$pay = $this->PostedString('PayType');
+		if ($this->IsPosted('StatusID')) {
+			$id = $this->PostedDigit('StatusID');
 			$err = $db->UpdateUserStatus($id, $pay, $name);
 		} else {
 			$err = $db->CreateUserStatus($pay, $name);

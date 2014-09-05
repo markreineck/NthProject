@@ -1,10 +1,11 @@
 <?php
 $form = $this->Forms();
 $c = $this->Cookie();
+$db = $this->Model();
 ?>
 <h1>Messages</h1>
 <?php
-$form->ShowFormErrors($this->Database()->ErrorMsg());
+$form->ShowFormErrors($db->ErrorMsg());
 ?>
 <form method="post">
 <table width="100%" border="0" cellpadding="3" cellspacing="0" class="tabledata">
@@ -17,8 +18,6 @@ $form->ShowFormErrors($this->Database()->ErrorMsg());
 		<th align="left">From</th>
 	</tr>
 <?php
-$db = $this->Database();
-
 $this->LoadLibrary('iconlinks');
 $this->LoadLibrary('taskicons');
 

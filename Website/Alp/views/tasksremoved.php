@@ -1,5 +1,5 @@
 <?php
-$db = $this->Database();
+$db = $this->Model();
 ?>
 <h1>Deleted Tasks</h1>
 <?php

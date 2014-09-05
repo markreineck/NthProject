@@ -1,6 +1,6 @@
 <?php
 $form = $this->Forms();
-$db = $this->Database();
+$db = $this->Model();
 $c = $this->Cookie();
 $taskid = $_GET['id'];
 ?>

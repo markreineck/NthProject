@@ -11,13 +11,13 @@ function Start()
 	$c = $this->Cookie('ProjectCookie');
 	$db = $this->LoadModel(array('DatabaseDB', 'SuperDB'));
 
-	if (isset($this->PostData['StatusName'])) {
+	if ($this->IsPosted('StatusName')) {
 
 		$err = 0;
-		$name = $this->PostData['StatusName'];
-		$hold = $this->PostData['Hold'];
-		if (isset($this->PostData['StatusID'])) {
-			$id = $this->PostData['StatusID'];
+		$name = $this->PostedString('StatusName');
+		$hold = $this->PostedDigit('Hold');
+		if ($this->IsPosted('StatusID')) {
+			$id = $this->PostedDigit('StatusID');
 			$err = $db->UpdateTaskStatus($id, $hold, $name);
 		} else {
 			$err = $db->CreateTaskStatus($hold, $name);

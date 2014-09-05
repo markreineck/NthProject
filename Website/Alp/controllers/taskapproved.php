@@ -18,7 +18,7 @@ function Start()
 	$filters = array('projectlist', 'milestone', 'assigntolist', 'timeperiodlist');
 	$this->DoTaskListPage($filters);
 
-	$data = $this->Database()->ListApprovedTasksByProject($this->Cookie());
+	$data = $this->Model()->ListApprovedTasksByProject($this->Cookie());
 	$this->PutData ('data', $data);
 	$this->PutData ('icons', false);
 	$this->PutData ('PageTitle', 'Approved Tasks');

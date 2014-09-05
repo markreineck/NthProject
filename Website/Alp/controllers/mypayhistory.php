@@ -10,7 +10,7 @@ public function __construct($url)
 
 function Start()
 {
-	$db = $this->Database();
+	$db = $this->Model();
 
 	$data = $db->ListMyPaidTasks($this->Cookie());
 

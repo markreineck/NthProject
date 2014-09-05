@@ -1,7 +1,7 @@
 <h1>Project Areas</h1>
 <?php
 $c = $this->Cookie();
-$db = $this->Database();
+$db = $this->Model();
 $form = $this->Forms();
 $prjid = $c->GetDefaultProject();
 ?>

@@ -1,6 +1,6 @@
 <h3>Edit Organization</h3>
 <?php 
-$db = $this->Database();
+$db = $this->Model();
 
 if ($db->IsGlobalSupervisor()) {
 	$form = $this->Forms();

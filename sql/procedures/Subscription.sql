@@ -1,3 +1,5 @@
+delimiter $$
+
 DROP PROCEDURE IF EXISTS CreateSubscription$$
 
 create procedure CreateSubscription (
@@ -57,10 +59,10 @@ else
 
 	if @err = 0 then
 		insert into users (
-			edited, nameedited, privedited, orgid, superuser, usermaint, status,
+			edited, nameedited, privedited, prefedited, orgid, superuser, usermaint, status,
 			email, password, salt, secqstn, secans, firstname, lastname, initials)
 		select
-			now(), now(), now(), v_orgid, 1, 1, min(statusid),
+			now(), now(), now(), now(), v_orgid, 1, 1, min(statusid),
 			i_email, i_pwd, i_salt, i_qstn, i_ans, i_first, i_last, i_init
 		from userstatus;
 

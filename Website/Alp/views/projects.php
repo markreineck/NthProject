@@ -1,7 +1,7 @@
 <h1>Projects</h1>
 <div id="ProjectList" name="ProjectList">
 <?php
-$db = $this->Database();
+$db = $this->Model();
 $c = $this->Cookie();
 $form = $this->Forms();
 

@@ -10,18 +10,18 @@ public function __construct($url)
 
 public function Start()
 {
-	if (isset($this->PostData['Hours1'])) {
-		$db = $this->Database();
+	if ($this->IsPosted('Hours1')) {
+		$db = $this->Model();
 
-		$userid = $this->PostData['UserID'];
-		$prjid = $this->PostData['Project'];
-		$date = $this->PostData['Date'];
-		$time1 = $this->PostData['Hours1'];
-		$time2 = $this->PostData['Hours2'];
-		$hour = $this->PostData['Time1'];
-		$min = $this->PostData['Time2'];
-		$ampm = $this->PostData['Time3'];
-		$note = $this->PostData['Comment'];
+		$userid = $this->PostedDigit('UserID');
+		$prjid = $this->PostedDigit('Project');
+		$date = $this->PostedString('Date');
+		$time1 = $this->PostedDigit('Hours1');
+		$time2 = $this->PostedDigit('Hours2');
+		$hour = $this->PostedDigit('Time1');
+		$min = $this->PostedDigit('Time2');
+		$ampm = $this->PostedString('Time3');
+		$note = $this->PostedString('Comment');
 
 		$date = str_replace('-','/',str_replace("'","",$date));
 		$date .= " $hour:$min $ampm";

@@ -10,18 +10,18 @@ public function __construct($url)
 
 function Start()
 {
-	if (isset($this->PostData['LinkCnt'])) {
-		$db = $this->Database();
-		$prjid = $this->PostData['ProjectID'];
+	if ($this->IsPosted('LinkCnt')) {
+		$db = $this->Model();
+		$prjid = $this->PostedDigit('ProjectID');
 
-		for ($x=$this->PostData['LinkCnt']; $x>0; $x--) {
+		for ($x=$this->PostedDigit('LinkCnt'); $x>0; $x--) {
 			$idodx = 'LinkID'.$x;
 			$urlidx = 'LinkURL'.$x;
 			$descridx = 'LinkName'.$x;
 			if ($this->DataChanged(array($urlidx, $descridx))) {
-				$id = $this->PostData[$idodx];
-				$url = $this->PostData[$urlidx];
-				$descr = $this->PostData[$descridx];
+				$id = $this->PostedDigit($idodx);
+				$url = $this->PostedString($urlidx);
+				$descr = $this->PostedString($descridx);
 				if ($id) {
 					// Update & delete
 					$db->UpdateProjectLinks($id, $descr, $url);
@@ -32,7 +32,7 @@ function Start()
 			}
 		}
 	} else {
-		$prjid = $this->GetData['id'];
+		$prjid = $this->GetNumber('id');
 	}
 
 	$this->PutData ('PageHeading', array('projectlinks'));

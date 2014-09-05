@@ -10,12 +10,12 @@ public function __construct($url)
 
 function Start()
 {
-	$db = $this->Database();
+	$db = $this->Model();
 
-	if (isset($this->PostData['TaskCnt'])) {
-		$cnt = $this->PostData['TaskCnt'];
+	if ($this->IsPosted('TaskCnt')) {
+		$cnt = $this->PostedDigit('TaskCnt');
 		for ($x=0; $x<$cnt; $x++) {
-			$taskid = $this->PostData['TaskID'.$x];
+			$taskid = $this->PostedDigit('TaskID'.$x);
 			$areaidx = 'Area'.$x;
 			$priidx = 'Priority'.$x;
 			$assnidx = 'AssnTo'.$x;
@@ -24,32 +24,32 @@ function Start()
 			$finidx = 'Finish'.$x;
 
 			if ($this->DataChanged($assnidx))
-				$db->EditTaskAssignment($taskid, 'T', $this->PostData[$assnidx]);
+				$db->EditTaskAssignment($taskid, 'T', $this->PostedDigit($assnidx));
 		
 			if ($this->UserSetting('Milestones')) {
 				if ($this->DataChanged(array($startidx,$finidx)))
 					$db->EditTaskMilestones($taskid, 
-						$this->PostData[$startidx], 
-						$this->PostData[$finidx]);
+						$this->PostedDigit($startidx), 
+						$this->PostedDigit($finidx));
 			} else if ($this->UserSetting('TaskDates')) {
 				if ($this->DataChanged($finidx))
 					$db->EditTaskDates($taskid, 
-						$this->PostData[$startidx], 
-						$this->PostData[$finidx]);
+						$this->PostedString($startidx), 
+						$this->PostedString($finidx));
 			}
 
 			if ($this->DataChanged(array($areaidx,$priidx,$statidx)))
 				$db->EditTask($taskid, 
-					$this->PostData[$areaidx], 
-					$this->PostData[$statidx], 
-					$this->PostData[$priidx]);
+					$this->PostedDigit($areaidx), 
+					$this->PostedDigit($statidx), 
+					$this->PostedDigit($priidx));
 		}
 		$this->RedirectTo($this->Cookie()->GetLastTaskPage());
 	}
 
 	$this->PutData ('OKMsg', $okmsg);
-	$this->PutData ('PrjID', $this->GetData['pid']);
-	$this->PutData ('AreaID', $this->GetData['aid']);
+	$this->PutData ('PrjID', $this->GetNumber('pid'));
+	$this->PutData ('AreaID', $this->GetNumber('aid'));
 	$this->LoadView('home');
 }
 }

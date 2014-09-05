@@ -10,17 +10,17 @@ public function __construct($url)
 
 function Start()
 {
-	$db = $this->Database();
+	$db = $this->Model();
 
 	$taskcnt = 0;
-	if (isset($this->PostData['TaskCnt'])) {
-		$N = $this->PostData['TaskCnt']; 
+	if ($this->IsPosted('TaskCnt')) {
+		$N = $this->PostedDigit('TaskCnt'); 
 		for ($i=0; $i < $N; $i++) {
 			if ($this->DataChanged('Paid'.$i)) {
-				if (isset($this->PostData['Paid'.$i])) {
-					$db->TaskIsPaid($this->PostData['TaskID'.$i]);
+				if ($this->IsPosted('Paid'.$i)) {
+					$db->TaskIsPaid($this->PostedDigit('TaskID'.$i));
 				} else {
-					$db->TaskNotPaid($this->PostData['TaskID'.$i]);			  
+					$db->TaskNotPaid($this->PostedDigit('TaskID'.$i));			  
 				}
 				if (!$db->HasError())
 					$taskcnt++;
