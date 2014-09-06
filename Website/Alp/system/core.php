@@ -88,12 +88,6 @@ function AlpFramework($controller)
 			echo '</p>';
 		}
 	}
-/*
-	if (isset($this->ControllerFile) && !empty($this->ControllerFile))
-		include('Alp/controllers/'.$this->ControllerFile.'.php');
-	else
-		include('Alp/controllers/'.$this->controllerlist[0].'.php');
-*/
 }
 
 function Process()
