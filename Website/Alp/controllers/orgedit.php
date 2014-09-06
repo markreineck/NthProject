@@ -29,7 +29,7 @@ function Post()
 function Start()
 {
 	$orgtbl = $this->DBTable();
-	if (isset($this->GetNumber('id')))
+	if ($this->IsGet('id'))
 		$orgid = $this->GetNumber('id');
 	else
 		$orgid = 0;

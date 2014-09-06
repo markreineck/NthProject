@@ -35,7 +35,7 @@ if ($this->IsPosted('Organization')) {
 		}
 	}
 } else {
-	$orgid = (isset($this->GetNumber('o'))) ? $this->GetNumber('o') : $c->GetDefaultCompany();
+	$orgid = ($this->IsGet('o')) ? $this->GetNumber('o') : $c->GetDefaultCompany();
 }
 
 $this->PutData ('NextPage', 'projectedit');

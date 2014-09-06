@@ -25,20 +25,12 @@ $usertbl->Populate();
 ?>
 <table width="100%" border="0" cellpadding="2" cellspacing="0" class="">
 <?php
-/*
-$form->ShowListField ('Organization', 'Organization', $orglist, 2, $OrgID);
-$form->ShowTextField ('First Name', 'FirstName', 20, 20, $data->firstname, 1);
-$form->ShowTextField ('Last Name', 'LastName', 20, 20, $data->lastname, 1);
-$form->ShowTextField ('Initials', 'Initials', 4, 4, $data->initials, 1);
-$form->ShowEmailField ('Email Address', 'Email', 100, $data->email, true);
-$form->ShowListField ('User Type', 'UserType', $typelist, 1, $data->status);
-*/
-$usertbl->ShowBoundListField ('Organization', $orglist);
-$usertbl->ShowBoundListField ('Status', $typelist);
-$usertbl->ShowBoundTextField ('FirstName');
-$usertbl->ShowBoundTextField ('LastName');
-$usertbl->ShowBoundTextField ('Initials');
-$usertbl->ShowBoundTextField ('Email');
+$usertbl->ShowListField ('Organization', $orglist);
+$usertbl->ShowListField ('Status', $typelist);
+$usertbl->ShowTextField ('FirstName');
+$usertbl->ShowTextField ('LastName');
+$usertbl->ShowTextField ('Initials');
+$usertbl->ShowTextField ('Email');
 
 $data = $db->ReadUserContactEditFields($UserID);
 $cnt=0;
@@ -49,8 +41,6 @@ foreach ($data as $fld) {
 	$form->ShowHiddenField('FieldID'.$cnt, $fld->fieldid);
 	$cnt++;
 }
-
-//$form->ShowNumericField ('Pay Rate', 'PayRate', 0, 200, 5, $data->payrate);
 ?>
 		<tr>
 			<td>
@@ -62,7 +52,6 @@ $form->ShowRedirectButton('users');
 if ($UserID)
 	$form->ShowRedirectButton('userdel?userid='.$UserID, 'Delete');
 $form->ShowHiddenField('FieldCnt', $cnt);
-//$form->ShowHiddenField ('UserID', $UserID);
 ?>
 		</td>
 		</tr>

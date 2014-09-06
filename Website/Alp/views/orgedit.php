@@ -10,14 +10,14 @@ if ($db->IsGlobalSupervisor()) {
 ?>
 <form method="post" name="form" id="form" <?php $form->ShowOnSubmit(); ?>>
 <?php
-	if (!$db->HasError())
+	if (!$db->HasError() && $orgtbl->HasKey())
 		$orgtbl->Populate();
 ?>
 	<table border="0" cellpadding="3" cellspacing="0" class="">
 <?php
 	$typelist = $db->GetOrgTypeList();
-	$orgtbl->ShowBoundListField ('OrgType', $typelist);
-	$orgtbl->ShowBoundTextField ('Name');
+	$orgtbl->ShowListField ('OrgType', $typelist);
+	$orgtbl->ShowTextField ('Name');
 ?>
 		<tr>
 			<td></td><td>

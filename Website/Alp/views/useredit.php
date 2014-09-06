@@ -24,12 +24,12 @@ if ($db->IsUserManager()) {
 ?>
 <table width="100%" border="0" cellpadding="2" cellspacing="0" class="">
 <?php
-	$usertbl->ShowBoundListField ('Organization', $orglist);
-	$usertbl->ShowBoundListField ('Status', $typelist);
-	$usertbl->ShowBoundTextField ('FirstName');
-	$usertbl->ShowBoundTextField ('LastName');
-	$usertbl->ShowBoundTextField ('Initials');
-	$usertbl->ShowBoundTextField ('Email');
+	$usertbl->ShowListField ('Organization', $orglist);
+	$usertbl->ShowListField ('Status', $typelist);
+	$usertbl->ShowTextField ('FirstName');
+	$usertbl->ShowTextField ('LastName');
+	$usertbl->ShowTextField ('Initials');
+	$usertbl->ShowTextField ('Email');
 	
 	$data = $db->ReadUserContactEditFields($UserID);
 	$cnt=0;
