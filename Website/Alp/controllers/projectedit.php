@@ -17,7 +17,7 @@ function Start()
 		$prjid = $this->PostedDigit('ProjectID');
 
 		if ($this->DataChanged(array('Organization', 'PrjName', 'Priority', 'Status', 'TimeRpt', 'Notes'))) {
-			$orgid = $this->PostedDigit('Organization';
+			$orgid = $this->PostedDigit('Organization');
 			$name = $this->PostedString('PrjName');
 			$priority = $this->PostedDigit('Priority');
 			$status = $this->PostedDigit('Status');

@@ -84,10 +84,10 @@ function Start()
 			if ($this->DataChanged(array('StartMS','EndMS')))
 				if (!$db->EditTaskMilestones($taskid, $this->PostedDigit('StartMS'), $this->PostedDigit('EndMS')))
 					$okmsg = 'Task milestones were successfully changed';
-		} else if ($this->IsPosted('NoteID'))) {
+		} else if ($this->IsPosted('NoteID')) {
 			if (!$db->EditTaskNote($taskid, $this->PostedDigit('NoteID'), $this->PostedString('Notes')))
 				$okmsg = 'Task note was successfully changed';
-		} else if ($this->IsPosted('Notes'))) {
+		} else if ($this->IsPosted('Notes')) {
 			if (!$db->AddTaskNote($taskid, $this->PostedString('Notes')))
 				$okmsg = 'Task note was successfully changed';
 			
@@ -95,21 +95,21 @@ function Start()
 			$this->LoadLibrary('sendmessage');
 			SendContactMessage($this);
 		}
-	} else if (isset($this->GetNumber('apprid'))) {
+	} else if ($this->IsGet('apprid')) {
 		$taskid = $this->GetNumber('apprid');
-	} else if (isset($this->GetNumber('delid'))) {
+	} else if ($this->IsGet('delid')) {
 		$taskid = $this->GetNumber('delid');
 		if ($db->DeleteTask($taskid) == 0)
 			$this->RedirectTo($this->Cookie()->GetLastTaskPage());
-	} else if (isset($this->GetNumber('undelid'))) {
+	} else if ($this->IsGet('undelid')) {
 		$taskid = $this->GetNumber('undelid');
 		if ($db->UndeleteTask($taskid) == 0)
 			$this->RedirectTo($this->Cookie()->GetLastTaskPage());
 	} else {
 		$taskid = $this->GetNumber('tid');
-		if (isset($this->GetNumber('dn')))
+		if ($this->IsGet('dn'))
 			$db->DeleteTaskNote($taskid, $this->GetNumber('dn'));
-		else if (isset($this->GetNumber('df')))
+		else if ($this->IsGet('df'))
 			$db->DeleteTaskFile($taskid, $this->GetNumber('df'));
 	}
 

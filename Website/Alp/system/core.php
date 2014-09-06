@@ -470,6 +470,13 @@ function Database ($dbindex=0)
 	return $this->ModelList[$dbindex];
 }
 
+function Model ($dbindex=0)
+{
+	if (!isset($this->ModelList[$dbindex]) || !$this->ModelList[$dbindex])
+		$this->LoadModel('',$dbindex); 
+	return $this->ModelList[$dbindex];
+}
+
 /**********************************************************************
  *	Class Variables
  **********************************************************************/
@@ -631,6 +638,11 @@ function FilteredInputData($method, $var, $filter, $options=0)
 function IsPosted($var)
 {
 	return isset($_POST[$var]);
+}
+
+function IsGet($var)
+{
+	return isset($_GET[$var]);
 }
 
 function PostedData($var)

@@ -17,8 +17,8 @@ function Start()
 
 	if ($this->IsPosted('DefaultPrj'))
 		$c->SetDefaultProject($this->PostedNumber('DefaultPrj'));
-	else if (isset($_GET['id'])
-		$c->SetDefaultProject($_GET['id']);
+	else if ($this->IsGet('id'))
+		$c->SetDefaultProject($this->GetDigit('id'));
 
 	$filters = array('projectlist');
 	$this->PutData ('PageHeading', $filters);

@@ -20,7 +20,7 @@ function Start()
 	if ($this->IsPosted('RowCnt')) {
 		$max = $this->PostedDigit('RowCnt');
 		for ($x=0; $x<$max; $x++) {
-			if ($this->PostedDigit('chk'.$x] > 0) {
+			if ($this->PostedDigit('chk'.$x) > 0) {
 				$db->MessageSeen($this->PostedDigit('msgid'.$x));
 			}
 		}
