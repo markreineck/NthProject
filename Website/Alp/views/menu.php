@@ -20,14 +20,7 @@ $timerptmenu = array(
 );
 
 $taskmenu = array(
-	array('priv'=>'',	'opt'=>'',				'link'=>'taskbyproject',	'name'=>'By Project'),
-	array('priv'=>'',	'opt'=>'',				'link'=>'taskbypriority',	'name'=>'By Priority'),
-	array('priv'=>'',	'opt'=>'',				'link'=>'taskbytarget',		'name'=>'By Due Date'),
-	array('priv'=>'',	'opt'=>'',				'link'=>'taskbyperson',		'name'=>'By Person'),
-	array('priv'=>'',	'opt'=>'',				'link'=>'taskbycreated',	'name'=>'New Tasks')
-);
-
-$alltaskmenu = array(
+	array('priv'=>'',	'opt'=>'',				'link'=>'taskbypriority',	'name'=>'Active Tasks'),
 	array('priv'=>'',	'opt'=>'TaskCost',		'link'=>'taskcosts',		'name'=>'Fixed Price Tasks'),
 	array('priv'=>'',	'opt'=>'Milestones',	'link'=>'taskbymilestone',	'name'=>'Tasks by Milestone'),
 	array('priv'=>'',	'opt'=>'',				'link'=>'tasksremoved',		'name'=>'Deleted Tasks'),
@@ -105,9 +98,8 @@ if ($db->IsGlobalSupervisor()) {
 		ShowMenu($this, 'Financial', $timerptmenu);
 }
 
-ShowMenu($this, 'Active Tasks', $taskmenu);
+ShowMenu($this, 'Tasks', $taskmenu);
 ShowMenu($this, 'Completed Tasks', $taskrptmenu);
-ShowMenu($this, 'All Tasks', $alltaskmenu);
 
 if ($db->IsProjectSupervisor())
 	ShowMenu($this, 'Projects', $projectmenu);

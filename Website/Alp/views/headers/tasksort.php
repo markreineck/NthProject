@@ -1,5 +1,4 @@
 <?php
-$db = $this->Model();
 $form = $this->Forms();
 $c = $this->Cookie();
 $sortlist = array(
@@ -13,7 +12,7 @@ $sortlist = array(
 <td>
 Sort by&nbsp;
 <?php
-$form->ShowList ('TaskSort', $sortlist, 2, $c->GetDefaultTaskStatus(), 'ChangeTaskSort(this)');
+$form->ShowList ('TaskSort', $sortlist, 2, $c->GetTaskSort(), 'ChangeTaskSort(this)');
 ?>
 <script language="javascript">
 

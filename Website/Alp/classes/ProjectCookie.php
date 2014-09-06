@@ -55,6 +55,16 @@ function GetDefaultCompany()
 		? $this->Get('DefaultCompany') : $this->Get('OrgID');
 }
 
+function SetTaskSort($val)
+{
+	$this->Set('TaskSort', $val);
+}
+
+function GetTaskSort()
+{
+	return $this->Get('TaskSort');
+}
+
 function SetDefaultMilestone($val)
 {
 	$this->Set('DefaultMilestone', $val);
