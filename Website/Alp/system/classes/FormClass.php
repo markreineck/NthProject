@@ -31,7 +31,7 @@ might be used in an application that requires entry of a first name in order to 
 consistent input with the same constraints throughout the application.
 */
 
-class FormClass {
+class FormClass extends AlpClass {
 
 var $jspath = '/Alp/system/javascript';
 var $imgpath = '/Alp/system/icons';
@@ -53,7 +53,7 @@ var $fieldlist;
 var $dateformat;
 var $newdata;
 var $tableforms=false;
-var $framework;
+//var $framework;
 
 
 /********************************************************************************
@@ -65,8 +65,9 @@ class by reading the setting from the configuration file.
 *********************************************************************************/
 function FormClass($framework)
 {
+	parent::__construct($framework);
 	$this->dateformat = 'Y-m-d';
-	$settings = $framework->LoadClassConfig('forms');
+	$settings = $this->LoadConfig('forms');
 	if ($settings) {
 		$this->fieldholderclass = @$settings['FieldHolderClass'];
 		$this->buttonclass = @$settings['ButtonClass'];
@@ -84,7 +85,6 @@ function FormClass($framework)
 	$this->validationlist = array();
 	$this->fieldlist = array();
 	$this->newdata = false;
-	$this->framework = $framework;
 }
 
 // NewData() informs the class that the form should be loaded with new data instead of reloading posted data.
@@ -98,11 +98,6 @@ function RedirectTo($url)
 {
 	echo "<script language='JavaScript'> window.location='$url'; </script>";	
 	exit (0);
-}
-
-function Framework()
-{
-	return $this->framework;
 }
 
 function ShowHiddenField ($name, $value)
@@ -417,8 +412,8 @@ private function ShowFixedLengthInput_ ($name, $next, $size, $val)
 	$this->fixedlength = true;
 
 	echo "<input name='$name' id='$name' type='text' class=\"$this->textclass\" size='$size' maxlength='$size' ";
-	if (!$this->newdata && isset($this->framework->PostData[$name])) {
-		echo 'value="' . $this->framework->PostData[$name] . '" ';
+	if (!$this->newdata && $this->Framework()->IsPosted($name)) {
+		echo 'value="' . $this->Framework()->PostedData($name) . '" ';
 	} else if (strlen($val) > 0) {
 		$val = str_replace('"', '&quot;', $val);
 		echo "value=\"$val\" ";
@@ -438,7 +433,7 @@ private function ShowFixedLengthInput_ ($name, $next, $size, $val)
 // Inclusion of a $help message will place a help icon that implements a mouse over help message.
 private function ShowInput_ ($fieldtype, $label, $name, $maxlen, $size, $value, $minlen, $autocap, $help='')
 {
-	$val = (!$this->newdata && isset($this->framework->PostData[$name])) ? $this->framework->PostData[$name] : str_replace('"', '&quot;', $value);
+	$val = (!$this->newdata && $this->Framework()->IsPosted($name)) ? $this->Framework()->PostedData($name) : str_replace('"', '&quot;', $value);
 
 	$this->AppendFieldName ($name);
 	echo "<input type=\"$fieldtype\" class=\"$this->textclass\" name=\"$name\" id=\"$name\" size=\"$size\" maxlength=\"$maxlen\" value=\"$val\" ";
@@ -640,7 +635,7 @@ function ShowRadioField ($label, $name, $list, $req=1, $sel='')
 function ShowRadioButtons ($label, $name, $list, $req=1, $sel='')
 {
 	$this->AppendFieldName ($name);
-	$xsel = (!$this->newdata && isset($this->framework->PostData[$name])) ? $this->framework->PostData[$name] : $sel;
+	$xsel = (!$this->newdata && $this->Framework()->IsPosted($name)) ? $this->Framework()->PostedData($name) : $sel;
 	$this->ShowOriginalValue_ ($name, $sel);
 
 	$cnt = 0;
@@ -683,8 +678,8 @@ function ShowTextArea ($label, $name, $rows, $cols, $value='', $minlen=0)
 {
 	$this->AppendFieldName ($name);
 
-	if (!$this->newdata && isset($this->framework->PostData[$name])) {
-		$val = $this->framework->PostData[$name];
+	if (!$this->newdata && $this->Framework()->IsPosted($name)) {
+		$val = $this->Framework()->PostedData($name);
 		if (get_magic_quotes_gpc())
 			$val = stripslashes($val);
 	} else {
@@ -739,7 +734,7 @@ function ShowTextInput ($label, $name, $maxlen, $size, $value='', $minlen=0)
 function ShowList ($name, $list=NULL, $req=0, $sel='', $onchange='')
 {
 	$this->AppendFieldName ($name);
-	$xsel = (!$this->newdata && isset($this->framework->PostData[$name])) ? $this->framework->PostData[$name] : $sel;
+	$xsel = (!$this->newdata && $this->Framework()->IsPosted($name)) ? $this->Framework()->PostedData($name) : $sel;
 
 	echo "<select name=\"$name\" id=\"$name\" class=\"$this->listclass\"";
 	if (!empty($onchange))
@@ -769,7 +764,7 @@ function ShowCheckBox ($name, $value=1, $checked=false, $required=false, $onclic
 {
 	$this->AppendFieldName ($name);
 
-	$xsel = (!$this->newdata && isset($this->framework->PostData[$name])) ? $this->framework->PostData[$name] : $checked;
+	$xsel = (!$this->newdata && $this->Framework()->IsPosted($name)) ? $this->Framework()->PostedData($name) : $checked;
 
 	echo "<input type=\"checkbox\" name=\"$name\" id=\"$name\" value=\"$value\"";
 	if (!empty($this->checkboxclass))
@@ -1048,9 +1043,9 @@ function ShowPhoneExtField ($label, $name, $value='', $ext='', $extlen, $minpart
 
 function ReturnPhoneNumber ($name, $delimiter='-')
 {
-	$p1 = $this->framework->PostData[$name.'1'];
-	$p2 = $this->framework->PostData[$name.'2'];
-	$p3 = $this->framework->PostData[$name.'3'];
+	$p1 = $this->Framework()->PostedData($name.'1');
+	$p2 = $this->Framework()->PostedData($name.'2');
+	$p3 = $this->Framework()->PostedData($name.'3');
 	if (strlen($p2) == 3 && strlen($p3) == 4) {
 		$phone = $p2 . $delimiter . $p3;
 		if (strlen($p1) == 3)
@@ -1111,8 +1106,8 @@ function ShowZipCodeField ($label, $name, $next, $value='', $minparts=0)
 
 function ReturnZipCode ($name)
 {
-	$z1 = $this->framework->PostData[$name.'1'];
-	$z2 = $this->framework->PostData[$name.'2'];
+	$z1 = $this->Framework()->PostedData($name.'1');
+	$z2 = $this->Framework()->PostedData($name.'2');
 	if (strlen($z1) == 5) {
 		$zip = (strlen($z2) == 4) ? "$z1-$z2" : $z1;
 	} else

@@ -51,7 +51,7 @@ class by reading the setting from the configuration file.
 function DBFormClass($framework, $binding)
 {
 	$data = NULL;
-	$this->FormClass($framework);
+	$this->__construct($framework);
 	$bindings = $framework->LoadBindingConfig($binding);
 	$this->table = $bindings['TableName'];
 	$this->tablefields = $bindings['FieldList'];

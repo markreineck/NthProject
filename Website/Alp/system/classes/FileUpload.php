@@ -1,24 +1,51 @@
 <?php
-class FileUpload {
+/*
+Copyright (c) 2012, 2013, Nth Generation. All rights reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
+/*
+The purpose of the form class is to
+1. Provide a common styling of forms throughout the site.
+2. Provide easy and cinsistent implementation of javascript field falidation
+3. Implement original values in order to determine what values have changed
+4. Implement fields with special requirements such as numeric fields or fixed length fields
+5. Reload posted data in case the operation fails requiring the user to make a change to what data is submitted.
+
+The class supports forms built using <table> tags or <div> tags
+
+It is anticipated that child classes will be derived from this class to implement 
+more specific fields related to your project. For instance a FirstNameField() function
+might be used in an application that requires entry of a first name in order to require
+consistent input with the same constraints throughout the application.
+*/
+
+class FileUpload extends AlpClass {
 var $errormsg;
 var $FileTypes;
 var $filelocation;
 var $ResizeFileTypes;
 var $MaxSize = 0;
 var $MaxSizeDesc;
-var $framework;
 var $MaxHeight = 150;
 var $MaxWidth = 150;
 
-function Framework()
-{
-	return $this->framework;
-}
-
 function FileUpload($framework)
 {
-	$this->framework = $framework;
-	$settings = $framework->LoadClassConfig('fileupload');
+	parent::__construct($framework);
+	$settings = $this->LoadConfig('fileupload');
+
 	if ($settings) {
 		if (isset($settings['FileTypes']))
 			$this->FileTypes = $settings['FileTypes'];
@@ -42,7 +69,6 @@ function FileUpload($framework)
 				$this->MaxSize = $size * $mult;			
 		}
 	}
-	$this->framework = $framework;
 }
 
 function ErrorMsg()
@@ -74,7 +100,7 @@ private function UploadHasErrors($fieldname, $allowedFiletypes='')
 		} else {
 			$file = $_FILES[$fieldname];
 			if ($file['error']) {
-				$this->framework->DebugMsg($file['error']);
+				$this->DebugMsg($file['error']);
 				$this->errormsg = 'There was an error uploading the file to the server: ' . $file['error'] . ', Please check the validity of the file you are uploading and try again.';
 				return true;
 			}
@@ -104,7 +130,7 @@ function DeleteFile($oldname, $targetloc)
 
 function UploadFile($targetname, $tempname, $targetloc='')
 {
-	$this->framework->DebugMsg("Upload $tempname to $targetloc / $targetname<br>");
+	$this->DebugMsg("Upload $tempname to $targetloc / $targetname<br>");
 
 	$this->errormsg = '';
 	$resultfile = '';
@@ -114,12 +140,12 @@ function UploadFile($targetname, $tempname, $targetloc='')
 
 		$targetPath	= $targetloc . $targetname;
 
-		$this->framework->DebugMsg("Move $tempname to $targetPath");
+		$this->DebugMsg("Move $tempname to $targetPath");
 		if (move_uploaded_file($tempname, $targetPath)) {
 			$resultfile = $targetname;
 		} else {
 			$this->errormsg = "There was an error uploading the file, please try again.";
-			$this->framework->DebugMsg($this->errormsg);
+			$this->DebugMsg($this->errormsg);
 			return '';
 		}
 	}

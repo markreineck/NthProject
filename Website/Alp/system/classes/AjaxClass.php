@@ -15,12 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-class AjaxClass {
+class AjaxClass extends AlpClass {
 
 var $url;
 var $function;
 var $section;
-var $framework;
 var $args;
 var $fieldlist;
 var $debug;
@@ -28,10 +27,11 @@ var $async;
 
 function AjaxClass($framework)
 {
-	$settings = $framework->LoadClassConfig('ajax');
+	parent::__construct($framework);
+	$settings = $this->LoadConfig('ajax');
 	if ($settings) {
 		if (isset($settings['AjaxPage']))
-			$this->url = $framework->SiteURL().$settings['AjaxPage'].'/';
+			$this->url = $this->Framework()->SiteURL().$settings['AjaxPage'].'/';
 //Depricated, use AjaxContainer
 		if (isset($settings['AjaxSection']))
 			$this->section = $settings['AjaxSection'];
@@ -39,11 +39,10 @@ function AjaxClass($framework)
 			$this->section = $settings['AjaxContainer'];
 		if (isset($settings['AjaxArgs']))
 			$this->args = $settings['AjaxArgs'];
-		$this->debug = ($framework->DebugMode) ? true : $settings['DebugMode'];
+		$this->debug = ($this->Framework()->DebugMode) ? true : $settings['DebugMode'];
 	} else {
-		$this->debug = $framework->DebugMode;
+		$this->debug = $this->Framework()->DebugMode;
 	}
-	$this->framework = $framework;
 }
 
 function SetPage($pagename)

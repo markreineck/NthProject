@@ -15,7 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-class EmailClass {
+class EmailClass extends AlpClass {
 
 var $from;
 var $replyto;
@@ -24,26 +24,22 @@ var $cc;
 var $bcc;
 var $msg;
 var $subject;
-var $framework;
 var $phpmailerpath;
 
 function EmailClass ($framework)
 {
+	parent::__construct($framework);
+	$settings = $this->LoadConfig('email');
+
 	$this->to = array();
 	$this->cc = array();
 
-	$settings = $framework->LoadClassConfig('email');
 	if ($settings) {
 		$this->from = isset($settings['From']) ? $settings['From'] : '';
 		$this->replyto = isset($settings['ReplyTo']) ? $settings['ReplyTo'] : '';
 		$this->bcc = isset($settings['BCC']) ? $settings['BCC'] : '';
 		$this->phpmailerpath = isset($settings['PHPMailer']) ? $settings['PHPMailer'] : '';
 	}
-	$this->framework = $framework;
-}
-function Framework()
-{
-	return $this->framework;
 }
 
 function To ($to='')
@@ -95,7 +91,7 @@ To: ";
 	echo "<br>
 Subject: $this->subject<br>
 " . $this->MakeHeaders();
-	$this->framework->DebugMsg($msg);
+	$this->DebugMsg($msg);
 */
 }
 

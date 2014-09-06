@@ -125,11 +125,12 @@ echo "<p>$path</p>";
 	return $path;
 }
 
-private function ConfigurationFilePath ($filename)
+function ConfigurationFilePath ($filename)
 {
 	return $this->FrameworkFilePath($this->ConfigPath,$filename);
 }
 
+//Depricated
 function LoadClassConfig($filename)
 {
 	include ($this->ConfigurationFilePath ($filename));
@@ -259,8 +260,15 @@ function LoadView ($viewname='')
  *	Class Loading
  **********************************************************************/
 
+private function IncludeBaseClass()
+{
+	$path = $this->FrameworkFilePath($this->SystemPath,'AlpClass');
+	include_once ($path);
+}
+
 private function IncludeSystemClass($name)
 {
+	$this->IncludeBaseClass();
 	$path = $this->FrameworkFilePath($this->SystemPath.'/classes',$name);
 	if (is_file($path)) {
 		include ($path);
@@ -303,6 +311,7 @@ function Ajax()
 
 private function IncludeClassFile($libfile)
 {
+	$this->IncludeBaseClass();
 	$path = $this->FrameworkFilePath($this->SystemPath.'/classes',$libfile);
 	if (!is_file($path)) {
 		$path = $this->FrameworkFilePath('classes',$libfile);

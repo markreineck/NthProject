@@ -192,7 +192,7 @@ function ReadOrgName($id)
 
 function ReadCompanyList()
 {
-	$sql = "SELECT orgid, name from organizations order by name";
+	$sql = "SELECT orgid, name from organizations where status is not null order by name";
 	return $this->SelectAll($sql,2);
 }
 

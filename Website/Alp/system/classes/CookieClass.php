@@ -21,18 +21,16 @@ It is anticipated that child classes will be derived from this class to implemen
 a cookie with the appropriate fields.
 */
 
-class CookieClass {
-
-var $framework;
+class CookieClass extends AlpClass {
 
 function CookieClass ($framework)
 {
-	$this->framework = $framework;
+	parent::__construct($framework);
 }
 
 function Debug()
 {
-	if ($this->framework->DebugMode()) {
+	if ($this->Framework()->DebugMode()) {
 		echo 'Cookie: ';
 		print_r($_COOKIE);
 		echo '<br>';
