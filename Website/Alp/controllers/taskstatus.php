@@ -38,10 +38,10 @@ function Start()
 		if ($err == 0) {
 			$this->RedirectTo($this->Cookie()->GetLastTaskPage());
 		}
-	} else if (isset($this->GetNumber('cid'))) {
+	} else if ($this->IsGet('cid')) {
 		$func = 'C';
 		$taskid = $this->GetNumber('cid');
-	} else if (isset($this->GetNumber('rid'))) {
+	} else if ($this->IsGet('rid')) {
 		$func = 'R';
 		$taskid = $this->GetNumber('rid');
 	} else {

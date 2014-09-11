@@ -27,7 +27,7 @@ function Post()
 		$doby = $this->PostedString('DoBy');
 		$assnto = $this->PostedDigit('AssignTo');
 		$apprby = $this->PostedDigit('ApproveBy');
-		$descr = $this->PostedString('Notes');
+		$descr = $this->PostedData('Notes');
 		$cost = $this->PostedNumber('Cost');
 
 		$taskid = $db->CreateTask($prjid, $area, $status, $priority, $name, $startms, $endms, $starton, $doby, $assnto, $apprby, $descr, $cost);

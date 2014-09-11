@@ -353,12 +353,8 @@ if ($data) {
 ?>
 	</p>
 	<div class="memoarea" id="ViewNote<?php echo $dx->noteid; ?>">
-		<?php
-/*
-				echo str_replace('
-', '<br>', htmlspecialchars ($dx->message));
-*/
-				echo str_replace('
+<?php
+	echo str_replace('
 ', '<br>', $dx->message);
 		if ($hasedit || $dx->fromid == $db->GetUserID()) {
 ?>
@@ -369,11 +365,7 @@ if ($data) {
 			MakeIconLink('x.png', $this->Controller()."?tid=$TaskID&dn=$dx->noteid", 'Delete Note');
 			if ($dx->fromid > 0 && $dx->fromid != $db->GetUserID())
 				MakeJSIcon('mail.png', "FuncContactPerson($dx->fromid,'$dx->fromname','$dx->email')", 'Reply');
-/*
-?>
-		<img src="/image/pencil.png" alt="Edit Note" title="Edit Note" onClick="ShowEditNote(<?php echo $dx->noteid; ?>)" class="icons">&nbsp;&nbsp; <img src="/image/x.png" alt="Delete Note" title="Delete Note" onClick="window.location='<?php echo $this->Controller()."?tid=$TaskID&dn=$dx->noteid"; ?>'" class="icons">
-		<?php
-*/
+
 		}
 ?>
 

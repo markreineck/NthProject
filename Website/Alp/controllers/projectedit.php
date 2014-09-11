@@ -22,7 +22,7 @@ function Start()
 			$priority = $this->PostedDigit('Priority');
 			$status = $this->PostedDigit('Status');
 			$timerpt = $this->PostedDigit('TimeRpt');
-			$notes = $this->PostedString('Notes');	
+			$notes = $this->PostedHtml('Notes');	
 
 			$err = $db->UpdateProject($prjid, $orgid, $name, $priority, $status, $timerpt, $notes);
 		}

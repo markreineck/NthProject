@@ -62,7 +62,7 @@ function Start()
 					$okmsg = 'Task milestones were successfully changed. ';
 			}
 		} else if ($this->IsPosted('NoteID')) {
-			if (!$db->EditTaskNote($taskid, $this->PostedDigit('NoteID'), $this->PostedString('Notes')))
+			if (!$db->EditTaskNote($taskid, $this->PostedDigit('NoteID'), $this->PostedData('Notes')))
 				$okmsg = 'Task note was successfully changed';
 		} else if ($this->IsPosted('MAX_FILE_SIZE')) {
 			if ($_FILES['Attachment']['size'] < 1) {
@@ -85,10 +85,10 @@ function Start()
 				if (!$db->EditTaskMilestones($taskid, $this->PostedDigit('StartMS'), $this->PostedDigit('EndMS')))
 					$okmsg = 'Task milestones were successfully changed';
 		} else if ($this->IsPosted('NoteID')) {
-			if (!$db->EditTaskNote($taskid, $this->PostedDigit('NoteID'), $this->PostedString('Notes')))
+			if (!$db->EditTaskNote($taskid, $this->PostedDigit('NoteID'), $this->PostedData('Notes')))
 				$okmsg = 'Task note was successfully changed';
 		} else if ($this->IsPosted('Notes')) {
-			if (!$db->AddTaskNote($taskid, $this->PostedString('Notes')))
+			if (!$db->AddTaskNote($taskid, $this->PostedData('Notes')))
 				$okmsg = 'Task note was successfully changed';
 			
 		} else {
