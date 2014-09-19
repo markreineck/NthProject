@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS subscription (
 CREATE TABLE IF NOT EXISTS fielddef (
 	fieldid int unsigned NOT NULL AUTO_INCREMENT,
 	datatype varchar(4) NOT NULL COMMENT 'S=string, Y=boolean',
-	fieldtype varchar(1) NOT NULL COMMENT 'U=User, O=Organization, P=Project, T=Tasl',
+	fieldtype varchar(1) NOT NULL COMMENT 'U=User, O=Organization, P=Project, T=Task',
 	maxlen tinyint unsigned,
 	required tinyint unsigned,
 	name varchar(40) NOT NULL,

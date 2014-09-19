@@ -18,7 +18,7 @@ if ($this->IsPosted('Organization')) {
 	$orgid = $this->PostedDigit('Organization');
 	$name = $this->PostedString('PrjName');
 	$priority = $this->PostedDigit('Priority');
-	$status = $this->PostedDigit('Status');
+	$status = $this->PostedString('Status');
 	$start = $this->PostedString('StartDate');
 	$target = $this->PostedString('TargetDate');
 	$timerpt = $this->PostedDigit('TimeRpt');

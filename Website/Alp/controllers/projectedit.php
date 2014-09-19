@@ -20,7 +20,7 @@ function Start()
 			$orgid = $this->PostedDigit('Organization');
 			$name = $this->PostedString('PrjName');
 			$priority = $this->PostedDigit('Priority');
-			$status = $this->PostedDigit('Status');
+			$status = $this->PostedString('Status');
 			$timerpt = $this->PostedDigit('TimeRpt');
 			$notes = $this->PostedHtml('Notes');	
 

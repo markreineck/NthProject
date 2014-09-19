@@ -20,7 +20,7 @@ if ($this->IsPosted('ProjectID')) {
 			$db = $this->Model();
 			$resp = $this->PostedDigit('Responsible'.$x);
 			$due = '';
-			$price = 0;
+			$price = '';
 			$err = $db->CreateProjectArea($prjid, $resp, $name, $due, $price);
 		}
 	}
