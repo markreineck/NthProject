@@ -211,7 +211,6 @@ private function MakeFieldValue($fldid, $posted=NULL)
 private function DoProcedure($data)
 {
 	$db = $this->Framework()->Database();
-	$args = MakeFieldList();
 	$args = array();
 	foreach ($data->Fields as $fldid) {
 		if ($fldid == 'SessionID') {

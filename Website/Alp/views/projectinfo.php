@@ -64,6 +64,8 @@ h1 > span {
 <span>
 <?php
 MakeIconLink('back.png', $c->GetLastTaskPage(), 'Back');
+if ($db->IsSupervisor())
+	MakeIconLink('pencil.png', 'projectedit?id='.$PrjID, 'Edit');
 ?>
 </span>
 </h1><br clear="all" />

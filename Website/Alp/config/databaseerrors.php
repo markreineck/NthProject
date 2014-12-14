@@ -147,6 +147,10 @@ $settings = array(
 	-2160 => 'There was an unexpected error changing the project.',
 	-2161 => 'There was an error changing the project.',
 	-2170 => 'There was an unexpected error clocking the user out.',
-	-2171 => 'There was an error clocking the user out.'
+	-2171 => 'There was an error clocking the user out.',
+
+	-2400 => 'There was an unexpected error purging old time records.',
+	-2401 => 'You can only purge time records that are at least a year old.',
+	-2402 => 'There was an error purging old time records.',
 );
 ?>

@@ -12,10 +12,12 @@ function TimeRptDB($framework)
 function ReadMyTime($cookie)
 {
 	$start = $this->MakeDateValue($cookie->GetDefaultStartDate());
-	$end = $this->MakeNextDayValue($cookie->GetDefaultEndDate());
+	$end = $cookie->GetDefaultEndDate();
 	$project = $cookie->GetDefaultProject();
 
-	$where = "t.userid=u.userid and starton>=$start and endon<$end and t.userid=" . $this->GetUserID();
+	$where = "t.userid=u.userid and starton>=$start and t.userid=" . $this->GetUserID();
+	if ($end)
+		$where .= ' and endon<' . $this->MakeNextDayValue($end);
 
 	if ($project > 0)
 		$where .= " and p.prjid=$project";
@@ -41,11 +43,13 @@ order by starton";
 function ReadTimeData($cookie)
 {
 	$start = $this->MakeDateValue($cookie->GetDefaultStartDate());
-	$end = $this->MakeNextDayValue($cookie->GetDefaultEndDate());
+	$end = $cookie->GetDefaultEndDate();
 	$project = $cookie->GetDefaultProject();
 	$staff = $cookie->GetDefaultUser();
 	
-	$where = "t.userid=u.userid and starton>=$start and endon<$end";
+	$where = "t.userid=u.userid and starton>=$start";
+	if ($end)
+		$where .= ' and endon<' . $this->MakeNextDayValue($end);
 
 	if ($project > 0)
 		$where .= " and t.prjid=$project";
@@ -73,11 +77,13 @@ order by starton";
 function ReadTimeExport($cookie)
 {
 	$start = $this->MakeDateValue($cookie->GetDefaultStartDate());
-	$end = $this->MakeNextDayValue($cookie->GetDefaultEndDate());
+	$end = $cookie->GetDefaultEndDate();
 	$project = $cookie->GetDefaultProject();
 	$staff = $cookie->GetDefaultUser();
 	
-	$where = "t.userid=u.userid and starton>=$start and endon<$end";
+	$where = "t.userid=u.userid and starton>=$start";
+	if ($end)
+		$where .= ' and endon<' . $this->MakeNextDayValue($end);
 
 	if ($project > 0)
 		$where .= " and p.prjid=$project";

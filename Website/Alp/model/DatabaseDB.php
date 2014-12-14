@@ -196,9 +196,18 @@ function ReadCompanyList()
 	return $this->SelectAll($sql,2);
 }
 
-function ReadUserList()
+function ReadUserList($status='All')
 {
-	$sql = "SELECT userid, name from usernames order by lastname, name";
+	$sql = 'SELECT userid, name from usernames ';
+	switch ($status) {
+		case 'Act':
+			$sql .= 'where hasaccount is not null ';
+			break;
+		case 'Inact':
+			$sql .= 'where hasaccount is null ';
+			break;
+	}
+	$sql .= 'order by lastname, name';
 	return $this->SelectAll($sql,2);
 }
 

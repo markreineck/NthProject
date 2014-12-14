@@ -51,6 +51,7 @@ function EndDate()
 			if (!$todate)
 				$ed->AddWeeks(-1);
 		case 'TW':
+return NULL;
 			$ed->LastDayOfWeek();
 			break;
 
@@ -62,6 +63,7 @@ function EndDate()
 				$ed->FirstDayOfMonth();
 				$ed->AddDays(14);
 			} else
+return NULL;
 				$ed->LastDayOfMonth();
 			break;
 
@@ -69,6 +71,7 @@ function EndDate()
 			if (!$todate)
 				$ed->AddMonths(-12);
 		case 'TY':
+return NULL;
 			$ed->LastDayOfYear();
 			break;
 

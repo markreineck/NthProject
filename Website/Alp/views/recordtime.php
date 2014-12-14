@@ -11,7 +11,7 @@ else
 <h1>Record Time</h1>
 <?php
 $form->ShowFormErrors($errmsg, $okmsg);
-$userlist = $db->ReadUserList();
+$userlist = $db->ReadUserList('Act');
 $prjlist = $db->ReadProjectList();
 ?>
 <form method="post" name="form" id="form" <?php $form->ShowOnSubmit(); ?>>

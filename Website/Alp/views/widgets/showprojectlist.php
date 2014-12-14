@@ -1,10 +1,12 @@
 <?php
 $db = $this->Model();
 
-if ($db->IsSupervisor()) {
+if ($db->IsSupervisor())
 	$data = $db->ListProjects($Company, $ProjectStatus);
+else if ($db->IsProjectSupervisor())
+	$data = $db->ListMyProjects($Company, $ProjectStatus);
 
-	if ($data) {
+if ($data) {
 ?>
 <table class="ListTable">
     <tr>
@@ -20,9 +22,9 @@ if ($db->IsSupervisor()) {
       <th></th>
     </tr>
 <?php
-		$stripe = 1;
-		foreach ($data as $row) {
-			$prjid = $row->prjid;
+	$stripe = 1;
+	foreach ($data as $row) {
+		$prjid = $row->prjid;
 ?>
     <tr class="stripe<?php echo $stripe; ?>">
       <td>&nbsp;</td>
@@ -34,17 +36,17 @@ if ($db->IsSupervisor()) {
       <td><?php echo $row->completed; ?></td>
       <td><?php echo $row->orgname; ?></td>
       <td>
-<?php 
-			if ($row->completed) {
-				$statcc = "Complete";
-				$color = '#0080FF';
-			} else if (($row->status=='A') || (empty($row->status))) {	
-					$statcc = "Active";
-					$color = '#00A000';
-			} else if ($row->status=='I') {	
-					$statcc = "Inactive";
-					$color = '#E4201B';
-			}
+<?php
+		if ($row->completed) {
+			$statcc = "Complete";
+			$color = '#0080FF';
+		} else if (($row->status=='A') || (empty($row->status))) {	
+				$statcc = "Active";
+				$color = '#00A000';
+		} else if ($row->status=='I') {	
+				$statcc = "Inactive";
+				$color = '#E4201B';
+		}
 ?>
         <div style="color:<?php echo $color; ?>"><?php echo $statcc; ?></div></td>
       <!--<td><input type=button name=pbtn54 value='Add Item <?php $ctr?>' onClick="redirect('ProjectsAddItem?id=',<?php echo $prjid; ?>)"></td>-->
@@ -57,11 +59,10 @@ if ($db->IsSupervisor()) {
     </tr>
 <?php
 	$stripe = ($stripe > 1) ? 1 : 2;
-		}
+	}
 ?>
   </table>
 <?php
-	}
 } else {
 	echo 'You do not have rights to view this page.';
 }

@@ -1,14 +1,15 @@
 <?php
 function SendContactMessage($nth)
 {
-	if (isset($nth->PostData['MsgSend'])) {
-		$db = $nth->Database();
+	$okmsg = '';
+	if (isset($_POST['MsgSend'])) {
+
+		$db = $nth->Model();
 		$okmsg = 'Message was successfully sent!';
 		
-//		$MsgSenderEmail = $nth->PostData['MsgSenderEmail'];
-		$MsgUserEmail = $nth->PostData['MsgUserEmail'];
-		$MsgSubject = $nth->PostData['Subject'];
-		$MsgContent = $nth->PostData['Message'];
+		$MsgUserEmail = $nth->PostedData('MsgUserEmail');
+		$MsgSubject = $nth->PostedData('Subject');
+		$MsgContent = $nth->PostedData('Message');
 		
 		$msg = $MsgContent;			
 		
@@ -19,7 +20,8 @@ function SendContactMessage($nth)
 		$email->Message($msg);
 		$email->Send();
 	
-		$db->AddTaskMessage($nth->PostData['TaskID'], $nth->PostData['MsgUserID'], $MsgSubject, $MsgContent);
+		$db->AddTaskMessage($nth->PostedData('TaskID'), $nth->PostedData('MsgUserID'), $MsgSubject, $MsgContent);
 	}
+	return $okmsg;
 }
 ?>

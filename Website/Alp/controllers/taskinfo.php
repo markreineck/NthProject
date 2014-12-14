@@ -8,14 +8,20 @@ public function __construct($url)
 	parent::TaskController($url);
 }
 
-function Start()
+private function ShowPage($taskid, $okmsg)
+{
+	$this->LoadLibrary('iconlinks');
+	$this->LoadLibrary('taskicons');
+	$this->PutData ('PageHeading', array('filters'));
+	$this->PutData ('TaskID', $taskid);
+	$this->PutData ('OKMsg', $okmsg);
+	$this->LoadView('home');
+}
+
+function Post()
 {
 	$db = $this->Model();
 	$okmsg = '';
-
-	$this->LoadLibrary('iconlinks');
-	$this->LoadLibrary('taskicons');
-	$this->ApproveTasks();
 
 	if ($this->IsPosted('Keyword')) {
 		$t = $this->PostedDigit('Keyword');
@@ -91,11 +97,22 @@ function Start()
 			if (!$db->AddTaskNote($taskid, $this->PostedData('Notes')))
 				$okmsg = 'Task note was successfully changed';
 			
-		} else {
+		} else if (isset($_POST['MsgSend'])) {
 			$this->LoadLibrary('sendmessage');
-			SendContactMessage($this);
+			$okmsg = SendContactMessage($this);
 		}
-	} else if ($this->IsGet('apprid')) {
+	}
+	$this->ShowPage($taskid, $okmsg);
+}
+
+function Start()
+{
+	$db = $this->Model();
+	$okmsg = '';
+
+	$this->ApproveTasks();
+
+	if ($this->IsGet('apprid')) {
 		$taskid = $this->GetNumber('apprid');
 	} else if ($this->IsGet('delid')) {
 		$taskid = $this->GetNumber('delid');
@@ -112,11 +129,8 @@ function Start()
 		else if ($this->IsGet('df'))
 			$db->DeleteTaskFile($taskid, $this->GetNumber('df'));
 	}
-
-	$this->PutData ('PageHeading', array('filters'));
-	$this->PutData ('TaskID', $taskid);
-	$this->PutData ('OKMsg', $okmsg);
-	$this->LoadView('home');
+	$this->ShowPage($taskid, $okmsg);
 }
+
 }
 ?>

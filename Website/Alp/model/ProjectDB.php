@@ -26,21 +26,30 @@ FROM projects p, organizations o where p.orgid=o.orgid ";
 		$sql .= " and p.status='I'";
 	elseif ($status == 'C')
 		$sql .= " and p.completed is not null";
-/*			
-			if (@$_GET['orderby']=='priority') {
-				$sql.=" order by p.priority";
-			} elseif (@$_GET['orderby']=='startdate') {
-				$sql.=" order by started";
-			} elseif (@$_GET['orderby']=='targetdate') {
-				$sql.=" order by targetdate";
-			} elseif (@$_GET['orderby']=='completed') {
-				$sql.=" order by completed";
-			} elseif (@$_GET['orderby']=='company') {
-				$sql.=" order by o.Name";				
-			}else{
-				$sql.=" order by p.name";
-			}
-*/
+	$sql .= " order by p.name";
+
+	return $this->SelectAll($sql, $mode);
+}
+
+function ListMyProjects($org, $status, $mode=0)
+{
+	$sid = $this->GetSessionID();
+	$sql = 
+"SELECT p.prjid, p.orgid, p.priority, DATE_FORMAT(p.started, '%b %e, %Y') started, 
+DATE_FORMAT(p.targetdate, '%b %e, %Y') targetdate, DATE_FORMAT(p.completed, '%b %e, %Y') 
+completed, p.name, p.status, o.name orgname
+FROM projects p, organizations o, projectusers u, usersession s
+where p.orgid=o.orgid and p.prjid=u.prjid and u.userid=s.userid and s.sessionid=$sid and u.superuser is not null";
+			
+	if ($org > 0)
+		$sql .= " AND o.orgid=".$org;
+
+	if ($status == 'A')
+		$sql .= " and p.status='A' and p.completed is null";
+	elseif ($status == 'I')
+		$sql .= " and p.status='I'";
+	elseif ($status == 'C')
+		$sql .= " and p.completed is not null";
 	$sql .= " order by p.name";
 
 	return $this->SelectAll($sql, $mode);

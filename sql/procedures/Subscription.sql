@@ -19,12 +19,12 @@ declare v_userid int unsigned;
 
 declare exit handler for sqlexception begin
 	rollback;
-	select -1700 into @err;
+	select -2300 into @err;
 end;
 
 select count(*) into v_orgid from subscription;
 if v_orgid > 0 then
-	select -1705 into @err;
+	select -2305 into @err;
 else
 	start transaction;
 
@@ -33,7 +33,7 @@ else
 	insert into subscription (name) values (i_name);
 
 	if row_count() < 1 then
-		select -1701 into @err;
+		select -2301 into @err;
 	else
 		select last_insert_id() into @subid;
 	end if;
@@ -43,7 +43,7 @@ else
 		values (now(), 1, i_name);
 
 		if row_count() < 1 then
-			select -1702 into @err;
+			select -2302 into @err;
 		else
 			select last_insert_id() into v_orgid;
 		end if;
@@ -53,7 +53,7 @@ else
 		update subscription set orgid=v_orgid where subscr=@subid;
 
 		if row_count() < 1 then
-			select -1703 into @err;
+			select -2303 into @err;
 		end if;
 	end if;
 
@@ -67,7 +67,7 @@ else
 		from userstatus;
 
 		if row_count() < 1 then
-			select -1704 into @err;
+			select -2304 into @err;
 		else
 			select last_insert_id() into v_userid;
 		end if;

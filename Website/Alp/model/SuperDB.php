@@ -53,6 +53,19 @@ function CountUsersWithType($id)
 	return $this->Select($sql);
 }
 
+function ReadOldestTime()
+{
+	$sql = 'select min(starton) from usertime';
+	return $this->Select($sql);
+}
+
+function ReadOldTime($date)
+{
+	$date = $this->MakeDateValue($date);
+	$sql = 'select count(*) from usertime where endon<' . $date;
+	return $this->Select($sql);
+}
+
 /**********************************************************************
  *	Update Functions
  **********************************************************************/
@@ -128,6 +141,14 @@ function DeleteUserStatus($delid)
 	$sid = $this->GetSessionID();
 	$newid = $this->MakeNumericValue($newid);
 	$sql = "call DeleteUserStatus($sid, $delid)";
+	return $this->ExecuteProc ($sql);
+}
+
+function PurgeTime($date)
+{
+	$sid = $this->GetSessionID();
+	$date = $this->MakeDateValue($date);
+	$sql = "call PurgeTime($sid, $date)";
 	return $this->ExecuteProc ($sql);
 }
 
