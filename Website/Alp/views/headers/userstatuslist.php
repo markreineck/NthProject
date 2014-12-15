@@ -7,6 +7,8 @@ $c = $this->Cookie();
 User Status &nbsp;
 <?php
 $list = $db->ReadUserTypes();
+array_unshift($list,array('I','All Inactive Users'));
+array_unshift($list,array('A','All Active Users'));
 array_unshift($list,array(0,'All Users'));
 $form->ShowList ('DefaultUserType', $list, 2, $c->GetDefaultUserType(), 'ChangeUserStatus(this)');
 ?>

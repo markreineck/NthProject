@@ -14,7 +14,7 @@ public function TimeReportController($url)
 	} else if (isset($_POST['LogOutID'])) {
 		$err = $db->AdminClockOut($_POST['LogOutID'], $_POST['LogOut1'], $_POST['LogOut2']);
 	} else if (isset($_POST['PrjTimeID'])) {
-		$err = $db->AdjustTimeProject($_POST['PrjTimeID'], $_POST['Project']);
+		$err = $db->AdjustTimeProject($_POST['PrjTimeID'], $_POST['TimeProject']);
 	}
 
 	$this->LoadLibrary('DateRange');

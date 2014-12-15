@@ -138,7 +138,9 @@ function SetDefaultUserType($val)
 
 function GetDefaultUserType()
 {
-	return $this->Get('DefaultUserType');
+	$type = $this->Get('DefaultUserType');
+	if (!$type) $type = 'A';
+	return $type;
 }
 
 function SetDefaultDateRange($val)

@@ -173,7 +173,7 @@ function AdjustProjectForm($nth, $form)
 <?php
 	$prjlist = $nth->Model()->ReadProjectList();
 
-	$form->ShowListField ('Project', 'Project', $prjlist, 1);
+	$form->ShowListField ('Project', 'TimeProject', $prjlist, 1);
 ?>
 	</table>
 <?php

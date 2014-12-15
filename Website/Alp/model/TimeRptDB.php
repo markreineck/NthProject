@@ -68,7 +68,7 @@ where t.prjid=p.prjid and $where
 union
 select $collist
 from usertime t, tasks k, projectareas a, projects p, usernames u
-where t.prjid is null and t.taskid=k.taskid and k.areaid=a.areaid and t.prjid=p.prjid and $where
+where t.prjid is null and t.taskid=k.taskid and k.areaid=a.areaid and a.prjid=p.prjid and $where
 order by starton";
 
 	return $this->SelectAll($sql);

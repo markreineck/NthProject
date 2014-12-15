@@ -12,12 +12,19 @@ function UserDB($framework)
 function GetUserList($org, $type)
 {
 	$where = ($org > 0) ? 'where o.orgid=' . $org : '';
-	if ($type > 0) {
+	if ($type) {
 		if (empty($where))
 			$where = 'where ';
 		else
 			$where .= ' and ';
-		$where .= 'u.status=' . $type;
+
+		if ($type == 'A') {
+			$where .= 'u.hasaccount is not null';
+		} else if ($type == 'I') {
+			$where .= 'u.hasaccount is null';
+		} else if ($type > 0) {
+			$where .= 'u.status=' . $type;
+		}
 	}
 
 	$sql = "select u.userid, u.firstname, u.lastname, u.name, u.initials, t.name typename, u.hasaccount, o.name orgname
