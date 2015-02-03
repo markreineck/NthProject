@@ -493,9 +493,9 @@ function ListValueDropDown ($list, $sel)
 		}
 ;
 		if ($var == $sel)
-			echo "<option value='$var' selected='selected'>$val</option>";
+			echo "<option value=\"$var\" selected=\"selected\">$val</option>";
 		else
-			echo "<option value='$var'>$val</option>";
+			echo "<option value=\"$var\">$val</option>";
 	}
 }
 
@@ -508,9 +508,9 @@ function ListNumDropDown ($start, $end, $inc=1, $sel=0)
 {
 	for ($x=$start; $x!=$end; $x+=$inc) {
 		if ($x == $sel)
-			echo "<option value='$x' selected='selected'>$x</option>";
+			echo "<option value=\"$x\" selected=\"selected\">$x</option>";
 		else
-			echo "<option value='$x'>$x</option>";
+			echo "<option value=\"$x\">$x</option>";
 	}
 }
 

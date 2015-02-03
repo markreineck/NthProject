@@ -113,11 +113,14 @@ function TaskApprovedOnWhere($cookie)
 {
 	$daterange = new DateRange($cookie->GetDefaultDateRange());
 	$start = $this->MakeDateValue($daterange->StartDate());
-	$end = $this->MakeNextDayValue($daterange->EndDate());
 
-	if ($start && $end)
-		$where = "t.approved>=$start and t.approved<$end";
-	else
+	if ($start) {
+		$where = "t.approved>=$start";
+		if ($daterange->EndDate()) {
+			$end = $this->MakeNextDayValue($daterange->EndDate());
+			$where .= " and t.approved<$end";
+		}
+	} else
 		$where = 'date_add(t.approved, interval 1 month)>curdate()';
 	return $where;
 }
