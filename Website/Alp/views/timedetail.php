@@ -13,7 +13,7 @@ $this->LoadView('widgets/showtimedetail');
 ?>
 </div>
 <?php
-	$form->ShowFormErrors($errmsg);
+//	$form->ShowFormErrors($errmsg);
 	AdjustProjectForm($this, $form);
 	AdjustTimeForm($this, $form);
 	LogOutForm($this, $form);

@@ -43,37 +43,48 @@ function StartDate()
 function EndDate()
 {
 	$ed = new DateClass();
-	$todate = (substr($this->range,2,1) == '2');
-	$half = (substr($this->range,2,1) == 'A');
-	switch (substr($this->range,0,2)) {
+	$suffix = substr($this->range,2,1);
+	$todate = ($suffix == '2');
+	$prefix = substr($this->range,0,2);
+
+	switch ($prefix) {
 		case '2W':
 		case 'LW':
-			if (!$todate)
-				$ed->AddWeeks(-1);
-		case 'TW':
-return NULL;
-			$ed->LastDayOfWeek();
+			if ($todate)
+				return NULL;
+			$ed->FirstDayOfWeek(-1);
 			break;
-
+		case 'TW':
+			return NULL;
 		case 'LM':
-			if (!$todate)
+			if ($todate) {
+				return NULL;
+			} else {
 				$ed->AddMonths(-1);
+				if ($suffix == 'A') {
+					$ed->FirstDayOfMonth();
+					$ed->AddDays(14);
+				} else
+					$ed->LastDayOfMonth();
+			}
+			break;
 		case 'TM':
-			if ($half) {
+			if ($suffix == 'A') {
 				$ed->FirstDayOfMonth();
 				$ed->AddDays(14);
 			} else
-return NULL;
-				$ed->LastDayOfMonth();
+				return NULL;
 			break;
 
 		case 'LY':
-			if (!$todate)
+			if (!$todate) {
 				$ed->AddMonths(-12);
-		case 'TY':
-return NULL;
-			$ed->LastDayOfYear();
+				$ed->LastDayOfYear();
+			} else
+				return NULL;
 			break;
+		case 'TY':
+			return NULL;
 
 	}
 	return $ed->DateString();
