@@ -1,4 +1,5 @@
 <?php
+// Depricated 2/16/2015
 $db = $this->Model();
 ?>
 <h1>By Assignment</h1>

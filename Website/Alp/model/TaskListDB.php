@@ -460,7 +460,7 @@ left outer join milestones sm on t.startmilestone=sm.milestoneid
 left outer join milestones em on t.endmilestone=em.milestoneid
 left outer join usernames at on t.assignedto=at.userid
 left outer join projectusers u on u.prjid=p.prjid and u.userid=$userid
-where $where and t.removed is null and p.status='A'" . $this->ProjectListWhere($cookie);
+where $where and t.removed is null and p.completed is null and p.status='A'" . $this->ProjectListWhere($cookie);
 
 	$sql .= '
 order by p.priority, p.name, pa.name, t.priority, t.needby';

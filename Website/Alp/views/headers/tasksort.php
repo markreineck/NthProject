@@ -1,6 +1,11 @@
 <?php
 $form = $this->Forms();
 $c = $this->Cookie();
+
+echo "
+<!-- TaskSort=".$c->GetTaskSort()." -->
+";
+
 $sortlist = array(
 	array('Project', 'By Project'),
 	array('Priority', 'By Priority'),

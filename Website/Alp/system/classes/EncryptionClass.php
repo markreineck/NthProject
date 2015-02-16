@@ -20,7 +20,7 @@ The encryption class encapsulates functions to both create a random salt
 and to encrypt a string using the salt. 
 */
 
-class EncryptionClass {
+class EncryptionClass extends AlpClass {
 
 function CreateSalt()
 {
