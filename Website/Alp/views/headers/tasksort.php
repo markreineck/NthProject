@@ -7,8 +7,8 @@ echo "
 ";
 
 $sortlist = array(
-	array('Project', 'By Project'),
 	array('Priority', 'By Priority'),
+	array('Project', 'By Project'),
 	array('Due', 'By Due Date'),
 	array('AssignedTo', 'By Assigned To'),
 	array('CreatedOn', 'New Tasks')

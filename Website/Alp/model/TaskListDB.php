@@ -186,7 +186,7 @@ from tasks t
 inner join projectareas a on a.areaid=t.areaid
 inner join projects p on p.prjid=a.prjid
 left outer join usernames at on t.assignedto=at.userid
-where t.removed is null and t.cost is not null and t.approved is not null and p.status='A' $where
+where t.removed is null and t.cost is not null and t.approved is not null and p.completed is null and p.status='A' $where
 order by t.complete";
 	return $this->SelectAll($sql);
 }
@@ -281,7 +281,7 @@ from tasks t
 inner join projectareas a on a.areaid=t.areaid
 inner join projects p on p.prjid=a.prjid
 left outer join usernames at on t.assignedto=at.userid
-where t.cost is not null and t.billed is not null $where and p.status='A' $where
+where t.cost is not null and t.billed is not null $where and p.completed is null and p.status='A' $where
 order by t.billed";
 	return $this->SelectAll($sql);
 }
@@ -301,7 +301,7 @@ left outer join milestones e on t.endmilestone=e.milestoneid
 left outer join usernames at on t.assignedto=at.userid
 left outer join taskstatus s on t.status=s.statusid
 left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) u on p.prjid=u.prjid
-where $where and p.status='A' ".$this->ProjectListWhere($cookie)."
+where $where and p.completed is null and p.status='A' ".$this->ProjectListWhere($cookie)."
 order by $orderby, t.priority";
 
 	return $this->SelectAll($sql);
@@ -372,7 +372,7 @@ left outer join taskstatus s on t.status=s.statusid
 left outer join milestones sm on t.startmilestone=sm.milestoneid
 left outer join milestones e on t.endmilestone=e.milestoneid
 left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) r on p.prjid=r.prjid
-where t.removed is null and t.cost is not null and p.status='A'$where
+where t.removed is null and t.cost is not null and p.completed is null and p.status='A'$where
 order by t.complete";
 
 	return $this->SelectAll($sql);
@@ -409,7 +409,7 @@ inner join projects p on p.prjid=a.prjid
 left outer join usernames at on t.assignedto=at.userid
 left outer join taskstatus s on t.status=s.statusid
 left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) u on p.prjid=u.prjid
-where t.removed is null and t.complete is not null and p.status='A' and t.approved is null $where
+where t.removed is null and t.complete is not null and p.completed is null and p.status='A' and t.approved is null $where
 order by t.complete desc";
 	return $this->SelectAll($sql);
 }
@@ -492,7 +492,7 @@ inner join projectareas a on a.areaid=t.areaid
 inner join projects p on a.prjid=p.prjid
 left outer join taskstatus s on t.status=s.statusid
 left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) u on p.prjid=u.prjid
-where t.removed is null and p.status='A' ".$this->ProjectListWhere($cookie);
+where t.removed is null and p.completed is null and p.status='A' ".$this->ProjectListWhere($cookie);
 
 	return $this->SelectAll($sql);
 }
