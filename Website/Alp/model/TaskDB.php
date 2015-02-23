@@ -193,7 +193,7 @@ where prjid=$prjid and ($priv is not null or superuser is not null)
 union
 select userid from users where $swhere and superuser is not null
 ) x
-where u.userid=x.userid order by u.lastname, u.firstname";
+where u.userid=x.userid and u.status is not null and u.hasaccount is not null order by u.lastname, u.firstname";
 	return $this->SelectAll($sql, 2);
 }
 

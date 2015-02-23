@@ -211,6 +211,12 @@ function ReadUserList($status='All')
 	return $this->SelectAll($sql,2);
 }
 
+function ReadOwnerUserList()
+{
+	$sql = 'SELECT u.userid, u.name from usernames u, subscription s where s.orgid=u.orgid and hasaccount is not null order by lastname, name';
+	return $this->SelectAll($sql,2);
+}
+
 function GetTaskStatusList()
 {
 	$sql = 'select statusid, name from taskstatus order by name';

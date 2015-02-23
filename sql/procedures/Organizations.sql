@@ -48,6 +48,10 @@ end;
 
 call ValidateOrgSuperUser(i_session, 1, v_me);
 if @err = 0 then
+	if i_status = 0 then
+		select null into i_status;
+	end if;
+
 	update organizations set 
 	edited=now(), editedby=v_me, status=i_status, name=i_name
 	where orgid=i_orgid;

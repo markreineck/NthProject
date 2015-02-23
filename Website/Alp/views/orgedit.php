@@ -16,6 +16,7 @@ if ($db->IsGlobalSupervisor()) {
 	<table border="0" cellpadding="3" cellspacing="0" class="">
 <?php
 	$typelist = $db->GetOrgTypeList();
+	array_unshift($typelist, array(0,'Inactive'));
 	$orgtbl->ShowListField ('OrgType', $typelist);
 	$orgtbl->ShowTextField ('Name');
 ?>
