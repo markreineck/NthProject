@@ -59,6 +59,7 @@ h1 > span {
 	margin-right:5px;
 }
 </style>
+<input type="hidden" value="mysample101" />
 <h1><span>Task Details: <?php echo $data->name; ?>&nbsp;&nbsp;</span>
 <span>
 <?php

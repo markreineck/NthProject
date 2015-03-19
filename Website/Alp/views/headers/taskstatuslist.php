@@ -7,8 +7,8 @@ array_unshift($statuslist, array(-3,'All Held'));
 array_unshift($statuslist, array(-2,'All Active'));
 array_unshift($statuslist, array(-1,'All'));
 ?>
-<td>
-Status&nbsp;
+<div class="field-container inline">
+Status&nbsp;<br />
 <?php
 $form->ShowList ('TaskStatus', $statuslist, 2, $c->GetDefaultTaskStatus(), 'ChangeTaskStatus(this)');
 ?>
@@ -23,4 +23,4 @@ echo $this->Ajax()->DefaultFieldQuery();
 ?>
 }
 </script> 
-</td>
+</div>

@@ -1,7 +1,8 @@
 <?php
 if ($data && count($data)) {
 ?>
-<table width="100%" border="0" cellpadding="3" cellspacing="0" class="table">
+<div class="result-msg">Sorted By <strong>Priority</strong></div>
+<table class="table table-striped">
 <?php
 	$db = $this->Model();
 
@@ -13,10 +14,7 @@ if ($data && count($data)) {
 			$lastpr = $pr;
 			$stripe = 1;
 ?>
-	<tr>
-		<td></td>
-	</tr>
-	<tr class="tabletitle"><td colspan=8><?php echo "$GroupTitle: $pr"; ?></td></tr>
+	<tr class="TableTitle"><td colspan=8><?php echo "$GroupTitle: $pr"; ?></td></tr>
 	<tr class="ColumnTitles">
 		<th>Project</th>
 		<th colspan="2">Task</th>

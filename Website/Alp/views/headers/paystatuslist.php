@@ -2,8 +2,8 @@
 $form = $this->Forms();
 $c = $this->Cookie();
 ?>
-<td>
-Status &nbsp;
+<div class="field-container inline">
+Status &nbsp;<br />
 <?php
 $list = array(
 	array('A', 'All'),
@@ -23,4 +23,4 @@ echo $this->Ajax()->DefaultFieldQuery();
 ?>
 }
 </script> 
-</td>
+</div>

@@ -31,12 +31,14 @@ function Post()
 		}
 	}
 
-	$this->LoadView('home');
+	$this->LoadView('template2015');
+	$this->PutData('PageTitle', 'Sign in to Project');
 }
 
 function Start()
 {
-	$this->LoadView('home');
+	$this->LoadView('template2015');
+	$this->PutData('PageTitle', 'Sign in to Project');
 }
 }
 ?>

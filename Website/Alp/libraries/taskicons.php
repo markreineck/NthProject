@@ -17,13 +17,15 @@ function TaskInfoLink($taskid, $descr)
 
 function TaskDoneLink($taskid)
 {
-	MakeIconLink('check.png', 'taskstatus?cid='.$taskid, 'Complete');
+	//MakeIconLink('check.png', 'taskstatus?cid='.$taskid, 'Complete');	
+	echo '<button type="submit"  class="ActionIconLinks ApproveIcon-Green" title="Complete"><i class="glyphicon glyphicon-ok"></i></button>';
 //	echo '<a href="taskstatus?cid='.$taskid.'"><img src="/image/check.png" alt="Complete" title="Complete" class="icons"></a>';
 }
 
 function TaskApproveLink($taskid)
 {
-	MakeIconLink('bluecheck.png', '?apprid='.$taskid, 'Approve');
+	//MakeIconLink('bluecheck.png', '?apprid='.$taskid, 'Approve');
+	echo '<button type="submit"  class="ActionIconLinks ApproveIcon-Blue" title="Approve"><i class="glyphicon glyphicon-ok"></i></button>';
 //	echo '<a href="?apprid='.$taskid.'"><img src="/image/redcheck.png" alt="Approve" title="Approve" class="icons"></a>';
 }
 
@@ -95,9 +97,8 @@ function AddTaskToAreaLink($prjid, $areaid, $areaname)
 		<form action="newtask" method="post">
 			<input type="hidden" value="<?php echo  $areaid; ?>" name="areaid" id="areaid" />
 			<input type="hidden" value="<?php echo  $areaname; ?>" name="areaname" id="areaname" />
-			<div style="float:right">
-			<input type="image" src="/image/addtask.png" title="Add New Task" />
-			</div>
+			<!--<input type="image" src="/image/addtask.png" title="Add New Task" />-->
+            <button type="submit"  class="ActionIconLinks" title="Add New Task"><i class="glyphicon glyphicon-file"></i></button>
 		</form>
 <?php
 }
@@ -107,9 +108,8 @@ function AddTaskToProjectLink($prjid)
 ?>
 		<form action="newtask" method="post">
 			<input type="hidden" value="<?php echo  $prjid; ?>" name="prjid" id="prjid" />
-			<div style="float:right">
-			<input type="image" src="/image/addtask.png" title="Add New Task" />
-			</div>
+			<!--<input type="image" src="/image/addtask.png" title="Add New Task" />-->            
+            <button type="submit"  class="ActionIconLinks" title="Add New Task"><i class="glyphicon glyphicon-file"></i></button>
 		</form>
 <?php
 }

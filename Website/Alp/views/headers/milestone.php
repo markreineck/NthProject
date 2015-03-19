@@ -6,8 +6,9 @@ if ($this->UserSetting('Milestones')) {
 	$statuslist = $db->GetMilestoneList($c->GetDefaultProject());
 	array_unshift($statuslist, array(-1,'All'));
 ?>
-<td>
-Milestone&nbsp;
+
+<div class="field-container inline">
+Milestone&nbsp;<br />
 <?php
 	$form->ShowList ('DefaultMilestone', $statuslist, 2, $c->GetDefaultMilestone(), 'ChangeMilestone(this)');
 ?>
@@ -22,7 +23,7 @@ mycookie.SetValue("DefaultMilestone", field.value, 1);
 ?>
 }
 </script> 
-</td>
+</div>
 <?php
 }
 ?>

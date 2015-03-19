@@ -3,8 +3,8 @@ $db = $this->Model();
 $form = $this->Forms();
 $c = $this->Cookie();
 ?>
-<td>
-Assigned to &nbsp;
+<div class="field-container inline">
+Assigned to &nbsp;<br />
 <?php
 $userlist = $db->ReadUserList('Act');
 array_unshift($userlist, array(-2,'Unassigned'));
@@ -22,4 +22,4 @@ echo $this->Ajax()->DefaultFieldQuery();
 ?>
 }
 </script> 
-</td>
+</div>

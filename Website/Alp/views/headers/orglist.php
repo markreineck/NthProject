@@ -5,8 +5,8 @@ $form = $this->Forms();
 if ($this->UserSetting('Organizations') && $db->IsOwnerOrg()) {
 	$c = $this->Cookie();
 ?>
-<td>
-Show Organization &nbsp;
+<div class="field-container inline">
+Show Organization &nbsp;<br />
 <?php
 	$orglist = $db->ReadCompanyList();
 	array_unshift($orglist,array(0,'All Organizations'));
@@ -23,7 +23,7 @@ mycookie.SetValue("DefaultCompany", field.value, 1);
 ?>
 }
 </script>
-</td>
+</div>
 <?php
 } else {
 	$form->ShowHiddenField('DefaultOrg',$db->GetCompanyID());

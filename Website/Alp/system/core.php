@@ -1,6 +1,6 @@
 <?php 
 /*
-Copyright (c) 2012-2015, Nth Generation. All rights reserved.
+Copyright (c) 2012, 2013, Nth Generation. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -31,8 +31,8 @@ var $ModelList = array();
 var $TableList = array();
 var $LoadedClassList = array();
 var $DataList = array();
-var $PostData = array();
-var $GetData = array();
+//var $PostData = array();
+//var $GetData = array();
 var $FormClass = NULL;
 var $DateClass = NULL;
 var $AjaxClass = NULL;
@@ -41,7 +41,6 @@ var $CookieClass = NULL;
 var $CSSFiles;
 var $CSSPath;
 var $cssloaded=false;
-var $alpclassloaded=false;
 
 var $controllerlist;
 var $UserSettings;
@@ -52,23 +51,21 @@ var $ConfigPath = 'config';
 var $ViewPath = 'views';
 
 var $DeviceType = '';
+var $ActionList = array();
 
 /**********************************************************************
  *	Class Initialize
  **********************************************************************/
 function AlpFramework($controller)
 {
+	/*
 	foreach ($_POST as $var => $val) {
-// Need to clean the data here
 		$this->PostData[$var] = $val;
 	}
 	foreach ($_GET as $var => $val) {
-// Need to clean the data here
 		$this->GetData[$var] = $val;
 	}
-//	unset($_POST);
-//	unset($_GET);
-
+*/
 	$this->controllerlist = $controller;
 
 	include ('Alp/config/globals.php');
@@ -91,14 +88,16 @@ function AlpFramework($controller)
 			echo '</p>';
 		}
 	}
-/*
-	if (isset($this->ControllerFile) && !empty($this->ControllerFile))
-		include('Alp/controllers/'.$this->ControllerFile.'.php');
-	else
-		include('Alp/controllers/'.$this->controllerlist[0].'.php');
-*/
 }
 
+function Process()
+{
+	if (count($_POST) && method_exists($controller, 'Post'))
+		$controller->Post();
+	else
+		$controller->Start();
+}
+/*
 function PostData($var, $val)
 {
 	$this->PostData[$var] = $val;
@@ -120,11 +119,12 @@ echo "<p>$path</p>";
 	return $path;
 }
 
-private function ConfigurationFilePath ($filename)
+function ConfigurationFilePath ($filename)
 {
 	return $this->FrameworkFilePath($this->ConfigPath,$filename);
 }
 
+//Depricated
 function LoadClassConfig($filename)
 {
 	include ($this->ConfigurationFilePath ($filename));
@@ -254,8 +254,15 @@ function LoadView ($viewname='')
  *	Class Loading
  **********************************************************************/
 
+private function IncludeBaseClass()
+{
+	$path = $this->FrameworkFilePath($this->SystemPath,'AlpClass');
+	include_once ($path);
+}
+
 private function IncludeSystemClass($name)
 {
+	$this->IncludeBaseClass();
 	$path = $this->FrameworkFilePath($this->SystemPath.'/classes',$name);
 	if (is_file($path)) {
 		include ($path);
@@ -264,7 +271,6 @@ private function IncludeSystemClass($name)
 
 private function LoadSystemClass($name)
 {
-	$this->LoadAlpClass();
 	$this->IncludeSystemClass($name);
 	return new $name($this);
 }
@@ -299,6 +305,7 @@ function Ajax()
 
 private function IncludeClassFile($libfile)
 {
+	$this->IncludeBaseClass();
 	$path = $this->FrameworkFilePath($this->SystemPath.'/classes',$libfile);
 	if (!is_file($path)) {
 		$path = $this->FrameworkFilePath('classes',$libfile);
@@ -382,22 +389,12 @@ function DBForm($binding, $classname='')
 	return $this->FormClass;
 }
 
-private function LoadAlpClass()
-{
-	if (!$this->alpclassloaded) {
-		include ($this->FrameworkFilePath('system','AlpClass'));
-		$this->alpclassloaded = true;
-	}
-}
-
 function LoadClass ($libfile, $classname='', $libidx='')
 {
 	if (empty($classname))
 		$classname = (is_array($libfile)) ? end($libfile) : $libfile;
 	if (empty($libidx))
 		$libidx = $classname;
-
-	$this->LoadAlpClass();
 
 	if (isset($this->LoadedClassList[$libidx])) {
 		$lib = $this->LoadedClassList[$libidx];
@@ -470,6 +467,13 @@ function LoadModel ($modelname='', $dbindex=0, $pwd='', $username='', $dbname=''
 }
 
 function Database ($dbindex=0)
+{
+	if (!isset($this->ModelList[$dbindex]) || !$this->ModelList[$dbindex])
+		$this->LoadModel('',$dbindex); 
+	return $this->ModelList[$dbindex];
+}
+
+function Model ($dbindex=0)
 {
 	if (!isset($this->ModelList[$dbindex]) || !$this->ModelList[$dbindex])
 		$this->LoadModel('',$dbindex); 
@@ -632,6 +636,16 @@ function FilteredInputData($method, $var, $filter, $options=0)
 	$result = trim(filter_input($method, $var, $filter, $options));
 	$this->DebugMsg("$var=[$result]");
 	return $result;
+}
+
+function IsPosted($var)
+{
+	return isset($_POST[$var]);
+}
+
+function IsGet($var)
+{
+	return isset($_GET[$var]);
 }
 
 function PostedData($var)

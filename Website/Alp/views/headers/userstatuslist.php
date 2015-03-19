@@ -3,8 +3,8 @@ $db = $this->Model();
 $form = $this->Forms();
 $c = $this->Cookie();
 ?>
-<td>
-User Status &nbsp;
+<div class="field-container inline">
+User Status &nbsp;<br />
 <?php
 $list = $db->ReadUserTypes();
 array_unshift($list,array('I','All Inactive Users'));
@@ -23,4 +23,4 @@ echo $this->Ajax()->DefaultFieldQuery();
 ?>
 }
 </script>
-</td>
+</div>

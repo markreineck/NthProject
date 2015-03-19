@@ -14,7 +14,7 @@ function Start()
 //	$this->Ajax()->SetFunction('GetTasksByPriority');
 	$this->Ajax()->SetFields(array("TaskSort","TaskStatus","DefaultPrj","DefaultUser","DefaultMilestone"));
 	$this->DoTaskListPage();
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

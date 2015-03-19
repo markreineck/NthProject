@@ -1,5 +1,4 @@
 <?php
-// Depricated 2/16/2015
 include 'TaskListController.php';
 
 class taskbyproject extends TaskListController implements AlpController {

@@ -1,10 +1,6 @@
-<td>
-<form method="post" name="form" id="form" style="float:right;margin: 0 10px;">
-<span style="float:left;margin-top: 5px;">Search &nbsp;</span>
-<span style="float:left">
-<input type="text" value="" size="20" id="Keyword" name="Keyword" class="TextInputClass">&nbsp;
-<input type="image" src="image/searchicon.png" alt="Search" />
-</span>
+<form action="" method="post" name="form" id="form" >
+    <div class="field-container">
+        <input type="text" class="textbox dark-bg searchbox" placeholder="Search" id="Keyword" name="Keyword" />
+        <button type="submit" class="btn-icon search-icon"><i class="glyphicon glyphicon-search"></i></button>
+    </div>
 </form>
-</td>
-
