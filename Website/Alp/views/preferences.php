@@ -37,7 +37,7 @@ $namelist = array(
 
 $form->ShowListField ('User', 'User', $userlist, 2, $defuser);
 //$form->ShowListField ('Task Status', 'TaskStatus', $userlist, 1, $status);
-//$form->ShowListField ('User Name View', 'UserNameView', $namelist, 2, $namemode);
+$form->ShowListField ('User Name View', 'UserNameView', $namelist, 2, $namemode);
 //$form->ShowCheckBoxField ('Show Task Numbers', 'TaskNumbers', 1, $checked);
 ?>
 		<tr>

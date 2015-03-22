@@ -59,7 +59,7 @@ function ReadUserGlobalPrivs($userid)
 
 function ReadPreferences($userid)
 {
-	$sql = 'select defuser, notifynew, notifydone, notifyappr, notifyrej, notifymsg from users where userid='.$userid;
+	$sql = 'select defuser, namemode, notifynew, notifydone, notifyappr, notifyrej, notifymsg from users where userid='.$userid;
 	return $this->SelectRow($sql);
 }
 
@@ -221,16 +221,17 @@ function ProjectSuperUser($userid, $prj)
 	return $this->ExecuteProc ($sql);
 }
 
-function MyPreferences($defuser, $notifynew, $notifydone, $notifyappr, $notifyrej, $notifymsg)
+function MyPreferences($defuser, $namemode, $notifynew, $notifydone, $notifyappr, $notifyrej, $notifymsg)
 {
 	$sid = $this->GetSessionID();
 	$defuser = $this->MakeNumericValue($defuser);
+	$namemode = $this->MakeStringValue($namemode);
 	$notifynew = $this->MakeStringValue($notifynew);
 	$notifydone = $this->MakeStringValue($notifydone);
 	$notifyappr = $this->MakeStringValue($notifyappr);
 	$notifyrej = $this->MakeStringValue($notifyrej);
 	$notifymsg = $this->MakeStringValue($notifymsg);
-	$sql = "call MyPreferences($sid, $defuser, $notifynew, $notifydone, $notifyappr, $notifyrej, $notifymsg)";
+	$sql = "call MyPreferences($sid, $defuser, $namemode, $notifynew, $notifydone, $notifyappr, $notifyrej, $notifymsg)";
 	return $this->ExecuteProc ($sql);
 }
 

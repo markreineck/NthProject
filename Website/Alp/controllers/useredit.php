@@ -13,12 +13,16 @@ function Post()
 {
 	$usertbl = $this->DBTable();
 	$usertbl->SetPostedKey();
+	$err = 0;
+
 	if ($usertbl->DataChanged()) {
 		$err = $usertbl->DoUpdate();
 	}
 
 	if (!$err) {
 		$this->RedirectTo('users');
+	} else {
+		$this->Start();
 	}
 }
 

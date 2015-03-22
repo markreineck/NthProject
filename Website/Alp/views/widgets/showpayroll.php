@@ -10,6 +10,8 @@ if ($db->IsGlobalSupervisor()) {
 	<tr bordercolordark="#666666">
 		<th align="left">Name</th>
 		<th align="left">Time</th>
+		<th align="left">Rate</th>
+		<th align="left">Pay</th>
 	</tr>
 <?php
 	$bg="#F0F1F2";
@@ -19,7 +21,9 @@ if ($db->IsGlobalSupervisor()) {
 ?>
 	<tr bgcolor="<?php echo $bg;?>" class="hover">
 		<td><?php echo $vals->name; ?></td>
-		<td align="right"><?php echo $vals->time; ?></td>
+		<td align="right"><?php echo number_format($vals->time, 1); ?></td>
+		<td align="right"><?php echo number_format($vals->payrate, 2); ?></td>
+		<td align="right"><?php echo number_format($vals->pay, 2); ?></td>
 	</tr>
 <?php
 	}

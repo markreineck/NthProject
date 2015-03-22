@@ -30,6 +30,7 @@ if ($db->IsUserManager()) {
 	$usertbl->ShowTextField ('LastName');
 	$usertbl->ShowTextField ('Initials');
 	$usertbl->ShowTextField ('Email');
+	$usertbl->ShowTextField ('PayRate');
 	
 	$data = $db->ReadUserContactEditFields($UserID);
 	$cnt=0;

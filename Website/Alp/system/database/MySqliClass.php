@@ -244,7 +244,7 @@ function ExecuteBoundProc ($proc, $data)
 			}
 			$types .= $type;
 			$params[] = $field['value'];
-			$this->Debug("$field ($type) = " . $field['value']);
+			$this->Debug($field['type'] . " ($type) = " . $field['value']);
 		}
 		array_unshift($params, $types);
 

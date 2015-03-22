@@ -11,11 +11,12 @@ function User($framework)
 			'Initials' => new TextField ('Initials', 'initials', 4, 1),
 			'Email' => new TextField ('Email Address', 'email', 100, 1),
 			'Organization' =>  new SelectField ('Organization', 'orgid', 2),
+			'PayRate' => new FloatField ('Pay Rate', 'payrate', 999, 0),
 			'Status' =>  new SelectField ('User Type', 'status', 2)
 		),
 		'KeyField' => new KeyField ('userid','I'),
 
-		'UpdateProc' => new DBProcedure('UpdateUser', array('SessionID', 'Key-1', 'Organization', 'Status', 'FirstName', 'LastName', 'Initials', 'Email')),
+		'UpdateProc' => new DBProcedure('UpdateUser', array('SessionID', 'Key-1', 'Organization', 'Status', 'FirstName', 'LastName', 'Initials', 'Email', 'PayRate')),
 		'CreateProc' => new DBProcedure('CreateUser', array('SessionID', 'Organization', 'Status', 'FirstName', 'LastName', 'Initials', 'Email'))
 	);
 

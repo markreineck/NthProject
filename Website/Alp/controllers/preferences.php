@@ -14,6 +14,7 @@ function Start()
 		$defuser = $this->PostedString('User');
 		$db = $this->Model();
 		$err = $db->MyPreferences($defuser, 
+			$this->PostedString('UserNameView'), 
 			$this->PostedString('NewTasks'), 
 			$this->PostedString('CompletedTasks'), 
 			$this->PostedString('ApprovedTasks'), 

@@ -110,9 +110,9 @@ class NumberField extends EditField {
 
 	public $Min, $Max;
 
-	function NumberField ($label, $field, $max=0, $min=0, $help='', $type)
+	function NumberField ($label, $field, $type='I', $max=0, $min=0, $help='')
 	{
-		parent::EditField ($label, $field, 'I', $help);
+		parent::EditField ($label, $field, $type, $help);
 		$this->Min = $min;
 		$this->Max = $max;
 	}
@@ -124,15 +124,15 @@ class IntField extends NumberField {
 
 	function IntField ($label, $field, $max=0, $min=0, $help='')
 	{
-		parent::NumberField ($label, $field, $max, $min, $help, 'I');
+		parent::NumberField ($label, $field, 'I', $max, $min, $help);
 	}
 }
 
 class FloatField extends NumberField {
 
-	function IntField ($label, $field, $max=0, $min=0, $help='')
+	function FloatField ($label, $field, $max=0, $min=0, $help='')
 	{
-		parent::NumberField ($label, $field, $max, $min, $help, 'F');
+		parent::NumberField ($label, $field, 'F', $max, $min, $help);
 	}
 }
 

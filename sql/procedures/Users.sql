@@ -60,6 +60,7 @@ drop procedure if exists MyPreferences$$
 create procedure MyPreferences (
 	i_session	bigint unsigned,
 	i_defuser	tinyint,
+	i_namemode	varchar(1),
 	i_new	varchar(1),
 	i_done	varchar(1),
 	i_appr	varchar(1),
@@ -77,7 +78,8 @@ end;
 call ValidateUser(i_session, v_me);
 
 if @err = 0 then
-	UPDATE users SET defuser=i_defuser, notifynew=i_new, notifydone=i_done, notifyappr=i_appr, notifyrej=i_rej, notifymsg=i_msg
+	UPDATE users SET defuser=i_defuser, namemode=i_namemode,
+		notifynew=i_new, notifydone=i_done, notifyappr=i_appr, notifyrej=i_rej, notifymsg=i_msg
 	WHERE userid=v_me;
 
 	if row_count() < 1 then
@@ -163,7 +165,8 @@ create procedure UpdateUser (
 	i_firstname	varchar(20), 
 	i_lastname	varchar(20), 
 	i_initials	varchar(20),
-	i_email		varchar(100)
+	i_email		varchar(100),
+	i_payrate	float
 ) begin
 
 declare v_me int unsigned;
@@ -176,8 +179,9 @@ end;
 call ValidateUserMaintOverUser(i_session, i_userid, v_me);
 
 if @err = 0 then
-	update users set nameedited=now(), nameeditedby=v_me, orgid=i_orgid, status=i_status,
-	initials=i_initials, firstname=i_firstname, lastname=i_lastname, email=i_email
+	update users set nameedited=now(), nameeditedby=v_me, orgid=i_orgid,
+	initials=i_initials, firstname=i_firstname, lastname=i_lastname, 
+	status=i_status, email=i_email, payrate=i_payrate 
 	where userid=i_userid;
 
 	if row_count() < 1 then
@@ -212,33 +216,6 @@ if @err = 0 then
 
 	if row_count() < 1 then
 		select -1051 into @err;
-	end if;
-end if;
-end$$
-
-
-drop procedure if exists UpdateUserRate$$
-create procedure UpdateUserRate (
-	i_session	bigint unsigned,
-	i_userid	int unsigned,
-	i_payrate	smallint
-) begin
-
-declare v_me int unsigned;
-
-declare exit handler for sqlexception begin
-	rollback;
-	select -1040 into @err;
-end;
-
-call ValidateOrgSuperUser(i_session, 1, v_me);
-
-if @err = 0 then
-	update users set edited=now(), editedby=v_me, payrate=i_rate 
-	where userid=i_userid;
-
-	if row_count() < 1 then
-		select -1041 into @err;
 	end if;
 end if;
 end$$

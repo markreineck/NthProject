@@ -318,6 +318,7 @@ function ShowTextField ($fieldname, $size=0)
 		$fld = $this->tablefields[$fieldname];
 		switch ($fld->DataType) {
 			case 'I':
+			case 'F':
 				$size = 1;
 				$m = $fld->Max;
 				while ($m > 1) {
