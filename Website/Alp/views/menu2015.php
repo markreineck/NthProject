@@ -23,7 +23,7 @@ $taskmenu = array(
 	array('priv'=>'',	'opt'=>'',				'link'=>'taskbypriority',	'name'=>'Active Tasks'),
 	array('priv'=>'',	'opt'=>'TaskCost',		'link'=>'taskcosts',		'name'=>'Fixed Price Tasks'),
 	array('priv'=>'',	'opt'=>'Milestones',	'link'=>'taskbymilestone',	'name'=>'Tasks by Milestone'),
-	array('priv'=>'',	'opt'=>'',				'link'=>'tasksremoved',		'name'=>'Deleted Tasks')
+	array('priv'=>'',	'opt'=>'',				'link'=>'tasksremoved',		'name'=>'Cancelled Tasks')
 );
 
 $taskrptmenu = array(
