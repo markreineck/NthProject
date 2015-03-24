@@ -2,8 +2,8 @@
 $form = $this->Forms();
 $c = $this->Cookie();
 ?>
-<td>
-Project Status&nbsp;
+<div class="field-container inline">
+Project Status&nbsp;<br />
 <?php
 $statuslist = array(
 	array('*','All'),
@@ -24,4 +24,4 @@ echo $this->Ajax()->DefaultFieldQuery();
 ?>
 }
 </script> 
-</td>
+</div>

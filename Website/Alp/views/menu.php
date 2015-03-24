@@ -23,8 +23,7 @@ $taskmenu = array(
 	array('priv'=>'',	'opt'=>'',				'link'=>'taskbypriority',	'name'=>'Active Tasks'),
 	array('priv'=>'',	'opt'=>'TaskCost',		'link'=>'taskcosts',		'name'=>'Fixed Price Tasks'),
 	array('priv'=>'',	'opt'=>'Milestones',	'link'=>'taskbymilestone',	'name'=>'Tasks by Milestone'),
-	array('priv'=>'',	'opt'=>'',				'link'=>'tasksremoved',		'name'=>'Deleted Tasks'),
-	array('priv'=>'',	'opt'=>'',				'link'=>'newtask',			'name'=>'Add a Task')
+	array('priv'=>'',	'opt'=>'',				'link'=>'tasksremoved',		'name'=>'Deleted Tasks')
 );
 
 $taskrptmenu = array(
@@ -48,9 +47,11 @@ $supermenu = array(
 	array('priv'=>'G',	'opt'=>'Organizations',	'link'=>'companies',		'name'=>'Organizations'),
 	array('priv'=>'U',	'opt'=>'',				'link'=>'users',			'name'=>'Users'),
 	array('priv'=>'U',	'opt'=>'',				'link'=>'useradd',			'name'=>'Create User'),
-	array('priv'=>'G',	'opt'=>'Organizations',	'link'=>'orgtypes ',	'name'=>'Organizaton Types'),
+	array('priv'=>'G',	'opt'=>'Organizations',	'link'=>'orgtypes ',		'name'=>'Organizaton Types'),
 	array('priv'=>'G',	'opt'=>'',				'link'=>'userstatuses ',	'name'=>'User Status'),
-	array('priv'=>'G',	'opt'=>'',				'link'=>'taskstatuses ',	'name'=>'Task Status')
+	array('priv'=>'G',	'opt'=>'',				'link'=>'taskstatuses ',	'name'=>'Task Status'),
+	array('priv'=>'G',	'opt'=>'',				'link'=>'purgetime ',		'name'=>'Purge Time'),
+	array('priv'=>'G',	'opt'=>'',				'link'=>'purgetask ',		'name'=>'Purge Task')
 /*
 ,
 	array('priv'=>'G',	'link'=>'settings',			'name'=>'Settings')
@@ -107,5 +108,6 @@ if ($db->IsProjectSupervisor())
 if ($db->IsGlobalSupervisor() || $db->IsUserManager())
 	ShowMenu($this, 'Supervisor', $supermenu);
 ?>
+	<li><a href="newtask">Add a Task</a></li>
 	</ul>
 </div>

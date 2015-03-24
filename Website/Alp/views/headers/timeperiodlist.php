@@ -3,8 +3,8 @@ $db = $this->Model();
 $form = $this->Forms();
 $c = $this->Cookie();
 ?>
-<td>
-Period &nbsp;
+<div class="field-container inline">
+Period &nbsp;<br />
 <?php
 $list = array(
 	array('TW', 'This week'),
@@ -37,4 +37,4 @@ echo $this->Ajax()->DefaultFieldQuery();
 ?>
 }
 </script> 
-</td>
+</div>

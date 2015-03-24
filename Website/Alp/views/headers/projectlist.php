@@ -3,8 +3,9 @@ $db = $this->Model();
 $form = $this->Forms();
 $c = $this->Cookie();
 ?>
-<td>
-Project &nbsp;
+
+<div class="field-container inline">
+Project &nbsp;<br />
 <?php
 $prjlist = $db->ReadProjectList();
 array_unshift($prjlist, array(-1,'All'));
@@ -25,4 +26,4 @@ if (array_search('milestone',$PageHeading) && $this->UserSetting('Milestones')) 
 ?>
 }
 </script> 
-</td>
+</div>

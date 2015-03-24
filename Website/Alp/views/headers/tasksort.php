@@ -14,8 +14,9 @@ $sortlist = array(
 	array('CreatedOn', 'New Tasks')
 );
 ?>
-<td>
-Sort by&nbsp;
+
+<div class="field-container inline">
+Sort by&nbsp;<br />
 <?php
 $form->ShowList ('TaskSort', $sortlist, 2, $c->GetTaskSort(), 'ChangeTaskSort(this)');
 ?>
@@ -31,4 +32,4 @@ echo $this->Ajax()->DefaultFieldQuery();
 ?>
 }
 </script> 
-</td>
+</div>

@@ -91,7 +91,7 @@ To: ";
 	echo "<br>
 Subject: $this->subject<br>
 " . $this->MakeHeaders();
-	$this->DebugMsg($msg);
+	$this->Framework()->DebugMsg($msg);
 */
 }
 

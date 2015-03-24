@@ -32,7 +32,7 @@ function DoTaskListPage($filters=NULL)
 	$this->ApproveTasks();
 
 	if (!$filters)
-		$filters = array('tasksort', 'projectlist', 'milestone', 'taskstatuslist', 'assigntolist', 'filters');
+		$filters = array('filters','tasksort', 'projectlist', 'milestone', 'taskstatuslist', 'assigntolist');
 	$this->PutData ('PageHeading', $filters);
 }
 }

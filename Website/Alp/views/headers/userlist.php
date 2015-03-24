@@ -3,8 +3,8 @@ $db = $this->Model();
 $form = $this->Forms();
 $c = $this->Cookie();
 ?>
-<td>
-Show User &nbsp;
+<div class="field-container inline">
+Show User &nbsp;<br />
 <?php
 $userlist = $db->ReadUserList();
 array_unshift($userlist, array(-1,'All'));
@@ -21,4 +21,4 @@ echo $this->Ajax()->DefaultFieldQuery();
 ?>
 }
 </script> 
-</td>
+</div>

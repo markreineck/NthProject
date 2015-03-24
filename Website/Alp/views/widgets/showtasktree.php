@@ -37,14 +37,16 @@ function ShowAreaLine($prjid, $areaid, $areaname, $icons=true)
 ?>
 <tr class="tabletitle">
 	<td width="15">
-		<img src='image/openicon.png' onClick="PrjClick('ia<?php echo $areaid; ?>','a<?php echo $areaid; ?>')" id="ia<?php echo $areaid; ?>" height="15" width="15">
+		<?php /*?><img src='image/openicon.png' onClick="PrjClick('ia<?php echo $areaid; ?>','a<?php echo $areaid; ?>')" id="ia<?php echo $areaid; ?>" height="15" width="15"><?php */?>
+        <i class="glyphicon glyphicon-triangle-bottom arrowdown-icon" onClick="PrjClick('ia<?php echo $areaid; ?>','a<?php echo $areaid; ?>')" id="ia<?php echo $areaid; ?>"></i>
 	</td>
 	<td class="SubTitle" width='100%'><a class="child" onClick="PrjClick('ia<?php echo $areaid; ?>','a<?php echo $areaid; ?>')"><?php echo $areaname; ?></a></td>
 	<td width="30">
 <?php
 if ($icons)
-	MakeIconLink('pencil.png', 'taskedit?aid='.$areaid, 'Edit Tasks');
+	//MakeIconLink('pencil.png', 'taskedit?aid='.$areaid, 'Edit Tasks');
 ?>
+	<a href="<?php echo "taskedit?pid='".$p->prjid."'";?>" role="menuitem" title="Edit Tasks" class="ActionIconLinks"><i class="glyphicon glyphicon-pencil"></i></a>
 	</td>
 	<td width="30" class="SubTitle" align="right">
 <?php
@@ -59,7 +61,10 @@ function ShowProjectLine($p, $superrights, $icons=true)
 {
 ?>
 	<tr class="tablesupertitle">
-		<td width="15"><img src='image/openicon.png' onClick="PrjClick('ip<?php echo $p->prjid; ?>','p<?php echo $p->prjid; ?>')" id="ip<?php echo $p->prjid; ?>" height="15" width="15"></td>
+		<td width="15">
+        	<?php /*?><img src='image/openicon.png' onClick="PrjClick('ip<?php echo $p->prjid; ?>','p<?php echo $p->prjid; ?>')" id="ip<?php echo $p->prjid; ?>" height="15" width="15"><?php */?>
+       		<i class="glyphicon glyphicon-triangle-bottom arrowdown-icon" onClick="PrjClick('ip<?php echo $p->prjid; ?>','p<?php echo $p->prjid; ?>')" id="ip<?php echo $p->prjid; ?>"></i>    
+        </td>
 		<td align="left" width='100%' class='SubTitle'>
 <?php /*
 		<a class="parent"  onClick="PrjClick('ip<?php echo $p->prjid; ?>','p<?php echo $p->prjid; ?>')"><?php echo $p->project; ?></a>
@@ -69,17 +74,15 @@ function ShowProjectLine($p, $superrights, $icons=true)
 		<td width="30">
 <?php
 if ($icons)
-	MakeIconLink('pencil.png', 'taskedit?pid='.$p->prjid, 'Edit Tasks');
+	//MakeIconLink('pencil.png', 'taskedit?pid='.$p->prjid, 'Edit Tasks');
 ?>
+		<a href="<?php echo "taskedit?pid='".$p->prjid."'";?>" role="menuitem" title="Edit Tasks" class="ActionIconLinks"><i class="glyphicon glyphicon-pencil"></i></a>
 		</td>
-		<td width="30" align="left" class='SubTitle'>
-			<div style="float:right">
-				<div style="float:right">
+		<td width="30">
 <?php
 AddTaskToProjectLink($p->prjid);
 ?>
-				</div>
-			</div>
+
 		</td>
 	</tr>
 <?php
@@ -114,7 +117,8 @@ function CloseTable()
 }
 ?>
 
-<table width="100%" border='0' cellspacing="0" cellpadding="0">
+<div class="result-msg">Sorted By <strong>Projects</strong></div>
+<table class="table table-striped">
 <?php
 $db = $this->Model();
 

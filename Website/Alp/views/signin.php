@@ -4,10 +4,7 @@ $form = $this->Forms();
 $errmsg = $db->ErrorMsg();
 $ajax = $this->LoadClass('AjaxClass');
 $c = $this->Cookie();
-?>
 
-<h1>Sign In to a Project</h1>
-<?php
 $form->ShowFormErrors($errmsg);
 $prjlist = $db->ReadUserProjectList();
 ?>
