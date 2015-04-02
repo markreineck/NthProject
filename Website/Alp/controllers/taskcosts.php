@@ -13,7 +13,7 @@ function Start()
 	$this->Ajax()->SetFunction('GetTasksWithCosts');
 	$this->Ajax()->SetFields(array("TaskStatus","DefaultPrj","DefaultUser"));
 	$this->DoTaskListPage();
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

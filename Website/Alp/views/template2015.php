@@ -50,11 +50,13 @@ $this->LoadSystemJavascript('Cookie');
 </header>
 <div class="container-full">
 	<div class="page-body">
+<?php /*
         <div class="page-title">
             <h1>
 <?php echo $PageTitle; ?>            
             </h1>
         </div>
+*/ ?>
         <div class="page-content">
         	<div class="left-body-sidebar">
 <?php

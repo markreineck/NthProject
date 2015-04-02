@@ -18,7 +18,7 @@ function Start()
 	$this->Ajax()->SetFunction('GetTasksByMilestone');
 	$this->Ajax()->SetFields(array("DefaultPrj","DefaultUser","DefaultMilestone"));
 	$this->DoTaskListPage();
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

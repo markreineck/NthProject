@@ -11,7 +11,7 @@ public function __construct($url)
 function Start()
 {
 	$this->DoTaskListPage(array('projectlist', 'assigntolist', 'filters'));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

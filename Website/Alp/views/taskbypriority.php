@@ -1,3 +1,4 @@
+            <h1>Active Tasks</h1>
 <div id="TaskList" name="TaskList">
 <?php
 $c = $this->Cookie();
