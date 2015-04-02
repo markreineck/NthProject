@@ -6,8 +6,8 @@ if ($db->IsGlobalSupervisor()) {
 	$data = $db->ReadPayroll($StartDate, $EndDate);
 	echo "<h2>$StartDate - $EndDate</h2>";
 ?>
-<table class="reporttable" cellspacing="0" cellpadding="5">
-	<tr bordercolordark="#666666">
+<table class="table table-striped">
+    <tr class="ColumnTitles">
 		<th align="left">Name</th>
 		<th align="left">Time</th>
 		<th align="left">Rate</th>

@@ -18,7 +18,7 @@ function Start()
 	$this->PutData ('NextPage', 'payhistory');
 	$this->PutData ('data', $data);
 
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

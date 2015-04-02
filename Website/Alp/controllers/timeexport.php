@@ -13,7 +13,7 @@ function Start()
 	$this->Ajax()->SetFunction('GetTimeExport');
 	$this->PutData ('PageHeading', array('projectlist', 'userlist', 'timeperiodlist'));
 	$this->PutData ('data', $this->Model()->ReadTimeExport($this->Cookie()));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

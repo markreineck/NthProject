@@ -14,7 +14,7 @@ function Start()
 	$this->Ajax()->SetFunction('GetTimeDetail');
 	$this->PutData ('PageHeading', array('projectlist', 'userlist', 'timeperiodlist'));
 	$this->PutData ('data', $this->Model()->ReadTimeExport($c));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

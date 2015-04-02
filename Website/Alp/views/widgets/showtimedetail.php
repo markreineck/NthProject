@@ -1,8 +1,8 @@
 <?php
 $this->LoadLibrary('timeicons');
 ?>
-<table class="ListTable">
-	<tr bordercolordark="#666666">
+<table class="table table-striped">
+    <tr class="ColumnTitles">
 		<th align="left">Name</th>
 		<th align="left">Project</th>
 		<th align="left">Date</th>

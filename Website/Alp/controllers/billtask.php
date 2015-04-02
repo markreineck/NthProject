@@ -35,7 +35,7 @@ function Start()
 	$this->PutData ('OKMsg', $msg);
 	$this->PutData ('PageHeading', array('projectlist', 'paystatuslist', 'assigntolist'));
 	$this->PutData ('ErrorMsg', $db->ErrorMsg());
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

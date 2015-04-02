@@ -17,7 +17,8 @@ function Start()
 	$this->PutData ('StartDate', $c->GetDefaultStartDate());
 	$this->PutData ('EndDate', $c->GetDefaultEndDate());
 	$this->PutData ('data', $this->Model()->ReadMyTime($c));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
+
 }
 ?>

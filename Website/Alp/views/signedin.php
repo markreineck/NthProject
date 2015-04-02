@@ -6,9 +6,8 @@ $this->LoadLibrary('timeicons');
 $this->LoadLibrary('taskicons');
 ?>
 <h1>Signed In Users</h1>
-<table class="ListTable">
-	<tr> </tr>
-	<tr>
+<table class="table table-striped">
+    <tr class="ColumnTitles">
 		<th>Employee Name </th>
 		<th>Signed In Since </th>
 		<th>Duration </th>

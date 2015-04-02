@@ -5,9 +5,9 @@ $form = $this->Forms();
 if ($db->IsGlobalSupervisor()) {
 ?>
 <h1>Organizations</h1>
-<table class="ListTable">
-	<form method="post">
-		<tr class="tableclass">
+<form method="post">
+    <table class="table table-striped">
+        <tr class="ColumnTitles">
 			<th>Company Name</th>
 			<th>Status</th>
 			<th align="center">Active Projects</th>
@@ -40,8 +40,8 @@ foreach ($data as $row) {
 	$stripe = ($stripe > 1) ? 1 : 2;
 }
 ?>
-	</form>
 </table><br>
+</form>
 <?php
 	$form->ShowRedirectButton ('orgedit', 'Add Organization');
 }

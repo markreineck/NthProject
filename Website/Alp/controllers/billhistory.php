@@ -14,7 +14,7 @@ function Start()
 	$this->Ajax()->SetFields(array("DefaultPrj"));
 
 	$this->PutData ('PageHeading', array('projectlist'));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

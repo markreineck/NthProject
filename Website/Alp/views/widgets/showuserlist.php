@@ -4,8 +4,8 @@ $this->LoadLibrary('iconlinks');
 
 if ($db->IsUserManager()) {
 ?>
-<table class="ListTable">
-	<tr>
+<table class="table table-striped">
+    <tr class="ColumnTitles">
 		<th>Company</th>
 		<th>Name</th>
 		<th>User Type</th>

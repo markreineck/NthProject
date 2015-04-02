@@ -3,7 +3,7 @@ function ShowTitle($date, $name)
 {
 ?>
 	<tr class="tabletitle"><td colspan="4"><?php echo "$date: $name"; ?></td></tr>
-	<tr class="ColumnTitles">
+    <tr class="ColumnTitles">
 		<th>Project</th>
 		<th colspan="2">Task</th>
 		<th>Price</th>
@@ -24,7 +24,7 @@ function ShowTotal($stripe, $total)
 }
 ?>
 
-<table border="0" cellpadding="3" cellspacing="0" class="table">
+<table class="table table-striped">
 <?php
 $lastdate = '';
 $lastname = '';

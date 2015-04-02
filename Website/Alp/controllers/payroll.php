@@ -12,7 +12,7 @@ function Start()
 {
 	$this->Ajax()->SetFunction('GetPayroll');
 	$this->PutData ('PageHeading', array('timeperiodlist'));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

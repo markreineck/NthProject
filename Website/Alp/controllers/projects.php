@@ -19,7 +19,8 @@ function Start()
 	$ajax->SetFields(array("DefaultStatus","DefaultOrg"));
 
 	$this->PutData ('PageHeading', array('orglist', 'prjstatuslist'));
-	$this->LoadView('home');
+//	$this->LoadView('home');
+    $this->LoadView('template2015');
 }
 }
 ?>

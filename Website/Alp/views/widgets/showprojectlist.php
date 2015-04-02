@@ -8,8 +8,8 @@ else if ($db->IsProjectSupervisor())
 
 if ($data) {
 ?>
-<table class="ListTable">
-    <tr>
+<table class="table table-striped">
+    <tr class="ColumnTitles">
       <th>&nbsp;</th>
       <th>Project Name</th>
       <th>Priority</th>

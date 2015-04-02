@@ -5,8 +5,8 @@ $c = $this->Cookie();
 $this->LoadLibrary('timeicons');
 ?>
 <h1>Hours for <?php echo "$StartDate - $EndDate"; ?></h1>
-<table class="ListTable">
-	<tr bordercolordark="#666666">
+<table class="table table-striped">
+    <tr class="ColumnTitles">
         <th>Project</th>
         <th>Date</th>
         <th>Time</th>

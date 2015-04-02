@@ -4,8 +4,8 @@ $db = $this->Model();
 $timedata = $db->ListProjectTimeCosts($ProjectID);
 $taskdata = $db->ListProjectTaskCosts($ProjectID);
 ?>
-<table class="ListTable" width="350">
-	<tr>
+<table class="table table-striped">
+    <tr class="ColumnTitles">
 		<th align="left">Name</th>
 		<th align="right">Time</th>
 		<th align="right">Rate</th>
@@ -38,7 +38,7 @@ $taskdata = $db->ListProjectTaskCosts($ProjectID);
 		<td align="right"><?php echo number_format($totalpay,2);?></td>
 	</tr>
 	<tr><td>&nbsp;</td></tr>
-	<tr bordercolordark="#666666">
+    <tr class="ColumnTitles">
 		<th align="left">Name</th>
 		<th align="right">Tasks</th>
 		<th align="right">Cost</th>

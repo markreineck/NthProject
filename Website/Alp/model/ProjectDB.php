@@ -60,7 +60,7 @@ function ListProjectTimeCosts($project)
 	$collist = "t.userid, 
 time_to_sec(timediff(ifnull(t.endon,now()),t.starton))/3600-ifnull(t.adjustment,0) elapsetime";
 
-	$sql = "select t.elapsetime, t.userid, u.name, u.payrate/100 payrate, t.elapsetime*u.payrate/100 pay 
+	$sql = "select t.elapsetime, t.userid, u.name, u.payrate payrate, t.elapsetime*u.payrate pay 
 from (
 select round(sum(t.elapsetime),1) elapsetime, t.userid from
 (select $collist

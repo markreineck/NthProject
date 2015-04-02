@@ -20,7 +20,7 @@ function Start()
 	$this->PutData ('PageHeading', array('projectlist', 'assigntolist'));
 	$this->PutData ('data', $data);
 
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

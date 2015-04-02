@@ -19,7 +19,7 @@ function Start()
 	$ajax->SetFields(array("DefaultUserType","DefaultOrg"));
 
 	$this->PutData ('PageHeading', array('orglist', 'userstatuslist'));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

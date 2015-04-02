@@ -34,7 +34,7 @@ function Start()
 	$msg = ($taskcnt > 0) ? $taskcnt . ' tasks have been changed' : '';
 	$this->PutData ('OKMsg', $msg);
 	$this->PutData ('PageHeading', array('projectlist', 'paystatuslist', 'assigntolist'));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
