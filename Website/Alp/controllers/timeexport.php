@@ -11,7 +11,7 @@ public function __construct($url)
 function Start()
 {
 	$this->Ajax()->SetFunction('GetTimeExport');
-	$this->PutData ('PageHeading', array('projectlist', 'userlist', 'timeperiodlist'));
+	$this->PutData ('PageHeading', array('projectlist', 'userlist', 'timeperiodlist', 'timegroup'));
 	$this->PutData ('data', $this->Model()->ReadTimeExport($this->Cookie()));
 	$this->LoadView('template2015');
 }
