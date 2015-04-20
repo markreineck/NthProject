@@ -55,6 +55,16 @@ function GetDefaultCompany()
 		? $this->Get('DefaultCompany') : $this->Get('OrgID');
 }
 
+function SetTimeGroup($val)
+{
+	$this->Set('TimeGroup', $val);
+}
+
+function GetTimeGroup($val)
+{
+	return $this->Get('TimeGroup');
+}
+
 function SetTaskSort($val)
 {
 	$this->Set('TaskSort', $val);
