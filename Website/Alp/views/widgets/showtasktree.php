@@ -117,7 +117,7 @@ function CloseTable()
 }
 ?>
 
-<div class="result-msg">Sorted By <strong>Projects</strong></div>
+<?php /*?><div class="result-msg">Sorted By <strong>Projects</strong></div><?php */?>
 <table class="table table-striped">
 <?php
 $db = $this->Model();

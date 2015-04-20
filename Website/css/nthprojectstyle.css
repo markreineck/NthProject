@@ -83,10 +83,14 @@ a:hover {
     clear: both;
     padding: 15px;
 }
+header .container-full{
+    padding: 0px 15px;
+}
 .logo {
-	color: #ffffff;
+    color: #FFF;
     font-family: "Lusitana",sans-serif;
-    font-size: 34px;
+    font-size: 30px;
+    padding: 5px 0;
 }
 .logo a {
 	color:#ffffff;
@@ -94,7 +98,7 @@ a:hover {
 }
 .sub-heading {
 	font-family:Arial, Helvetica, sans-serif;
-	font-size:14px;
+	font-size:12px;
 }
 .account-nav {
     background: rgba(85,85,85, 0.2);
@@ -193,7 +197,7 @@ a:hover {
     width: 22px;
 }
 .menu {
-    background: none repeat scroll 0 0 rgba(85, 85, 85, 0.2);
+    background: none repeat scroll 0 0 rgba(85, 85, 85, 0.7);
     border-radius: 3px;
     float: left;
     width: 100%;
@@ -214,7 +218,7 @@ a:hover {
     text-decoration: none;
 }
 .menu ul li a:hover, .menu ul li a.active {
-    background: none repeat scroll 0 0 rgba(85, 85, 85, 0.2);
+    background: none repeat scroll 0 0 rgba(85, 85, 85, 0.5);
 }
 .sub-menu {
     background: none repeat scroll 0 0 rgba(85, 85, 85, 0.2);

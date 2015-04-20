@@ -20,7 +20,7 @@ $this->LoadSystemJavascript('Cookie');
 <header>
 	<div class="container-full">
     	<div class="logo push-left">
-        	<a href="/"><?php echo $this->UserSetting('SubscriptionName'); ?></a><br>
+        	<a href="/"><?php echo $this->UserSetting('SubscriptionName'); ?></a>
             <span class="sub-heading">project management</span>
         </div>
         <div class="account-nav push-right">
@@ -44,10 +44,11 @@ $this->LoadSystemJavascript('Cookie');
             </ul>
         </div>
     </div>
+</header>
+
     <div class="container-full">
 <?php include ('menu2015.php'); ?>    	
     </div>
-</header>
 <div class="container-full">
 	<div class="page-body">
 <?php /*

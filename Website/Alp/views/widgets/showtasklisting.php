@@ -1,7 +1,7 @@
 <?php
 if ($data && count($data)) {
 ?>
-<div class="result-msg">Sorted By <strong>Priority</strong></div>
+<?php /*?><div class="result-msg">Sorted By <strong><?php echo $TaskSort; ?></strong></div><?php */?>
 <table class="table table-striped">
 <?php
 	$db = $this->Model();
@@ -14,7 +14,7 @@ if ($data && count($data)) {
 			$lastpr = $pr;
 			$stripe = 1;
 ?>
-	<tr class="TableTitle"><td colspan=8><?php echo "$GroupTitle: $pr"; ?></td></tr>
+	<tr class="TableTitle"><td colspan=8><div><?php echo "$GroupTitle: $pr"; ?></div></td></tr>
 	<tr class="ColumnTitles">
 		<th>Project</th>
 		<th colspan="2">Task</th>
@@ -37,6 +37,7 @@ if ($data && count($data)) {
 		ShowTaskIcons($db->GetUserID(), $db->IsSupervisor(), $dt);
 ?>
 	</tr>
+    
 <?php 
 		$stripe = ($stripe > 1) ? 1 : 2;
 	} 

@@ -64,6 +64,7 @@ h1 > span {
 <span>
 <?php
 MakeIconLink('back.png', $c->GetLastTaskPage(), 'Back');
+
 MakeIconLink('calendar.png', 'taskhistory?id='.$TaskID, 'Task History');
 
 

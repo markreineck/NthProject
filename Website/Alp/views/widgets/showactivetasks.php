@@ -1,9 +1,6 @@
 <?php
 $db = $this->Model();
 
-echo "
-<!-- TaskSort=$TaskSort -->
-";
 switch ($TaskSort) {
 
 	case 'CreatedOn':
