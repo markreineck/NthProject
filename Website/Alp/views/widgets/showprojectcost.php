@@ -31,7 +31,7 @@ $taskdata = $db->ListProjectTaskCosts($ProjectID);
 		$stripe = ($stripe > 1) ? 1 : 2;
 	}
 ?>
-	<tr>
+	<tr class="table-totals">
 		<td align="left">Total Hours:</td>
 		<td align="right"><?php echo $totaltime;?></td>
 		<td></td>
@@ -61,13 +61,13 @@ $taskdata = $db->ListProjectTaskCosts($ProjectID);
 		$stripe = ($stripe > 1) ? 1 : 2;
 	}
 ?>
-	<tr>
+	<tr class="table-totals">
 		<td align="left">Total Tasks:</td>
 		<td align="right"><?php echo $taskcnt;?></td>
 		<td align="right"><?php echo number_format($totaltasks,2);?></td>
 	</tr>
 	<tr><td>&nbsp;</td></tr>
-	<tr>
+	<tr class="table-totals">
 		<td align="left" colspan="2">Total Project Cost:</td>
 		<td align="right"><?php echo number_format($totaltasks+$totalpay,2);?></td>
 	</tr>
