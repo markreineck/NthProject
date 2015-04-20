@@ -57,6 +57,10 @@ table.ListTable th
 	background: #C1E0FF;
 	text-align:left;
 }
+.table-totals
+{
+	font-weight:bold;
+}
 .tabletitle
 {
 	font-size:14px;
