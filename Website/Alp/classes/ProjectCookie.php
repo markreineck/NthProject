@@ -60,7 +60,7 @@ function SetTimeGroup($val)
 	$this->Set('TimeGroup', $val);
 }
 
-function GetTimeGroup($val)
+function GetTimeGroup()
 {
 	return $this->Get('TimeGroup');
 }

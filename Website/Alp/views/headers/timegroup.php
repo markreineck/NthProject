@@ -14,10 +14,10 @@ $sortlist = array(
 <div class="field-container inline">
 Group by&nbsp;<br />
 <?php
-$form->ShowList ('TimeGroup', $sortlist, 2, $c->GetTimeSort(), 'ChangeTimeGroup(this)');
+$form->ShowList ('TimeGroup', $sortlist, 2, $c->GetTimeGroup(), 'ChangeTimeGroup(this)');
 ?>
 <script language="javascript">
-function ChangeTimeSort(field) {
+function ChangeTimeGroup(field) {
 mycookie = new Cookie();
 mycookie.SetValue("TimeGroup", field.value, 1);
 <?php

@@ -29,7 +29,7 @@ public function TimeReportController($url)
 	$ajax->SetPage('ajaxtime');
 	$ajax->SetSection('TimeList');
 	$ajax->AddArg('sid', $this->Cookie()->GetSessionID());
-	$ajax->SetFields(array("DefaultDateRange","DefaultPrj","DefaultUser"));
+	$ajax->SetFields(array('DefaultDateRange','DefaultPrj','DefaultUser','TimeGroup'));
 }
 
 }
