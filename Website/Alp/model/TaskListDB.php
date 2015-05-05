@@ -86,7 +86,13 @@ function TaskStatusWhere($cookie)
 			$where .= ' and t.complete is not null and t.approved is null';
 			break;
 		case -5:	// Approved
-			$where .= ' and t.approved is not null';
+			$where .= ' and t.approved is not null and t.released is null';
+			break;
+		case -6:	// Released
+			$where .= ' and t.released is not null';
+			break;
+		case -7:	// Cancelled
+			$where .= ' and t.removed is not null';
 			break;
 		default:
 			if ($cookie->GetDefaultTaskStatus() > 0)
@@ -286,7 +292,7 @@ order by t.billed";
 	return $this->SelectAll($sql);
 }
 
-function ListTasksOrdered($where, $orderby, $cookie)
+function ListTasksOrdered($orderby, $cookie)
 {
 	$uid = $this->GetUserID();
 	$sql = "select p.orgid, t.taskid, t.priority, s.name status, p.name as project, a.name as area, t.name task, at.name assignedto, at.initials assignedinitials, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost,
@@ -304,17 +310,34 @@ left outer join (select prjid, superuser, edit, assign from projectusers where u
 where $where and p.completed is null and p.status='A' ".$this->ProjectListWhere($cookie)."
 order by $orderby, t.priority";
 
+	$sql = "select p.orgid, t.taskid, t.priority, s.name status, p.name as project, a.name as area, t.name task, at.name assignedto, at.initials assignedinitials, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost,
+date_format(ifnull(t.needby, e.targetdate), '%b %e, %Y') needby, 
+date_format(t.submittedon, '%b %e, %Y') submitted, 
+date_format(t.removed, '%b %e, %Y') removedon
+from tasks t
+inner join projectareas a on a.areaid=t.areaid
+inner join projects p on p.prjid=a.prjid
+left outer join milestones sm on t.startmilestone=sm.milestoneid
+left outer join milestones e on t.endmilestone=e.milestoneid
+left outer join usernames at on t.assignedto=at.userid
+left outer join taskstatus s on t.status=s.statusid
+left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) u on p.prjid=u.prjid
+where ".$this->ProjectListWhere($cookie)."
+order by $orderby, t.priority";
+
 	return $this->SelectAll($sql);
 }
 
 function ListTasksByPriority($cookie)
 {
-	return $this->ListTasksOrdered('t.complete is null and t.removed is null', "t.priority, p.priority, p.name, ifnull(t.needby,'2199-12-31')", $cookie);
+//	return $this->ListTasksOrdered('t.complete is null and t.removed is null', "t.priority, p.priority, p.name, ifnull(t.needby,'2199-12-31')", $cookie);
+	return $this->ListTasksOrdered("t.priority, p.priority, p.name, ifnull(t.needby,'2199-12-31')", $cookie);
 }
 
 function ListDeletedTasks($cookie)
 {
-	return $this->ListTasksOrdered('t.removed is not null', 't.removed, p.name', $cookie);
+//	return $this->ListTasksOrdered('t.removed is not null', 't.removed, p.name', $cookie);
+	return $this->ListTasksOrdered('t.removed, p.name', $cookie);
 }
 
 function ListTasksByMilestone($cookie)
@@ -380,17 +403,20 @@ order by t.complete";
 
 function ListTasksByTargetDate($cookie)
 {
-	return $this->ListTasksOrdered('t.complete is null and t.removed is null', "ifnull(ifnull(t.needby, e.targetdate),'2199-13-31'), t.priority", $cookie);
+	return $this->ListTasksOrdered("ifnull(ifnull(t.needby, e.targetdate),'2199-13-31'), t.priority", $cookie);
+//	return $this->ListTasksOrdered('t.complete is null and t.removed is null', "ifnull(ifnull(t.needby, e.targetdate),'2199-13-31'), t.priority", $cookie);
 }
 
 function ListTasksByPerson($cookie)
 {
-	return $this->ListTasksOrdered('t.complete is null and t.removed is null', 'assignedto', $cookie);
+	return $this->ListTasksOrdered('assignedto', $cookie);
+//	return $this->ListTasksOrdered('t.complete is null and t.removed is null', 'assignedto', $cookie);
 }
 
 function ListTasksByCreatedOn($cookie)
 {
-	return $this->ListTasksOrdered('t.complete is null and t.removed is null', 'submittedon desc', $cookie);
+//	return $this->ListTasksOrdered('t.complete is null and t.removed is null', 'submittedon desc', $cookie);
+	return $this->ListTasksOrdered('submittedon desc', $cookie);
 }
 
 function ListTasksByCompletedOn($cookie)
