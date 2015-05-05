@@ -13,6 +13,19 @@ function TaskListDB($framework)
 /**********************************************************************
  *	Task List Functions
  **********************************************************************/
+function NameField()
+{
+	switch ($this->GetNameMode()) {
+		case 'I':
+			return 'initials';
+		case 'F':
+			return 'firstname';
+		case 'L':
+			return 'lastname';
+	}
+	return 'name';
+}
+
 function ProjectWhere($cookie)
 {
 	$where = '';
@@ -182,12 +195,14 @@ function ProjectListWhere($cookie)
 
 function ListApproveFixedPriceTasks($cookie)
 {
+	$namefield = $this->NameField();
+
 	$where = '';
 	$where .= $this->ProjectWhere($cookie);
 	$where .= $this->PaidAssignedToWhere($cookie);
 	$where .= $this->TaskPaidWhere($cookie);
 	$uid = $this->GetUserID();
-	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.name assignedto, p.prjid, t.complete, t.approved, t.cost, t.paid
+	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, t.complete, t.approved, t.cost, t.paid
 from tasks t
 inner join projectareas a on a.areaid=t.areaid
 inner join projects p on p.prjid=a.prjid
@@ -199,6 +214,8 @@ order by t.complete";
 
 function ListTasksForRelease($cookie)
 {
+	$namefield = $this->NameField();
+
 	$where = $this->MilestoneWhere($cookie);
 	if ($cookie->GetDefaultUser() > 0)
 		$where .= ' and t.assignedto=' . $cookie->GetDefaultUser();
@@ -220,12 +237,14 @@ function ListPaidTasks($cookie)
 	if (!$this->IsGlobalSupervisor())
 		return NULL;
 
+	$namefield = $this->NameField();
+
 	$where = '';
 	$where .= $this->ProjectWhere($cookie);
 	$where .= $this->PaidAssignedToWhere($cookie);
 //	$where .= $this->TaskPaidWhere($cookie);
 	$uid = $this->GetUserID();
-	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.name assignedto, p.prjid, t.complete, t.approved, t.cost, t.paid
+	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, t.complete, t.approved, t.cost, t.paid
 from tasks t
 inner join projectareas a on a.areaid=t.areaid
 inner join projects p on p.prjid=a.prjid
@@ -237,11 +256,13 @@ order by t.paid, at.name, p.name";
 
 function ListMyPaidTasks($cookie)
 {
+	$namefield = $this->NameField();
+
 	$where = ' and t.assignedto='.$this->GetUserID();
 	$where .= $this->ProjectWhere($cookie);
 //	$where .= $this->AssignedToWhere($cookie);
 	$uid = $this->GetUserID();
-	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.name assignedto, p.prjid, t.complete, t.approved, t.cost, t.paid
+	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, t.complete, t.approved, t.cost, t.paid
 from tasks t
 inner join projectareas a on a.areaid=t.areaid
 inner join projects p on p.prjid=a.prjid
@@ -256,12 +277,14 @@ function ListApproveBilledTasks($cookie)
 	if (!$this->IsGlobalSupervisor())
 		return NULL;
 
+	$namefield = $this->NameField();
+
 	$where = '';
 	$where .= $this->ProjectWhere($cookie);
 	$where .= $this->AssignedToWhere($cookie);
 	$where .= $this->TaskBilledWhere($cookie);
 	$uid = $this->GetUserID();
-	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.name assignedto, p.prjid, t.complete, t.approved, t.cost, t.billed
+	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, t.complete, t.approved, t.cost, t.billed
 from tasks t
 inner join projectareas a on a.areaid=t.areaid
 inner join projects p on p.prjid=a.prjid
@@ -277,12 +300,14 @@ function ListBilledTasks($cookie)
 	if (!$this->IsGlobalSupervisor())
 		return NULL;
 
+	$namefield = $this->NameField();
+
 	$where = '';
 	$where .= $this->ProjectWhere($cookie);
 	$where .= $this->AssignedToWhere($cookie);
 //	$where .= $this->TaskBilledWhere($cookie);
 	$uid = $this->GetUserID();
-	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.name assignedto, p.prjid, t.complete, t.approved, t.cost, t.billed
+	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, t.complete, t.approved, t.cost, t.billed
 from tasks t
 inner join projectareas a on a.areaid=t.areaid
 inner join projects p on p.prjid=a.prjid
