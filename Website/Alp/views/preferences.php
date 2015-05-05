@@ -13,8 +13,8 @@ $form->ShowFormErrors($errmsg, $OKMsg);
 	<table border="0" cellpadding="3" cellspacing="0" class="">
 <?php
 $defuser = $ds->defuser;
-$notify = $ds->notify;
-$namemode = $ds->namemode;
+//$notify = $ds->notify;
+//$namemode = $ds->namemode;
 ?>
 		<tr>
 			<td>
@@ -37,7 +37,7 @@ $namelist = array(
 
 $form->ShowListField ('User', 'User', $userlist, 2, $defuser);
 //$form->ShowListField ('Task Status', 'TaskStatus', $userlist, 1, $status);
-$form->ShowListField ('User Name View', 'UserNameView', $namelist, 2, $namemode);
+$form->ShowListField ('User Name View', 'UserNameView', $namelist, 2, $db->GetNameMode());
 //$form->ShowCheckBoxField ('Show Task Numbers', 'TaskNumbers', 1, $checked);
 ?>
 		<tr>

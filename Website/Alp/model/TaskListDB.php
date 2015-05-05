@@ -183,7 +183,7 @@ function KeyWordWhere()
 
 function ProjectListWhere($cookie)
 {
-	$where = '';
+	$where = '1';
 	$where .= $this->ProjectWhere($cookie);
 	$where .= $this->ProjectAreaWhere($cookie);
 	$where .= $this->AssignedToWhere($cookie);
@@ -320,6 +320,9 @@ order by t.billed";
 function ListTasksOrdered($orderby, $cookie)
 {
 	$uid = $this->GetUserID();
+	$namefield = $this->NameField();
+
+/*
 	$sql = "select p.orgid, t.taskid, t.priority, s.name status, p.name as project, a.name as area, t.name task, at.name assignedto, at.initials assignedinitials, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost,
 date_format(ifnull(t.needby, e.targetdate), '%b %e, %Y') needby, 
 date_format(t.submittedon, '%b %e, %Y') submitted, 
@@ -334,8 +337,8 @@ left outer join taskstatus s on t.status=s.statusid
 left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) u on p.prjid=u.prjid
 where $where and p.completed is null and p.status='A' ".$this->ProjectListWhere($cookie)."
 order by $orderby, t.priority";
-
-	$sql = "select p.orgid, t.taskid, t.priority, s.name status, p.name as project, a.name as area, t.name task, at.name assignedto, at.initials assignedinitials, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost,
+*/
+	$sql = "select p.orgid, t.taskid, t.priority, s.name status, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost,
 date_format(ifnull(t.needby, e.targetdate), '%b %e, %Y') needby, 
 date_format(t.submittedon, '%b %e, %Y') submitted, 
 date_format(t.removed, '%b %e, %Y') removedon

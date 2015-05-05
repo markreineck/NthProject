@@ -40,7 +40,7 @@ where expireson>now() and s.sessionid=' . $sid;
 		$this->OrgID = $data->orgid;
 		$this->UserMaint = $data->usermaint;
 		$this->SuperUser = $data->superuser;
-		$this->$NameMode = $data->namemode;
+		$this->NameMode = $data->namemode;
 
 		$sql = 'select orgid, defaulttaskstatus from subscription limit 1';
 		$subscr = $this->SelectRow($sql);
