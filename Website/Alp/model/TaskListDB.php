@@ -77,19 +77,19 @@ function TaskStatusWhere($cookie)
 	$where = '';
 	switch ($cookie->GetDefaultTaskStatus()) {
 		case -2:	// All active
-			$where .= ' and s.hold is null and t.complete is null and t.approved is null';
+			$where .= ' and s.hold is null and t.complete is null and t.approved is null and t.removed is null';
 			break;
 		case -3:	// All held
-			$where .= ' and s.hold is not null';
+			$where .= ' and s.hold is not null and t.removed is null and t.complete is null';
 			break;
 		case -4:	// Completed
-			$where .= ' and t.complete is not null and t.approved is null';
+			$where .= ' and t.complete is not null and t.approved is null and t.removed is null';
 			break;
 		case -5:	// Approved
-			$where .= ' and t.approved is not null and t.released is null';
+			$where .= ' and t.approved is not null and t.released is null and t.removed is null';
 			break;
 		case -6:	// Released
-			$where .= ' and t.released is not null';
+			$where .= ' and t.released is not null and t.removed is null';
 			break;
 		case -7:	// Cancelled
 			$where .= ' and t.removed is not null';
