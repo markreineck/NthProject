@@ -3,11 +3,12 @@ $db = $this->Model();
 $form = $this->Forms();
 $c = $this->Cookie();
 $statuslist = $db->GetTaskStatusList();
-array_unshift($statuslist, array(-6,'All Released'));
-array_unshift($statuslist, array(-5,'All Approved'));
-array_unshift($statuslist, array(-4,'All Complete'));
-array_unshift($statuslist, array(-3,'All Held'));
-array_unshift($statuslist, array(-2,'All Active'));
+array_unshift($statuslist, array(-7,'Cancelled'));
+array_unshift($statuslist, array(-6,'Released'));
+array_unshift($statuslist, array(-5,'Approved'));
+array_unshift($statuslist, array(-4,'Complete'));
+array_unshift($statuslist, array(-3,'Held'));
+array_unshift($statuslist, array(-2,'Active'));
 array_unshift($statuslist, array(-1,'All'));
 ?>
 <div class="field-container inline">
