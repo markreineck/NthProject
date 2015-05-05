@@ -1,3 +1,4 @@
+at
 <?php
 class TaskFilter {
 var $project, $milestone, $assignedto, $status, $paidstatus, $startdate, $enddate;
@@ -114,6 +115,27 @@ function TaskStatusWhere($cookie)
 	return $where;
 }
 
+function TaskDateField($cookie)
+{
+	switch ($cookie->GetDefaultTaskStatus()) {
+		case -4:	// Completed
+			$field = 't.complete';
+			break;
+		case -5:	// Approved
+			$field = 't.approved';
+			break;
+		case -6:	// Released
+			$field = 't.released';
+			break;
+		case -7:	// Cancelled
+			$field = 't.removed';
+			break;
+		default:
+			$field = 'ifnull(t.needby, e.targetdate)';
+	}
+	return $field;
+}
+
 function TaskPaidWhere($cookie)
 {
 	$where = '';
@@ -183,7 +205,7 @@ function KeyWordWhere()
 
 function ProjectListWhere($cookie)
 {
-	$where = '1';
+	$where = '';
 	$where .= $this->ProjectWhere($cookie);
 	$where .= $this->ProjectAreaWhere($cookie);
 	$where .= $this->AssignedToWhere($cookie);
@@ -321,7 +343,7 @@ function ListTasksOrdered($orderby, $cookie)
 {
 	$uid = $this->GetUserID();
 	$namefield = $this->NameField();
-
+	$datefld = $this->TaskDateField($cookie);
 /*
 	$sql = "select p.orgid, t.taskid, t.priority, s.name status, p.name as project, a.name as area, t.name task, at.name assignedto, at.initials assignedinitials, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost,
 date_format(ifnull(t.needby, e.targetdate), '%b %e, %Y') needby, 
@@ -339,7 +361,7 @@ where $where and p.completed is null and p.status='A' ".$this->ProjectListWhere(
 order by $orderby, t.priority";
 */
 	$sql = "select p.orgid, t.taskid, t.priority, s.name status, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost,
-date_format(ifnull(t.needby, e.targetdate), '%b %e, %Y') needby, 
+date_format($datefld, '%b %e, %Y') needby, 
 date_format(t.submittedon, '%b %e, %Y') submitted, 
 date_format(t.removed, '%b %e, %Y') removedon
 from tasks t
@@ -350,7 +372,7 @@ left outer join milestones e on t.endmilestone=e.milestoneid
 left outer join usernames at on t.assignedto=at.userid
 left outer join taskstatus s on t.status=s.statusid
 left outer join (select prjid, superuser, edit, assign from projectusers where userid=$uid) u on p.prjid=u.prjid
-where ".$this->ProjectListWhere($cookie)."
+where p.completed is null and p.status='A'".$this->ProjectListWhere($cookie)."
 order by $orderby, t.priority";
 
 	return $this->SelectAll($sql);
@@ -514,7 +536,7 @@ left outer join milestones sm on t.startmilestone=sm.milestoneid
 left outer join milestones em on t.endmilestone=em.milestoneid
 left outer join usernames at on t.assignedto=at.userid
 left outer join projectusers u on u.prjid=p.prjid and u.userid=$userid
-where $where and t.removed is null and p.completed is null and p.status='A'" . $this->ProjectListWhere($cookie);
+where p.completed is null and p.status='A'" . $this->ProjectListWhere($cookie);
 
 	$sql .= '
 order by p.priority, p.name, pa.name, t.priority, t.needby';

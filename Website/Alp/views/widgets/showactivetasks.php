@@ -1,6 +1,25 @@
 <?php
 $db = $this->Model();
 
+switch ($filter->GetDefaultTaskStatus()) {
+	case -4:	// Completed
+		$datefield = 'Completed';
+		break;
+	case -5:	// Approved
+		$datefield = 'Approved';
+		break;
+	case -6:	// Released
+		$datefield = 'Released';
+		break;
+	case -7:	// Cancelled
+		$datefield = 'Cancelled';
+		break;
+	default:
+		$datefield = 'Due';
+}
+
+$this->PutData('datefield', $datefield);
+
 switch ($TaskSort) {
 
 	case 'CreatedOn':
@@ -22,7 +41,7 @@ switch ($TaskSort) {
 	case 'Due':
 		$data = $db->ListTasksByTargetDate($filter);
 		$this->PutData ('data', $data);
-		$this->PutData ('GroupTitle', 'Target Date');
+		$this->PutData ('GroupTitle', $datefield);
 		$this->PutData ('GroupField', 'needby');
 		$this->LoadView('widgets/showtasklisting');
 		break;

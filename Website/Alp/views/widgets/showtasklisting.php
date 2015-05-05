@@ -18,7 +18,7 @@ if ($data && count($data)) {
 	<tr class="ColumnTitles">
 		<th>Project</th>
 		<th colspan="2">Task</th>
-		<th>Due</th>
+		<th><?php echo $datefield; ?></th>
 		<th>Assigned to</th>
 		<th>Status</th>
 		<th colspan="2"></th>
