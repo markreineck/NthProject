@@ -15,6 +15,7 @@ var $ProjectSuper;
 var $ProjectRelease;
 var $ProjectSubmit;
 var $DefaultTaskStatus;
+var $NameMode;
 
 function DatabaseDB($framework, $pwd='', $username='', $dbname='', $host='')
 {
@@ -23,7 +24,7 @@ function DatabaseDB($framework, $pwd='', $username='', $dbname='', $host='')
 
 function ReadUserSession($sid)
 {
-	$sql = 'select s.userid, t.timeid, u.email, u.firstname, u.orgid, u.superuser, u.usermaint
+	$sql = 'select s.userid, t.timeid, u.email, u.firstname, u.orgid, u.superuser, u.usermaint, u.namemode
 from usersession s
 inner join users u on s.userid=u.userid
 left outer join (select timeid, userid from usertime where endon is null) t on s.userid=t.userid
@@ -39,6 +40,7 @@ where expireson>now() and s.sessionid=' . $sid;
 		$this->OrgID = $data->orgid;
 		$this->UserMaint = $data->usermaint;
 		$this->SuperUser = $data->superuser;
+		$this->$NameMode = $data->namemode;
 
 		$sql = 'select orgid, defaulttaskstatus from subscription limit 1';
 		$subscr = $this->SelectRow($sql);
@@ -169,6 +171,11 @@ function GetUserFirstName()
 function GetCompanyID()
 {
 	return ($this->OrgID);
+}
+
+function GetNameMode()
+{
+	return ($this->NameMode);
 }
 
 function GetUserEmail()
