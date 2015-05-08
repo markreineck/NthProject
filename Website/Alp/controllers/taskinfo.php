@@ -15,7 +15,7 @@ private function ShowPage($taskid, $okmsg)
 	$this->PutData ('PageHeading', array('filters'));
 	$this->PutData ('TaskID', $taskid);
 	$this->PutData ('OKMsg', $okmsg);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 
 function Post()

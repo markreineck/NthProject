@@ -244,3 +244,10 @@ h2 .icons {
 	border:1px #999 solid !important;
 	color:#999;
 	}
+dt {
+    float: left;
+    width: 80px;
+}
+dd {
+    margin-left: 80px;
+}

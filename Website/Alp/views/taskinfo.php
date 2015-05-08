@@ -60,7 +60,7 @@ h1 > span {
 }
 </style>
 <input type="hidden" value="mysample101" />
-<h1><span>Task Details: <?php echo $data->name; ?>&nbsp;&nbsp;</span>
+<h1><?php echo $data->name; ?>&nbsp;&nbsp;
 <span>
 <?php
 MakeIconLink('back.png', $c->GetLastTaskPage(), 'Back');
@@ -105,68 +105,40 @@ $form->ShowFormErrors($errmsg, $OKMsg);
 ?>
 <div id="ViewTask">
 	<div class="portfolio pagesection">
-		<table border="0" cellpadding="0" cellspacing="5" class="tabledata">
-			<tr>
-				<td colspan="2" class="SectionTitle"><h2>Task&nbsp;&nbsp;&nbsp;
+<div class="Section-func">
 <?php
-if ($canedit) {
-	MakeJSIcon('pencil.png', "ToggleViews('ViewTask','EditTask')", 'Edit Task');
-/*
-					<img src="/image/pencil.png" alt="Edit Task" title="Edit Task" onClick="ToggleViews('ViewTask','EditTask')" class="icons">
-*/
-}
+if ($canedit) { MakeJSIcon('pencil.png', "ToggleViews('ViewTask','EditTask')", 'Edit Task'); }
 ?>
-				</h2></td>
-			</tr>
-			<tr>
-				<td width="100" valign="middle" class="LabelClass">Area:</td>
-				<td><a href="projectinfo?id=<?php echo $data->prjid; ?>"><?php echo $data->project; ?></a>: <?php echo $data->area; ?></td>
-			</tr>
-			<tr>
-				<td valign="middle" class="LabelClass">Priority:</td>
-				<td><?php echo $data->priority; ?></td>
-			</tr>
-			<tr>
-				<td valign="middle" class="LabelClass">Status:</td>
-				<td><?php echo $status; ?></td>
-			</tr>
-			<tr>
-				<td valign="middle" class="LabelClass">Submitted on:</td>
-				<td><?php echo $data->submittedon; ?></td>
-			</tr>
+</div>
+<dl>
+    <dt>Area:</dt><dd><a href="projectinfo?id=<?php echo $data->prjid; ?>"><?php echo $data->project; ?></a>: <?php echo $data->area; ?></dd>
+    <dt>Priority:</dt><dd><?php echo $data->priority; ?></dd>
+    <dt>Status:</dt><dd><?php echo $status; ?>Submitted on:<?php echo $data->submittedon; ?></dd>
 <?php
 if (!empty($data->complete)) {
 ?>
-			<tr>
-				<td valign="middle" class="LabelClass">Completed on:</td>
-				<td><?php echo $data->complete; ?></td>
-			</tr>
+	<dt>Completed on:</dt><dd><?php echo $data->complete; ?></dd>
 <?php
 }
 if (!empty($data->approved)) {
 ?>
-			<tr>
-				<td valign="middle" class="LabelClass">Approved on:</td>
-				<td><?php echo $data->approved; ?></td>
-			</tr>
+	<dt>Approved on:</dt><dd><?php echo $data->approved; ?></dd>
 <?php
 }
-
+?>
+</dl>
+<?php
+		
 function ShowAssignment($label, $userid, $name, $email, $taskid, $taskname)
 {
 	if ($userid) {
 ?>
-
-			<tr>
-				<td width="100" valign="middle" class="LabelClass"><?php echo $label; ?></td>
-				<td><?php echo $name; ?></td>
-				<td>
+<?php echo $label; ?><?php echo $name; ?>
 <?php
 		MakeJSIcon('mail.png', "ShowContactPerson($userid,$taskid,'$name','$email','$taskname')", 'Contact');
 ?>
 
-				</td>
-			</tr>
+				
 <?php
 	}
 }
@@ -179,40 +151,28 @@ ShowAssignment('Approval By', $data->approvedby, $data->approvedname, $data->app
 if ($this->UserSetting('Milestones')) {
 	if (!empty($data->startmsname)) {
 ?>
-			<tr>
-				<td width="100" valign="middle" class="LabelClass">Start after:</td>
-				<td><?php echo $data->startmsname; ?></td>
-			</tr>
+			Start after:<?php echo $data->startmsname; ?>
 <?php
 	}
 	if (!empty($data->endmsname)) {
 ?>
-			<tr>
-				<td width="100" valign="middle" class="LabelClass">Complete By:</td>
-				<td><?php echo $data->endmsname; ?></td>
-			</tr>
+			Complete By:<?php echo $data->endmsname; ?>
 <?php
 	}
 }
 if ($this->UserSetting('TaskDates') && !empty($data->startafter) || !empty($data->needby)) {
 ?>
-			<tr>
-				<td width="100" valign="middle" class="LabelClass">Complete By:</td>
-				<td><?php echo $data->needby; ?></td>
-			</tr>
+			Complete By:<?php echo $data->needby; ?>
 <?php
 }
 if ($this->UserSetting('TaskCost') && !empty($data->cost) &&
 	($db->IsGlobalSupervisor() || $db->GetUserID() == $data->assignedto)) {
 ?>
-			<tr>
-				<td width="100" valign="middle" class="LabelClass">Cost:</td>
-				<td><?php echo $data->cost; ?></td>
-			</tr>
+			Cost:<?php echo $data->cost; ?>
 <?php
 }
 ?>
-		</table>
+		
 	</div>
 
 <div class="portfolio pagesection">
