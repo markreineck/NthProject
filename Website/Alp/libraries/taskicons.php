@@ -17,16 +17,13 @@ function TaskInfoLink($taskid, $descr)
 
 function TaskDoneLink($taskid)
 {
-	//MakeIconLink('check.png', 'taskstatus?cid='.$taskid, 'Complete');	
-	echo '<button type="submit"  class="ActionIconLinks ApproveIcon-Green" title="Complete"><i class="glyphicon glyphicon-ok"></i></button>';
-//	echo '<a href="taskstatus?cid='.$taskid.'"><img src="/image/check.png" alt="Complete" title="Complete" class="icons"></a>';
+	MakeIconLink('ok', 'taskstatus?cid='.$taskid, 'Complete', '' ,'Green');	
 }
 
 function TaskApproveLink($taskid)
 {
-	//MakeIconLink('bluecheck.png', '?apprid='.$taskid, 'Approve');
-	echo '<button type="submit"  class="ActionIconLinks ApproveIcon-Blue" title="Approve"><i class="glyphicon glyphicon-ok"></i></button>';
-//	echo '<a href="?apprid='.$taskid.'"><img src="/image/redcheck.png" alt="Approve" title="Approve" class="icons"></a>';
+	MakeIconLink('ok', '?apprid='.$taskid, 'Approve', '', 'Blue');
+
 }
 
 function TaskDispproveLink($taskid)

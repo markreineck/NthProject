@@ -38,34 +38,14 @@ if ($sid == 'A' || $sid == 'D') {
 	$canassn = ($super || $privs->assign || $data->submittedby == $db->GetUserID());
 }
 ?>
-<style type="text/css">
-.portfolio {
-	display:table;
-	width:350px;
-}
-.memoarea {
-	width:723px;
-}
-.pagesection {
-	float:left;
-	padding:5px;
-	background-color:#FFF;
-	border:1px solid #999999;
-	margin:5px;
-	border-radius:3px;
-}
-h1 > span {
-	float:left;
-	margin-right:5px;
-}
-</style>
+
 <input type="hidden" value="mysample101" />
 <h1><?php echo $data->name; ?>&nbsp;&nbsp;
-<span>
+<span class="taskicons">
 <?php
-MakeIconLink('back.png', $c->GetLastTaskPage(), 'Back');
+MakeIconLink('circle-arrow-left', $c->GetLastTaskPage(), 'Back', '', 'Blue');
 
-MakeIconLink('calendar.png', 'taskhistory?id='.$TaskID, 'Task History');
+MakeIconLink('calendar', 'taskhistory?id='.$TaskID, 'Task History',  '', 'Yellow');
 
 
 if ($super || $canedit || $data->assignedto == $db->GetUserID()) {
@@ -82,17 +62,16 @@ if ($super || $data->approvedby == $db->GetUserID()) {
 
 if ($canedit) {
 	if ($sid != 'A' && $sid != 'D')
-		echo "<a href='?delid=".$TaskID."' onclick=\"return confirm('Delete Task?');\"><img src='/image/x.png' alt='Delete task' title='Delete task' class='icons'></a>";
+		echo "<a href='?delid=".$TaskID."' class=\"ActionIconLinks Red\" onclick=\"return confirm('Delete Task?');\"><span class=\"glyphicon glyphicon-trash\"></span></a>";
 }
 if ($super || $canedit) {
 	if(!empty($data->removed) ) {
-		MakeIconLink('recycle.png', '?undelid='.$TaskID, 'Undelete Task');	
+		MakeIconLink('repeat', '?undelid='.$TaskID, 'Undelete Task', '');	
 	} 
 }
 
 ?>
-</span>
-<span>
+
 <?php
 AddTaskToProjectLink($data->prjid);
 ?>
@@ -104,29 +83,29 @@ AddTaskToProjectLink($data->prjid);
 $form->ShowFormErrors($errmsg, $OKMsg);
 ?>
 <div id="ViewTask">
-	<div class="portfolio pagesection">
-<div class="Section-func">
+	<div class="pagesection TaskInfo">
+		<div class="Section-func">
 <?php
-if ($canedit) { MakeJSIcon('pencil.png', "ToggleViews('ViewTask','EditTask')", 'Edit Task'); }
+if ($canedit) { MakeJSIcon('pencil', "ToggleViews('ViewTask','EditTask')", 'Edit Task', 33); }
 ?>
-</div>
-<dl>
-    <dt>Area:</dt><dd><a href="projectinfo?id=<?php echo $data->prjid; ?>"><?php echo $data->project; ?></a>: <?php echo $data->area; ?></dd>
-    <dt>Priority:</dt><dd><?php echo $data->priority; ?></dd>
-    <dt>Status:</dt><dd><?php echo $status; ?>Submitted on:<?php echo $data->submittedon; ?></dd>
+		</div>
+	<div>
+	<label>Area:</label><span><a href="projectinfo?id=<?php echo $data->prjid; ?>"><?php echo $data->project; ?></a>: <?php echo $data->area; ?></span><br />
+    <label>Priority:</label><span><?php echo $data->priority; ?></span><br />
+    <label>Status:</label><span><?php echo $status; ?>Submitted on:<?php echo $data->submittedon; ?></span><br />
 <?php
 if (!empty($data->complete)) {
 ?>
-	<dt>Completed on:</dt><dd><?php echo $data->complete; ?></dd>
+	<label>Completed on:</label><span><?php echo $data->complete; ?></span><br />
 <?php
 }
 if (!empty($data->approved)) {
 ?>
-	<dt>Approved on:</dt><dd><?php echo $data->approved; ?></dd>
+	<label>Approved on:</label><span><?php echo $data->approved; ?></span><br />
 <?php
 }
 ?>
-</dl>
+</div>
 <?php
 		
 function ShowAssignment($label, $userid, $name, $email, $taskid, $taskname)
@@ -135,7 +114,7 @@ function ShowAssignment($label, $userid, $name, $email, $taskid, $taskname)
 ?>
 <?php echo $label; ?><?php echo $name; ?>
 <?php
-		MakeJSIcon('mail.png', "ShowContactPerson($userid,$taskid,'$name','$email','$taskname')", 'Contact');
+		MakeJSIcon('comment', "ShowContactPerson($userid,$taskid,'$name','$email','$taskname')", 'Contact', '');
 ?>
 
 				
@@ -143,9 +122,9 @@ function ShowAssignment($label, $userid, $name, $email, $taskid, $taskname)
 	}
 }
 
-ShowAssignment('Submitted By', $data->submittedby, $data->submittedname, $data->submittedemail, $TaskID, $data->name);
-ShowAssignment('Assigned To', $data->assignedto, $data->assignedname, $data->assignedemail, $TaskID, $data->name);
-ShowAssignment('Approval By', $data->approvedby, $data->approvedname, $data->approvedemail, $TaskID, $data->name);
+ShowAssignment('Submitted By', $data->submittedby, $data->submittedname, $data->submittedemail, $TaskID, $data->name); echo "<br>";
+ShowAssignment('Assigned To', $data->assignedto, $data->assignedname, $data->assignedemail, $TaskID, $data->name); echo "<br>";
+ShowAssignment('Approval By', $data->approvedby, $data->approvedname, $data->approvedemail, $TaskID, $data->name); echo "<br>";
 
 //if ($db->HasMilestones()) {
 if ($this->UserSetting('Milestones')) {
@@ -179,7 +158,7 @@ if ($this->UserSetting('TaskCost') && !empty($data->cost) &&
 <h2>Attachments&nbsp;&nbsp;&nbsp;
 <?php
 if ($canedit) {
-	MakeJSIcon('plus.png', "document.getElementById('AttachImage').style.display='block'", 'Attach Image');
+	MakeJSIcon('plus', "document.getElementById('AttachImage').style.display='block'", 'Attach Image', '');
 /*
 ?>
 <img src="/image/plus.png" alt="Attach Image" title="Attach Image" onClick="document.getElementById('AttachImage').style.display='block'" class="icons">
@@ -299,7 +278,7 @@ if ($canedit && $this->UserSetting('TaskCost')) {
 <h2>Notes&nbsp;&nbsp;&nbsp;
 <?php
 if ($canassn) {
-	MakeJSIcon('plus.png', "document.getElementById('AddNoteForm').style.display='block'", 'Add a Note');
+	MakeJSIcon('plus', "document.getElementById('AddNoteForm').style.display='block'", 'Add a Note','');
 }
 ?></h2>
 <br>
@@ -323,7 +302,7 @@ if ($data) {
 		<br>
 		<br>
 <?php
-			MakeJSIcon('pencil.png', "ShowEditNote($dx->noteid)", 'Edit Note');
+			MakeJSIcon('pencil', "ShowEditNote($dx->noteid)", 'Edit Note', '');
 			MakeIconLink('x.png', $this->Controller()."?tid=$TaskID&dn=$dx->noteid", 'Delete Note');
 			if ($dx->fromid > 0 && $dx->fromid != $db->GetUserID())
 				MakeJSIcon('mail.png', "FuncContactPerson($dx->fromid,'$dx->fromname','$dx->email')", 'Reply');

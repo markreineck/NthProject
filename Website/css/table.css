@@ -246,13 +246,13 @@ table th[class*="col-"] {
 
 .ActionIconLinks {
     color: #777777;
-    font-size: 18px;
+    font-size: 24px !important;
 	border-radius: 3px;
-    padding: 4px 7px;
+    padding: 3px 5px 2px;
 }
 .ActionIconLinks:hover {
     color: #555555;
-	background: none repeat scroll 0 0 #eee;
+	/*background: none repeat scroll 0 0 #eee;*/
     
 }
 button.ActionIconLinks {
@@ -263,25 +263,40 @@ button.ActionIconLinks {
 	cursor:pointer;
 }
 button.ActionIconLinks:hover {
-    color: #555555;
-	background: none repeat scroll 0 0 #eee;
-    
+    color: #555555;    
 }
-.ApproveIcon-Green {	
+.Green {	
 	color:#393 !important;
 }
-.ApproveIcon-Green:hover {
-	color:#063 !important;
-    
+.Green:hover {
+	color:#063 !important;  
 }
-.ApproveIcon-Blue {	
+.Blue {	
 	color:#39F !important;
 }
-.ApproveIcon-Blue:hover {
-	color:#06C !important;
-    
+.Blue:hover {
+	color:#06C !important;   
 }
+.Red {	
+	color:#F30 !important;
+}
+.Red:hover {
+	color:#C00 !important;    
+}
+.Yellow {	
+	color:#FC0 !important;
+}
+.Yellow:hover {
+	color:#C90 !important;    
+}
+
 .arrowdown-icon {
 	font-size:16px;
 	cursor:pointer;
 	}
+span.taskicons form {
+    display: inline;
+}
+span.taskicons form button {
+	margin:0;
+}
