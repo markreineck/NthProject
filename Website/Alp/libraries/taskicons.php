@@ -22,14 +22,14 @@ function TaskDoneLink($taskid)
 
 function TaskApproveLink($taskid)
 {
-	MakeIconLink('ok', '?apprid='.$taskid, 'Approve', '', 'Blue');
+	MakeIconLink('thumbs-up', '?apprid='.$taskid, 'Approve', '', 'Blue');
 
 }
 
 function TaskDispproveLink($taskid)
 {
-	//MakeIconLink('bluex.png', 'taskstatus?rid='.$taskid, 'Disapprove');
-	echo '<button type="submit"  class="ActionIconLinks ApproveIcon-Green" title="Delete"><i class="glyphicon glyphicon-trash"></i></button>';
+	MakeIconLink('thumbs-down', 'taskstatus?rid='.$taskid, 'Disapprove', '', 'Blue');
+//	echo '<button type="submit"  class="ActionIconLinks ApproveIcon-Green" title="Disapprove"><i class="glyphicon glyphicon-remove"></i></button>';
 //	echo '<a href="taskstatus?rid='.$taskid.'"><img src="/image/x.png" alt="Disapprove" title="Disapprove" class="icons"></a>';
 }
 

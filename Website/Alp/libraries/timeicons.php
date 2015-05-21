@@ -3,17 +3,17 @@ $this->LoadLibrary('iconlinks');
 
 function TimeProjectIcon($timeid, $person, $date, $hours)
 {
-	MakeJSIcon('editproject.png', "ShowEditProject($timeid,'$person','$date','$hours')", "Change Project");
+	MakeJSIcon('folder-open', "ShowEditProject($timeid,'$person','$date','$hours')", "Change Project");
 }
 
 function TimeAdjustIcon($timeid, $person, $date, $hours)
 {
-	MakeJSIcon('edittime.png', "ShowEditTime($timeid,'$person','$date','$hours')", "Adjust Time");
+	MakeJSIcon('time', "ShowEditTime($timeid,'$person','$date','$hours')", "Adjust Time");
 }
 
 function LogOutIcon($timeid, $person, $date, $hours, $hint='Adjust Time')
 {
-	MakeJSIcon('x.png', "ShowLogOut($timeid,'$person','$date','$hours')", $hint);
+	MakeJSIcon('remove', "ShowLogOut($timeid,'$person','$date','$hours')", $hint);
 }
 
 function LogOutForm($nth, $form)

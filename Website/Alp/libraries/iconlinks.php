@@ -1,7 +1,7 @@
 <?php
 function MakeIconLink($icon, $link, $hint, $onclick='', $color='')
 {
-	echo "<a href=\"$link\" onclick=\"$onclick\" class=\"ActionIconLinks $color\"><span class=\"glyphicon glyphicon-$icon\"></span></a>";
+	echo "<a href=\"$link\" onclick=\"$onclick\" class=\"ActionIconLinks $color\" title=\"$hint\"><span class=\"glyphicon glyphicon-$icon\"></span></a>";
 }
 
 // $size is currently not used. Why did we add this?
