@@ -322,3 +322,11 @@ header .container-full{
     padding: 0 15px;
 	color:#FFF;
 }
+.pagesection {
+    width: 400px;
+    padding: 10px;
+    border: 1px solid #f0f0f0;
+    background: #fafafa;
+    border-radius: 3px;
+	margin-bottom:15px;
+}
