@@ -3,11 +3,6 @@ include 'TaskListController.php';
 
 class home extends TaskListController {
 
-public function __construct($url)
-{
-	parent::AlpFramework($url);
-}
-
 function Start()
 {
 	$c = $this->Cookie('ProjectCookie');
@@ -31,7 +26,7 @@ function Start()
 
 	$this->PutData ('PageHeading', array('projectlist', 'userlist'));
 	$this->PutData ('NextPage', 'messages');
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
