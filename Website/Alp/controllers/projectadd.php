@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class projectadd extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 $c = $this->Cookie();
@@ -41,7 +36,7 @@ if ($this->IsPosted('Organization')) {
 $this->PutData ('NextPage', 'projectedit');
 $this->PutData ('PrjID', 0);
 $this->PutData ('OrgID', $orgid);
-$this->LoadView('home');
+$this->LoadView('template2015');
 }
 }
 ?>
