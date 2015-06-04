@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class projectdefaults extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 	if ($this->IsPosted('PrjCnt')) {
@@ -46,7 +41,7 @@ function Start()
 	$ajax->SetFields(array("DefaultOrg"));
 
 	$this->PutData ('PageHeading', array('orglist'));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
