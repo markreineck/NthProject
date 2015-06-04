@@ -3,11 +3,6 @@ include 'UserController.php';
 
 class userrights extends UserController implements AlpController {
 
-public function __construct($url)
-{
-	parent::UserController($url);
-}
-
 function Start()
 {
 	$db = $this->Model();
@@ -79,7 +74,7 @@ function Start()
 
 	$this->PutData ('msg', $msg);
 	$this->PutData ('UserID', $userid);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
