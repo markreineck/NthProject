@@ -3,12 +3,6 @@ include 'OrgController.php';
 
 class orgedit extends OrgController implements AlpController {
 
-public function __construct($url)
-{
-	parent::OrgController($url);
-//	$form = $this->DBForm('orgedit');
-}
-
 function Post()
 {
 	$orgtbl = $this->DBTable();
@@ -40,7 +34,7 @@ function Start()
 
 function ShowOrg()
 {
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 
 }
