@@ -1,12 +1,11 @@
 <?php
-abstract class OrgController extends AlpFramework {
+include 'BaseController.php';
 
-public function OrgController($url)
+abstract class OrgController extends BaseController {
+
+public function __construct($url)
 {
-	parent::AlpFramework($url);
-	$c = $this->Cookie('ProjectCookie');
-	$db = $this->LoadModel(array('DatabaseDB', 'OrgDB'));
-	$db->ValidateUserSession($this->Cookie());
+	parent::__construct($url, array('DatabaseDB', 'OrgDB'));
 	$this->DBTable('Organization');
 }
 
