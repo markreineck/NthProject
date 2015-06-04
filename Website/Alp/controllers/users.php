@@ -3,11 +3,6 @@ include 'UserController.php';
 
 class users extends UserController implements AlpController {
 
-public function __construct($url)
-{
-	parent::UserController($url);
-}
-
 function Start()
 {
 	$c = $this->Cookie();
