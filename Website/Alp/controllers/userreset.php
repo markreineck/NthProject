@@ -3,11 +3,6 @@ include 'UserController.php';
 
 class userreset extends UserController implements AlpController {
 
-public function __construct($url)
-{
-	parent::UserController($url);
-}
-
 function Start()
 {
 	$db = $this->Model();
@@ -33,7 +28,7 @@ function Start()
 	}
 
 	$this->PutData ('UserID', $userid);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
