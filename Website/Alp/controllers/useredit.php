@@ -5,7 +5,7 @@ class useredit extends UserController implements AlpController {
 
 public function __construct($url)
 {
-	parent::UserController($url);
+	parent::__construct($url);
 	$this->DBTable('User');
 }
 
