@@ -5,7 +5,7 @@ class useradd extends UserController implements AlpController {
 
 public function __construct($url)
 {
-	parent::UserController($url);
+	parent::__construct($url);
 	$this->DBTable('User');
 }
 
@@ -23,7 +23,7 @@ function Post()
 
 function Start()
 {
-	$c = $this->Cookie();
+//	$c = $this->Cookie();
 	$this->PutData ('NextPage', 'useredit');
 	$this->PutData ('Verb', 'Create');
 	$this->PutData ('OrgID', $orgid);
