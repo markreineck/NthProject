@@ -1,12 +1,12 @@
 <?php
-abstract class UserController extends AlpFramework {
+include 'BaseController.php';
 
-public function UserController($url)
+abstract class UserController extends BaseController {
+
+public function __construct($url)
 {
-	parent::AlpFramework($url);
-	$c = $this->Cookie('ProjectCookie');
-	$db = $this->LoadModel(array('DatabaseDB', 'UserDB'));
-	$db->ValidateUserSession($this->Cookie());
+	parent::__construct($url, array('DatabaseDB', 'UserDB'));
 }
+
 }
 ?>
