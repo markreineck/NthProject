@@ -24,7 +24,7 @@ if ($db->IsUserManager()) {
 		<td><?php echo $usersql->typename; ?></td>
 		<td>
 <?php
-		MakeIconLink('pencil.png', 'useredit?userid='.$userid, 'Edit');
+		MakeIconLink('pencil', 'useredit?userid='.$userid, 'Edit');
 ?>
 		</td>
 <?php
@@ -33,7 +33,7 @@ if ($db->IsUserManager()) {
 		<td></td>
 		<td>
 <?php
-			MakeIconLink('unlock.png', 'userreset?userid='.$userid, 'Enable account');
+			MakeIconLink('lock', 'userreset?userid='.$userid, 'Enable account');
 ?>
 		</td>
 <?php
@@ -41,12 +41,12 @@ if ($db->IsUserManager()) {
 ?>
 		<td>
 <?php
-			MakeIconLink('key.png', 'userrights?userid='.$userid, 'Rights');
+			MakeIconLink('eye-open', 'userrights?userid='.$userid, 'Rights');
 ?>
 		</td>
 		<td>
 <?php
-			MakeIconLink('unlock.png', 'userreset?userid='.$userid, 'Reset password');
+			MakeIconLink('lock', 'userreset?userid='.$userid, 'Reset password');
 ?>
 		</td>
 <?php
