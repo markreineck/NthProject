@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class projectedit extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 	if ($this->IsPosted('ProjectID')) {
@@ -44,7 +39,7 @@ function Start()
 	$this->PutData ('PageHeading', array('projectlinks'));
 	$this->PutData ('NextPage', 'projectedit');
 	$this->PutData ('PrjID', $prjid);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
