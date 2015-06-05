@@ -65,7 +65,8 @@ from tasks where taskid='.$taskid;
 
 function ReadTaskDesc($taskid)
 {
-	$sql = "select p.orgid, p.name project, a.prjid, t.areaid, a.name area, t.priority, t.name, t.status statusid, s.name status, t.startmilestone, t.endmilestone, t.cost, t.removed,
+	$sql = "select p.orgid, p.name project, a.prjid, t.areaid, a.name area, t.priority, t.name, t.status statusid, s.name status, 
+t.startmilestone, t.endmilestone, t.cost, t.removed, t.submittedby, t.assignedto, t.approvedby, 
 date_format(t.submittedon,'%b %d, %Y') submittedon,
 date_format(t.complete,'%b %d, %Y') complete,
 date_format(t.approved,'%b %d, %Y') approved,
