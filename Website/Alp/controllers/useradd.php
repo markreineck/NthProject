@@ -27,7 +27,7 @@ function Start()
 	$this->PutData ('NextPage', 'useredit');
 	$this->PutData ('Verb', 'Create');
 	$this->PutData ('OrgID', $orgid);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
