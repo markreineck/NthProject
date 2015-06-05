@@ -50,11 +50,22 @@ if ($data) {
 ?>
         <div style="color:<?php echo $color; ?>"><?php echo $statcc; ?></div></td>
       <!--<td><input type=button name=pbtn54 value='Add Item <?php $ctr?>' onClick="redirect('ProjectsAddItem?id=',<?php echo $prjid; ?>)"></td>-->
-      <td><a href='projectedit?id=<?php echo $prjid; ?>'><img src="/image/pencil.png" width="32" height="32" alt="Edit" title="Edit"></a></td>
+      <td>
+<?php
+	MakeIconLink('pencil', 'projectedit?id='.$prjid, 'Edit');
+/*
+      	<a href='projectedit?id=<?php echo $prjid; ?>'><img src="/image/pencil.png" width="32" height="32" alt="Edit" title="Edit"></a>
+*/
+      	</td>
 <?php /*
       <td><a href='projectusers?id=<?php echo $prjid; ?>'><img src="/image/people.png" width="32" height="32" alt="Project Users" title="Project Users"></a></td>
 */ ?>
-<td><a href="projectlinks?id=<?php echo $prjid; ?>"><img src="/image/chainlink.png" width="32" alt="Update Links" title="Update Links" class="icons"></a>
+<td>
+<?php
+	MakeIconLink('link', 'projectlinks?id='.$prjid, 'Update Links');
+/*
+	<a href="projectlinks?id=<?php echo $prjid; ?>"><img src="/image/chainlink.png" width="32" alt="Update Links" title="Update Links" class="icons"></a>
+*/ ?>
 </td>
     </tr>
 <?php
