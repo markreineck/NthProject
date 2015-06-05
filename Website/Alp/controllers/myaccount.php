@@ -3,15 +3,10 @@ include 'UserController.php';
 
 class myaccount extends UserController implements AlpController {
 
-public function __construct($url)
-{
-	parent::UserController($url);
-}
-
 private function ShowPage($okmsg='')
 {
 	$this->PutData ('OKMsg', $okmsg);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 
 function Post()
