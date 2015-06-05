@@ -68,7 +68,7 @@ function ReadTaskDesc($taskid)
 	$sql = "select p.orgid, p.name project, a.prjid, t.areaid, a.name area, t.priority, t.name, t.status statusid, s.name status, t.startmilestone, t.endmilestone, t.cost, t.removed,
 date_format(t.submittedon,'%b %d, %Y') submittedon,
 date_format(t.complete,'%b %d, %Y') complete,
-date_format(t.complete,'%b %d, %Y') complete,
+date_format(t.approved,'%b %d, %Y') approved,
 date_format(t.needby,'%b %d, %Y') needby,
 t.startafter, sm.name startmsname, em.name endmsname,
 t.assignedto, at.name assignedname, at.email assignedemail, 
