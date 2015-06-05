@@ -3,11 +3,6 @@ include 'TimeController.php';
 
 class recordtime extends TimeController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TimeController($url);
-}
-
 public function Start()
 {
 	if ($this->IsPosted('Hours1')) {
@@ -36,7 +31,7 @@ public function Start()
 		}
 	}
 
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
