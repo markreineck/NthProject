@@ -3,11 +3,6 @@ include 'TimeController.php';
 
 class signin extends TimeController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TimeController($url);
-}
-
 function Post()
 {
 	$c = $this->Cookie();
