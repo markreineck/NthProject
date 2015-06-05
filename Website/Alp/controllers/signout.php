@@ -3,11 +3,6 @@ include 'TimeController.php';
 
 class signout extends TimeController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TimeController($url);
-}
-
 function Start()
 {
 	if ($this->IsPosted('Password')) {
@@ -27,7 +22,8 @@ function Start()
 		}
 	}
 
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
+
 }
 ?>
