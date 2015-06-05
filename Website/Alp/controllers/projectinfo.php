@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class projectinfo extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 	$c = $this->Cookie();
@@ -22,7 +17,7 @@ function Start()
 
 	$filters = array('projectlist');
 	$this->PutData ('PageHeading', $filters);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
