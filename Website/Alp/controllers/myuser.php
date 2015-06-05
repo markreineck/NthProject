@@ -3,11 +3,6 @@ include 'UserController.php';
 
 class myuser extends UserController implements AlpController {
 
-public function __construct($url)
-{
-	parent::UserController($url);
-}
-
 function Start()
 {
 	if ($this->IsPosted('UserID')) {
@@ -42,7 +37,7 @@ function Start()
 		$userid = $this->GetNumber('userid');
 	}
 
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
