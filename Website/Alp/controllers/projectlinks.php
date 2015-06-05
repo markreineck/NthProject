@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class projectlinks extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 	if ($this->IsPosted('LinkCnt')) {
@@ -37,7 +32,7 @@ function Start()
 
 	$this->PutData ('PageHeading', array('projectlinks'));
 	$this->PutData ('PrjID', $prjid);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
