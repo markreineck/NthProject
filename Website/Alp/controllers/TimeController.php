@@ -1,13 +1,13 @@
 <?php
-abstract class TimeController extends AlpFramework {
+include 'BaseController.php';
 
-public function TimeController($url)
+abstract class TimeController extends BaseController  {
+
+public function __construct($url)
 {
-	parent::AlpFramework($url);
-	$c = $this->Cookie('ProjectCookie');
-	$db = $this->LoadModel(array('DatabaseDB', 'TimeDB'));
-	$db->ValidateUserSession($this->Cookie());
+	parent::__construct($url, array('DatabaseDB', 'TimeDB'));
 	$this->LoadLibrary('checkfilters');
 }
+
 }
 ?>
