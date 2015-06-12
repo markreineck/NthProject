@@ -50,7 +50,10 @@ function Start()
 	$this->PutData ('OKMsg', $okmsg);
 	$this->PutData ('PrjID', $this->GetNumber('pid'));
 	$this->PutData ('AreaID', $this->GetNumber('aid'));
-	$this->LoadView('home');
+	$this->PutData ('UserID', $this->GetNumber('uid'));
+	$this->PutData ('SprintID', $this->GetNumber('msid'));
+	$this->PutData ('Priority', $this->GetNumber('pr'));
+	$this->LoadView('template2015');
 }
 }
 ?>
