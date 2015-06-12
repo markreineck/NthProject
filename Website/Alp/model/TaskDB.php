@@ -156,6 +156,24 @@ where a.prjid=$prjid and t.complete is null and t.removed is null order by t.pri
 	return $this->SelectAll($sql);
 }
 
+function TaskSearch($prjid, $assn, $milestone, $priority)
+{
+	$sql = "select t.taskid, t.areaid, t.priority, t.status, t.name, t.startmilestone, t.endmilestone, t.assignedto, t.needby
+from tasks t
+inner join projectareas a on a.areaid=t.areaid
+where t.complete is null and t.removed is null';
+	if ($prjid)
+		$sql .= ' and a.prjid=' . $prjid;
+	if ($assn)
+		$sql .= ' and t.assignedto=' . $assn;
+	if ($milestone)
+		$sql .= ' and t.endmilestone=' . $milestone;
+	if ($priority)
+		$sql .= ' and t.priority=' . $priority;
+	$sql .= ' order by t.priority";
+	return $this->SelectAll($sql);
+}
+
 function ListProjectMilestones($prjid)
 {
 	$sql = "select milestoneid, name from milestones where prjid=$prjid and completion is null order by name";
