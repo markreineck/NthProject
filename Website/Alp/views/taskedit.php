@@ -6,8 +6,10 @@ $errmsg = $db->ErrorMsg();
 
 ?>
 <h1>Task List View</h1>
-<h3>
 <?php
+//<h3>
+$result = $db->TaskSearch($PrjID, $UserID, $SprintID, $Priority);
+/*
 if ($AreaID > 0) {
 	$prj = $db->ReadProjectAndArea($AreaID);
 	echo $prj->project.': '.$prj->area;
@@ -17,8 +19,9 @@ if ($AreaID > 0) {
 	echo $db->ReadProjectName($PrjID);
 	$result = $db->ListProjectTasks($PrjID);
 }
+*/
+//</h3>
 ?>
-</h3>
 <?php
 
 $form->ShowFormErrors($errmsg, $OKMsg);
