@@ -5,9 +5,10 @@ class home extends TaskListController {
 
 function Start()
 {
-	$c = $this->Cookie('ProjectCookie');
-	$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
-	$db->ValidateUserSession($this->Cookie());
+//	$c = $this->Cookie('ProjectCookie');
+//	$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
+//	$db->ValidateUserSession($this->Cookie());
+	$db = $this->Database();
 
 	if ($this->IsPosted('DefaultPrj'))
 		$c->SetDefaultProject($this->PostedDigit('DefaultPrj'));
