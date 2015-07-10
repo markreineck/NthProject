@@ -97,7 +97,7 @@ if ($canedit) { MakeJSIcon('pencil', "ToggleViews('ViewTask','EditTask')", 'Edit
 <?php
 if (!empty($data->complete)) {
 ?>
-	<label>Completed on: </label><strong><span><?php echo $data->complete; ?></span></strong>><br />
+	<label>Completed on: </label><strong><span><?php echo $data->complete; ?></span></strong><br />
 <?php
 }
 if (!empty($data->approved)) {
