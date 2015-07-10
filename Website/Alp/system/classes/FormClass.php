@@ -114,7 +114,7 @@ Page Construction Functions
 function OpenFieldSection ()
 {
 	echo ($this->tableforms) ? '
-<tr><td valign="top">' : '
+<tr><td>' : '
 <div>';
 }
 

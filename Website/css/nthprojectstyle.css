@@ -275,10 +275,10 @@ header .container-full{
     min-height: 300px;
     padding: 15px;
 }
-.textbox, select {
+.TextInputClass, select, textarea, .textbox {
     border: 1px solid #aaaaaa;
     border-radius: 3px;
-    padding: 5px;
+    padding: 3px 5px;
 	color:#333;
 }
 .searchbox {
@@ -330,3 +330,51 @@ header .container-full{
     border-radius: 3px;
 	margin-bottom:15px;
 }
+.container-setion {
+	margin-right:10px;
+	}
+.ButtonClass {
+  display: inline-block;
+  padding: 4px 10px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  cursor: pointer;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  background-image: none;
+  border: 1px solid #c0c0c0;
+  border-radius: 4px;
+}
+.ButtonClass:hover {
+	background: #999;	
+	border: 1px solid #999;
+	color:#ffffff;
+}
+.Section-func {
+    float: right;
+}
+.Container-TaskNote {
+    padding: 0 0 5px;
+    line-height: 16px !important;
+	border-top:1px solid #cacaca;
+}
+.Container-TaskNote .Section-func .glyphicon {
+    font-size: 18px !important;
+    margin-top: 3px;
+}
+.Noteby {
+	padding:5px;
+	background:#FBE4CD ;
+	margin-bottom:3px;
+	}
+.ViewNote {
+	background:#F0F0F0;
+	}
+

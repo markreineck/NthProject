@@ -78,7 +78,7 @@ AddTaskToProjectLink($data->prjid);
 
 </span>
 </h1><br clear="all" />
-
+<div class="push-left container-setion">
 <?php
 $form->ShowFormErrors($errmsg, $OKMsg);
 ?>
@@ -90,29 +90,30 @@ if ($canedit) { MakeJSIcon('pencil', "ToggleViews('ViewTask','EditTask')", 'Edit
 ?>
 		</div>
 	<div>
-	<label>Area:</label><span><a href="projectinfo?id=<?php echo $data->prjid; ?>"><?php echo $data->project; ?></a>: <?php echo $data->area; ?></span><br />
-    <label>Priority:</label><span><?php echo $data->priority; ?></span><br />
-    <label>Status:</label><span><?php echo $status; ?>Submitted on:<?php echo $data->submittedon; ?></span><br />
+	<label>Area: </label><strong><span><a href="projectinfo?id=<?php echo $data->prjid; ?>"><?php echo $data->project; ?></a>: <?php echo $data->area; ?></span></strong><br />
+    <label>Priority: </label><strong><span><?php echo $data->priority; ?></span></strong><br />
+    <label>Status: </label><strong><span><?php echo $status; ?>Submitted on:<?php echo $data->submittedon; ?></span></strong><br />
 <?php
 if (!empty($data->complete)) {
 ?>
-	<label>Completed on:</label><span><?php echo $data->complete; ?></span><br />
+	<label>Completed on: </label><strong><span><?php echo $data->complete; ?></span</strong>><br />
 <?php
 }
 if (!empty($data->approved)) {
 ?>
-	<label>Approved on:</label><span><?php echo $data->approved; ?></span><br />
+	<label>Approved on: </label><strong><span><?php echo $data->approved; ?></span></strong><br />
 <?php
 }
 ?>
 </div>
+
 <?php
 		
 function ShowAssignment($label, $userid, $name, $email, $taskid, $taskname)
 {
 	if ($userid) {
 ?>
-<?php echo $label; ?><?php echo $name; ?>
+<?php echo $label; ?><strong><?php echo $name; ?></strong>
 <?php
 		MakeJSIcon('comment', "ShowContactPerson($userid,$taskid,'$name','$email','$taskname')", 'Contact', '');
 ?>
@@ -122,9 +123,9 @@ function ShowAssignment($label, $userid, $name, $email, $taskid, $taskname)
 	}
 }
 
-ShowAssignment('Submitted By', $data->submittedby, $data->submittedname, $data->submittedemail, $TaskID, $data->name); echo "<br>";
-ShowAssignment('Assigned To', $data->assignedto, $data->assignedname, $data->assignedemail, $TaskID, $data->name); echo "<br>";
-ShowAssignment('Approval By', $data->approvedby, $data->approvedname, $data->approvedemail, $TaskID, $data->name); echo "<br>";
+ShowAssignment('Submitted By: ', $data->submittedby, $data->submittedname, $data->submittedemail, $TaskID, $data->name); echo "<br>";
+ShowAssignment('Assigned To: ', $data->assignedto, $data->assignedname, $data->assignedemail, $TaskID, $data->name); echo "<br>";
+ShowAssignment('Approval By: ', $data->approvedby, $data->approvedname, $data->approvedemail, $TaskID, $data->name); echo "<br>";
 
 //if ($db->HasMilestones()) {
 if ($this->UserSetting('Milestones')) {
@@ -191,20 +192,19 @@ if ($files) {
 </div>
 
 </div>
-<br clear="all" />
 <?php
 if ($canedit || $canassn) {
 ?>
 <div name="EditTask" id="EditTask" class="memoarea pagesection" <?php echo 'style="display:none"'; ?>>
 <h2>Edit Task</h2>
 <form method="post" action="<?php echo $this->Controller(); ?>" <?php $form->ShowOnSubmit(); ?>>
-	<table border="0" cellpadding="0" cellspacing="5" class="tabledata">
+	<table border="0" cellpadding="3" cellspacing="5" class="tabledata">
 <?php
 	$arealist = $db->GetProjectAreaList($data->prjid);
 	$statuslist = $db->GetTaskStatusList();
 
 if ($canedit) {
-	$form->ShowTextField ('Description', 'Description', 80, 80, $data->name, 1);
+	$form->ShowTextField ('Description', 'Description', 80, 40, $data->name, 1);
 	$form->ShowListField ('Area', 'Area', $arealist, 2, $data->areaid);
 	$form->ShowListField ('Status', 'Status', $statuslist, 2, $data->statusid);
 	$form->ShowNumericListField ('Priority', 'Priority', 1, 5, 1, $data->priority, 2);
@@ -257,7 +257,7 @@ if ($canedit && $this->UserSetting('TaskCost')) {
 			<td><label for="FileDescr" class="LabelClass">File:</label></td>
 			<td><input name="Attachment" type="file" id="Attachment"></td>
 	<?php
-		$form->ShowTextField ('Description', 'FileDescr', 80, 98);
+		$form->ShowTextField ('Description', 'FileDescr', 80, 49);
 	?>
 		<tr>
 			<td>&nbsp;</td>
@@ -271,51 +271,54 @@ if ($canedit && $this->UserSetting('TaskCost')) {
 		</tr>
 	</table>
 </form></div>
+<?php
+$this->LoadView('contactform');
+?>
+</div>
 
-<br clear="all">
-
-<div class="memoarea pagesection">
+<div class="push-left container-setion">
+<div class="memoarea pagesection Notes">
 <h2>Notes&nbsp;&nbsp;&nbsp;
+<div class="Section-func">
 <?php
 if ($canassn) {
 	MakeJSIcon('plus', "document.getElementById('AddNoteForm').style.display='block'", 'Add a Note','');
 }
-?></h2>
-<br>
+?>
+</div>
+</h2>
 <?php
 $data = $db->ReadTaskNotes($TaskID);
 
 if ($data) {
 	foreach ($data as $dx) {
 ?>
-	<p>
+	<div class="Container-TaskNote">
+    <div class="Section-func">
 <?php
-	echo "$dx->sent : $dx->fromname";
+		MakeJSIcon('pencil', "ShowEditNote($dx->noteid)", 'Edit Note', '');
+		MakeIconLink('x.png', $this->Controller()."?tid=$TaskID&dn=$dx->noteid", 'Delete Note');
+		if ($dx->fromid > 0 && $dx->fromid != $db->GetUserID())
+			MakeJSIcon('mail.png', "FuncContactPerson($dx->fromid,'$dx->fromname','$dx->email')", 'Reply');
+
+	}
 ?>
-	</p>
-	<div class="memoarea" id="ViewNote<?php echo $dx->noteid; ?>">
+	</div>
+    	
+	<div class="memoarea ViewNote" id="ViewNote<?php echo $dx->noteid; ?>" >
+    <div class="Noteby"><?php echo "$dx->sent : <strong>$dx->fromname</strong>";?></div>
 <?php
 	echo str_replace('
 ', '<br>', $dx->message);
 		if ($hasedit || $dx->fromid == $db->GetUserID()) {
 ?>
-		<br>
-		<br>
-<?php
-			MakeJSIcon('pencil', "ShowEditNote($dx->noteid)", 'Edit Note', '');
-			MakeIconLink('x.png', $this->Controller()."?tid=$TaskID&dn=$dx->noteid", 'Delete Note');
-			if ($dx->fromid > 0 && $dx->fromid != $db->GetUserID())
-				MakeJSIcon('mail.png', "FuncContactPerson($dx->fromid,'$dx->fromname','$dx->email')", 'Reply');
-
-		}
-?>
-
 	</div>
+</div>
 	<?php
 		if ($hasedit || $dx->fromid == $db->GetUserID()) {
 ?>
 	<form name="EditNote<?php echo $dx->noteid; ?>" id="EditNote<?php echo $dx->noteid; ?>" method="post" action="" <?php echo 'style="display:none"'; ?>>
-		<textarea name="Notes" cols="86" rows="10" class="TextInputClass"><?php echo $dx->message; ?></textarea>
+		<textarea name="Notes" cols="45" rows="10" class="textbox"><?php echo $dx->message; ?></textarea>
 		<br><br>
 		<?php
 			$form->ShowHiddenField ('TaskID', $TaskID);
@@ -336,14 +339,13 @@ if ($data) {
 ?>
 
 <form name="AddNoteForm" id="AddNoteForm" method="post" action="<?php echo $this->Controller(); ?>" <?php echo 'style="display:none"'; ?>>
-<table border="0" cellpadding="3" cellspacing="5" class="tabledata">
-	<tr>
-		<td><label for="FileDescr" class="LabelClass">Notes:</label></td>
-		<td><textarea name="Notes" cols="78" rows="10" class="TextAreaClass"></textarea></td>
-	</tr>
-	<tr>
-		<td>&nbsp;</td>
-		<td>
+
+
+<div class="field-container">
+    <label for="FileDescr" class="LabelClass">Notes:</label>
+    <textarea name="Notes" cols="45" rows="10" class="textbox"></textarea>
+</div>
+
 <?php
 	$form->ShowHiddenField ('TaskID', $TaskID);
 	$form->ShowSubmitButton();
@@ -355,11 +357,9 @@ if ($data) {
 	<br clear="all">
 </form>
 </div>
-<br clear="all">
-<?php
-$this->LoadView('contactform');
-?>
-<br clear="all">
+</div>
+
+
 <script type="text/javascript">
 function ShowEditNote(id)
 {

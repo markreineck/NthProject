@@ -14,8 +14,8 @@ $form->ShowHiddenField ('MsgUserEmail', $MsgUserEmail);
 	<table border="0" cellpadding="3" cellspacing="5" class="tabledata" width="100%">
 <?php
 $form->ShowTextField ('Recipient', 'MsgUser', 100, 26, $value='', $minlen=0);
-$form->ShowTextField ('Subject', 'Subject', 80, 80);
-$form->ShowTextAreaField ('Message', 'Message', 5, 60, $value='', $minlen=0);
+$form->ShowTextField ('Subject', 'Subject', 80, 49);
+$form->ShowTextAreaField ('Message', 'Message', 5, 37, $value='', $minlen=0);
 ?>
 		<tr>
 			<td>&nbsp;</td>
