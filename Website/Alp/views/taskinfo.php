@@ -77,14 +77,14 @@ AddTaskToProjectLink($data->prjid);
 ?>
 
 </span>
-</h1><br clear="all" />
-<div class="push-left container-setion">
+</h1>
 <?php
 $form->ShowFormErrors($errmsg, $OKMsg);
 ?>
+<div class="push-left container-setion">
 <div id="ViewTask">
 	<div class="pagesection TaskInfo">
-		<div class="Section-func">
+		<div class="SectionFunc">
 <?php
 if ($canedit) { MakeJSIcon('pencil', "ToggleViews('ViewTask','EditTask')", 'Edit Task', 33); }
 ?>
@@ -92,11 +92,12 @@ if ($canedit) { MakeJSIcon('pencil', "ToggleViews('ViewTask','EditTask')", 'Edit
 	<div>
 	<label>Area: </label><strong><span><a href="projectinfo?id=<?php echo $data->prjid; ?>"><?php echo $data->project; ?></a>: <?php echo $data->area; ?></span></strong><br />
     <label>Priority: </label><strong><span><?php echo $data->priority; ?></span></strong><br />
-    <label>Status: </label><strong><span><?php echo $status; ?>Submitted on:<?php echo $data->submittedon; ?></span></strong><br />
+    <label>Status: </label><strong><span><?php echo $status; ?></span></strong><br />
+    <label>Submitted on:</label><strong><span><?php echo $data->submittedon; ?></span></strong><br />
 <?php
 if (!empty($data->complete)) {
 ?>
-	<label>Completed on: </label><strong><span><?php echo $data->complete; ?></span</strong>><br />
+	<label>Completed on: </label><strong><span><?php echo $data->complete; ?></span></strong>><br />
 <?php
 }
 if (!empty($data->approved)) {
@@ -113,19 +114,19 @@ function ShowAssignment($label, $userid, $name, $email, $taskid, $taskname)
 {
 	if ($userid) {
 ?>
-<?php echo $label; ?><strong><?php echo $name; ?></strong>
+<label><?php echo $label; ?></label><strong><?php echo $name; ?></strong>
+<span class="ContactIcon">
 <?php
 		MakeJSIcon('comment', "ShowContactPerson($userid,$taskid,'$name','$email','$taskname')", 'Contact', '');
 ?>
-
-				
+</span><br clear="all" />		
 <?php
 	}
 }
 
-ShowAssignment('Submitted By: ', $data->submittedby, $data->submittedname, $data->submittedemail, $TaskID, $data->name); echo "<br>";
-ShowAssignment('Assigned To: ', $data->assignedto, $data->assignedname, $data->assignedemail, $TaskID, $data->name); echo "<br>";
-ShowAssignment('Approval By: ', $data->approvedby, $data->approvedname, $data->approvedemail, $TaskID, $data->name); echo "<br>";
+ShowAssignment('Submitted By: ', $data->submittedby, $data->submittedname, $data->submittedemail, $TaskID, $data->name);
+ShowAssignment('Assigned To: ', $data->assignedto, $data->assignedname, $data->assignedemail, $TaskID, $data->name);
+ShowAssignment('Approval By: ', $data->approvedby, $data->approvedname, $data->approvedemail, $TaskID, $data->name);
 
 //if ($db->HasMilestones()) {
 if ($this->UserSetting('Milestones')) {
@@ -157,16 +158,13 @@ if ($this->UserSetting('TaskCost') && !empty($data->cost) &&
 
 <div class="portfolio pagesection">
 <h2>Attachments&nbsp;&nbsp;&nbsp;
+<div class="SectionFunc">
 <?php
 if ($canedit) {
 	MakeJSIcon('plus', "document.getElementById('AttachImage').style.display='block'", 'Attach Image', '');
-/*
-?>
-<img src="/image/plus.png" alt="Attach Image" title="Attach Image" onClick="document.getElementById('AttachImage').style.display='block'" class="icons">
-<?php
-*/
 }
 ?>
+</div>
 </h2>
 
 
@@ -181,7 +179,12 @@ if ($files) {
 		<td><?php echo $f->loadedby; ?></td>
 		<td><a href="http://projectserver.nth-generation.com/showimg.php?id=<?php echo $f->fileid; ?>" target=_new><?php echo $f->descr; ?></a></td>
 		<td></td>
-		<td><img src="/image/x.png" alt="Delete" title="Delete Attachment" onClick="window.location='<?php echo $this->Controller()."?tid=$TaskID&df=$f->fileid"; ?>'" class="icons"></td>
+		<td>        	
+            <a alt="Delete" title="Delete Attachment" class="ActionIconLinks Red" onclick="window.location='<?php echo $this->Controller()."?tid=$TaskID&df=$f->fileid"; ?>'">
+            	<span class="glyphicon glyphicon-trash"></span>
+            </a>
+        
+        </td>
 	</tr>
 <?php
 	}
@@ -224,7 +227,7 @@ if ($canedit) {
 		}
 	}
 	if ($this->UserSetting('TaskDates')) {
-		$form->ShowDatePickerField  ('Need By', 'NeedBy', $data->needby, false,"+2y", "-1y");
+		$form->ShowDatePickerField  ('Date Needed By', 'NeedBy', $data->needby, false,"+2y", "-1y");
 	}
 }
 if ($canedit && $this->UserSetting('TaskCost')) {	
@@ -279,7 +282,7 @@ $this->LoadView('contactform');
 <div class="push-left container-setion">
 <div class="memoarea pagesection Notes">
 <h2>Notes&nbsp;&nbsp;&nbsp;
-<div class="Section-func">
+<div class="SectionFunc">
 <?php
 if ($canassn) {
 	MakeJSIcon('plus', "document.getElementById('AddNoteForm').style.display='block'", 'Add a Note','');
@@ -294,44 +297,37 @@ if ($data) {
 	foreach ($data as $dx) {
 ?>
 	<div class="Container-TaskNote">
-    <div class="Section-func">
+        <div class="SectionFunc">
 <?php
 		MakeJSIcon('pencil', "ShowEditNote($dx->noteid)", 'Edit Note', '');
-		MakeIconLink('x.png', $this->Controller()."?tid=$TaskID&dn=$dx->noteid", 'Delete Note');
+		MakeIconLink('trash', $this->Controller()."?tid=$TaskID&dn=$dx->noteid", 'Delete Note');
 		if ($dx->fromid > 0 && $dx->fromid != $db->GetUserID())
-			MakeJSIcon('mail.png', "FuncContactPerson($dx->fromid,'$dx->fromname','$dx->email')", 'Reply');
-
-	}
+			MakeJSIcon('comment', "FuncContactPerson($dx->fromid,'$dx->fromname','$dx->email')", 'Reply');
 ?>
-	</div>
-    	
-	<div class="memoarea ViewNote" id="ViewNote<?php echo $dx->noteid; ?>" >
-    <div class="Noteby"><?php echo "$dx->sent : <strong>$dx->fromname</strong>";?></div>
+        </div>    
+        <div class="Noteby"><?php echo "$dx->sent : <strong>$dx->fromname</strong>";?></div>	
+        <div class="memoarea ViewNote" id="ViewNote<?php echo $dx->noteid; ?>" >    
 <?php
-	echo str_replace('
-', '<br>', $dx->message);
-		if ($hasedit || $dx->fromid == $db->GetUserID()) {
+		echo str_replace('
+		', '<br>', $dx->message);
 ?>
+        </div>    
 	</div>
-</div>
-	<?php
-		if ($hasedit || $dx->fromid == $db->GetUserID()) {
+<?php
+	if ($hasedit || $dx->fromid == $db->GetUserID()) {
 ?>
 	<form name="EditNote<?php echo $dx->noteid; ?>" id="EditNote<?php echo $dx->noteid; ?>" method="post" action="" <?php echo 'style="display:none"'; ?>>
 		<textarea name="Notes" cols="45" rows="10" class="textbox"><?php echo $dx->message; ?></textarea>
-		<br><br>
 		<?php
 			$form->ShowHiddenField ('TaskID', $TaskID);
 			$form->ShowHiddenField ('NoteID', $dx->noteid);
 			$form->ShowSubmitButton();
 			$form->ShowJavaScriptButton("HideEditNote($dx->noteid)", 'Cancel');
-?>
-		<br clear="all">
+?>		
 	</form>
-	<?php
-		}	
+<?php
+	}	
 ?>
-	<br clear="all">
 	
 	<?php
 	}	
@@ -354,7 +350,6 @@ if ($data) {
 		</td>
 	</tr>
 </table>
-	<br clear="all">
 </form>
 </div>
 </div>

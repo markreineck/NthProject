@@ -334,47 +334,87 @@ header .container-full{
 	margin-right:10px;
 	}
 .ButtonClass {
-  display: inline-block;
-  padding: 4px 10px;
-  margin-bottom: 0;
-  font-size: 14px;
-  font-weight: normal;
-  line-height: 1.42857143;
-  text-align: center;
-  white-space: nowrap;
-  vertical-align: middle;
-  cursor: pointer;
-  -webkit-user-select: none;
-     -moz-user-select: none;
-      -ms-user-select: none;
-          user-select: none;
-  background-image: none;
-  border: 1px solid #c0c0c0;
-  border-radius: 4px;
+	display: inline-block;
+	padding: 4px 10px;
+	margin-bottom: 0;
+	font-size: 14px;
+	font-weight: normal;
+	line-height: 1.42857143;
+	text-align: center;
+	white-space: nowrap;
+	vertical-align: middle;
+	cursor: pointer;
+	-webkit-user-select: none;
+	 -moz-user-select: none;
+	  -ms-user-select: none;
+		  user-select: none;
+	background-image: none;
+	border: 1px solid #318ecd;
+	background: #3498db;
+	border-radius: 4px;
+	color:#ffffff;
+	font-weight:300;
+	text-shadow: 0px -1px 0 #888;
 }
 .ButtonClass:hover {
-	background: #999;	
-	border: 1px solid #999;
+	background: #2980b9;	
+	border: 1px solid #2980b9;
 	color:#ffffff;
 }
-.Section-func {
+.SectionFunc {
     float: right;
 }
 .Container-TaskNote {
     padding: 0 0 5px;
     line-height: 16px !important;
-	border-top:1px solid #cacaca;
+	border-top:1px solid #7f8c8d;
 }
-.Container-TaskNote .Section-func .glyphicon {
+.Container-TaskNote .SectionFunc .glyphicon {
     font-size: 18px !important;
     margin-top: 3px;
+	color:#fff
+}
+.Container-TaskNote .SectionFunc .glyphicon:hover {
+	color:#7f8c8d
 }
 .Noteby {
-	padding:5px;
-	background:#FBE4CD ;
-	margin-bottom:3px;
-	}
+    padding: 5px;
+    background: #95a5a6 none repeat scroll 0% 0%;
+    color: #fff;
+}
 .ViewNote {
 	background:#F0F0F0;
+	padding:5px;
 	}
-
+.ErrorClass {
+    color: #A94442;
+    background-color: #F2DEDE;
+    border-color: #EBCCD1;
+	font-size:16px;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.MessageClass {
+    color: #3C763D;
+    background-color: #DFF0D8;
+    border-color: #D6E9C6;
+    font-size:16px;
+    padding: 5px;
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+.MessageClass .glyphicon, .ErrorClass .glyphicon {
+    font-size: 21px;
+    float: left;
+    margin-right: 5px;
+}
+.pagesection.TaskInfo label {
+    width: 100px !important;
+    float: left;
+}
+.ContactIcon {
+    float: left;
+}

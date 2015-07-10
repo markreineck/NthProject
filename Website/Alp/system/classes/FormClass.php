@@ -140,10 +140,10 @@ function ShowFormErrors ($err='', $donemsg='')
 		echo "<div class=\"$this->errorclass\" id=\"ErrorBlock\" style=\"display:none\"></div>
 ";
 	else
-		echo "<div class=\"$this->errorclass\" id=\"ErrorBlock\">$err</div>
+		echo "<div class=\"$this->errorclass\" id=\"ErrorBlock\"><span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span> $err</div>
 ";
 	if (!empty($donemsg))
-		echo "<div class=\"$this->msgclass\" id=\"MessageBlock\">$donemsg</div>
+		echo "<div class=\"$this->msgclass\" id=\"MessageBlock\"><span class=\"glyphicon glyphicon-ok-sign\" aria-hidden=\"true\"></span> $donemsg</div>
 ";
 }
 
