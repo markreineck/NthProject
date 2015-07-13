@@ -55,7 +55,7 @@ function Start()
 
 	$this->PutData ('AreaID', $aid);
 	$this->PutData ('PrjID', $pid);
-	$this->LoadView('home');
+	$this->LoadView('template2015'); 
 }
 }
 ?>
