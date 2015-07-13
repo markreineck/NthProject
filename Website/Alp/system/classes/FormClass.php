@@ -203,13 +203,13 @@ var errmsg = '';
 
 	foreach ($this->validationlist as $data) {
 		$field = $data['Name'];
-		$label = $data['Label'];
+		$label = '<strong>'.$data['Label'].'</strong>';
 		switch ($data['Rule']) {
 			case 'MinLen':
 				$len = $data['Data'];
 				echo "
 if (frm.$field.value.length < $len) {
-	errmsg = errmsg + '$label is required.<br>';
+	errmsg = errmsg + '$label is required.<br clear=\"all\">';
 	valid = false;
 }
 ";
@@ -218,7 +218,7 @@ if (frm.$field.value.length < $len) {
 				$len = $data['Data'];
 				echo "
 if (frm.$field.value.length > $len) {
-	errmsg = errmsg + 'Please limit $label to $len characters.<br>';
+	errmsg = errmsg + 'Please limit $label to $len characters.<br clear=\"all\">';
 	valid = false;
 }
 ";
@@ -229,7 +229,7 @@ if (frm.$field.value.length > $len) {
 				for ($x=1; $x<$cnt; $x++)
 					echo " && (frm." . $field . "[$x].checked == false)";
 				echo ") {
-	errmsg = errmsg + '$label is required.<br>';
+	errmsg = errmsg + '$label is required.<br clear=\"all\">';
 	valid = false;
 }
 ";
@@ -237,7 +237,7 @@ if (frm.$field.value.length > $len) {
 			case 'Check':
 				$cnt = $data['Data'];
 				echo "if (frm.$field.checked == false) {
-	errmsg = errmsg + '$label is must be checked.<br>';
+	errmsg = errmsg + '$label is must be checked.<br clear=\"all\">';
 	valid = false;
 }
 ";
@@ -245,7 +245,7 @@ if (frm.$field.value.length > $len) {
 			case 'List':
 				$cnt = $data['Data'];
 				echo "if (frm.$field.selectedIndex == 0) {
-	errmsg = errmsg + '$label must be selected.<br>';
+	errmsg = errmsg + '$label must be selected.<br clear=\"all\">';
 	valid = false;
 }
 ";
@@ -254,7 +254,7 @@ if (frm.$field.value.length > $len) {
 				$checkemail = true;
 				echo "if (frm.$field.value.length > 0) {
 	if (!EmailAddressOK (frm.$field.value)) {
-		errmsg = errmsg + '$label is not a valid email address.<br>';
+		errmsg = errmsg + '$label is not a valid email address.<br clear=\"all\">';
 		valid = false;
 	}
 }
@@ -264,7 +264,7 @@ if (frm.$field.value.length > $len) {
 				$checkurl = true;
 				echo "if (frm.$field.value.length > 0) {
 	if (!IsUrl (frm.$field.value)) {
-		errmsg = errmsg + '$label is not a valid web address.<br>';
+		errmsg = errmsg + '$label is not a valid web address.<br clear=\"all\">';
 		valid = false;
 	}
 }
@@ -275,7 +275,7 @@ if (frm.$field.value.length > $len) {
 				$len = $data['Data'];
 				echo "if (frm.$field.value.length > 0) {
 	if (!IsDate (frm.$field.value)) {
-		errmsg = errmsg + '$label is not a valid date.<br>';
+		errmsg = errmsg + '$label is not a valid date.<br clear=\"all\">';
 		valid = false;
 	}
 }
@@ -286,7 +286,7 @@ if (frm.$field.value.length > $len) {
 				$len = $data['Data'];
 				echo "if (frm.$field.value.length > 0) {
 	if (!IsDigits (frm.$field.value, $len)) {
-		errmsg = errmsg + '$label is not valid.<br>';
+		errmsg = errmsg + '$label is not valid.<br clear=\"all\">';
 		valid = false;
 	}
 }
@@ -296,21 +296,21 @@ if (frm.$field.value.length > $len) {
 				$checknum = true;
 				echo "if (frm.$field.value.length > 0) {
 	if (!IsNumber (frm.$field.value)) {
-		errmsg = errmsg + '$label is not a valid number.<br>';
+		errmsg = errmsg + '$label is not a valid number.<br clear=\"all\">';
 		valid = false;
 	} else {
 ";
 				$d = @$data['Min'];
 				if ($d != 0)
 					echo "if (frm.$field.value < $d) {
-			errmsg = errmsg + '$label must be greater than $d.<br>';
+			errmsg = errmsg + '$label must be greater than $d.<br clear=\"all\">';
 			valid = false;
 		}
 ";
 				$d = @$data['Max'];
 				if ($d != 0)
 					echo "if (frm.$field.value > $d) {
-			errmsg = errmsg + '$label must be less than $d.<br>';
+			errmsg = errmsg + '$label must be less than $d.<br clear=\"all\">';
 			valid = false;
 		}
 ";
@@ -327,7 +327,7 @@ echo "
 	if (!valid) {
 		d = document.getElementById('ErrorBlock');
 		if (d) {
-			d.innerHTML = errmsg;
+			d.innerHTML = '<span class=\"glyphicon glyphicon-exclamation-sign\" aria-hidden=\"true\"></span><div class=\"push-left\">' + errmsg + '</div><br clear=\"all\">';
 			d.style.display = 'block';
 		}
 		d = document.getElementById('MessageBlock');
