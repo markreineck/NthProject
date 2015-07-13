@@ -56,6 +56,7 @@ if ($data) {
 /*
       	<a href='projectedit?id=<?php echo $prjid; ?>'><img src="/image/pencil.png" width="32" height="32" alt="Edit" title="Edit"></a>
 */
+?>
       	</td>
 <?php /*
       <td><a href='projectusers?id=<?php echo $prjid; ?>'><img src="/image/people.png" width="32" height="32" alt="Project Users" title="Project Users"></a></td>
