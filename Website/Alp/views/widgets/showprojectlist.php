@@ -1,5 +1,6 @@
 <?php
 $db = $this->Model();
+$this->LoadLibrary('iconlinks');
 
 if ($db->IsSupervisor())
 	$data = $db->ListProjects($Company, $ProjectStatus);
@@ -49,7 +50,7 @@ if ($data) {
 		}
 ?>
         <div style="color:<?php echo $color; ?>"><?php echo $statcc; ?></div></td>
-      <!--<td><input type=button name=pbtn54 value='Add Item <?php $ctr?>' onClick="redirect('ProjectsAddItem?id=',<?php echo $prjid; ?>)"></td>-->
+      <!--<td><input type=button name=pbtn54 value='Add Item <?php //$ctr?>' onClick="redirect('ProjectsAddItem?id=',<?php //echo $prjid; ?>)"></td>-->
       <td>
 <?php
 	MakeIconLink('pencil', 'projectedit?id='.$prjid, 'Edit');
