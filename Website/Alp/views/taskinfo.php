@@ -132,28 +132,28 @@ ShowAssignment('Approval By: ', $data->approvedby, $data->approvedname, $data->a
 if ($this->UserSetting('Milestones')) {
 	if (!empty($data->startmsname)) {
 ?>
-			Start after:<?php echo $data->startmsname; ?>
+			<label>Start after:</label><strong><?php echo $data->startmsname; ?></strong><br />
 <?php
 	}
 	if (!empty($data->endmsname)) {
 ?>
-			Complete By:<?php echo $data->endmsname; ?>
+			<label>Complete By:</label><strong><?php echo $data->endmsname; ?></strong><br />
 <?php
 	}
 }
 if ($this->UserSetting('TaskDates') && !empty($data->startafter) || !empty($data->needby)) {
 ?>
-			Complete By:<?php echo $data->needby; ?>
+			<label>Complete By:</label><strong><?php echo $data->needby; ?></strong><br />
 <?php
 }
 if ($this->UserSetting('TaskCost') && !empty($data->cost) &&
 	($db->IsGlobalSupervisor() || $db->GetUserID() == $data->assignedto)) {
 ?>
-			Cost:<?php echo $data->cost; ?>
+			<label>Cost:</label><strong><?php echo $data->cost; ?></strong>
 <?php
 }
 ?>
-		
+	<br clear="all"/>	
 	</div>
 
 <div class="portfolio pagesection">
