@@ -19,7 +19,7 @@ function Start()
 	$this->PutData ('icons', false);
 	$this->PutData ('PageTitle', 'Completed Tasks');
 	$this->PutData ('NextPage', 'showtasktree');
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

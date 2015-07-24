@@ -41,7 +41,7 @@ function Start()
 	}
 	$this->PutData ('OKMsg', $msg);
 	$this->PutData ('PageHeading', array('projectlist', 'milestone', 'assigntolist'));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

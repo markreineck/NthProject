@@ -14,7 +14,7 @@ function Start()
 	$this->Ajax()->SetFields(array("DefaultPrj","DefaultUser"));
 
 	$this->DoTaskListPage(array('projectlist', 'assigntolist', 'filters'));
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

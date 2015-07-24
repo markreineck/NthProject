@@ -17,7 +17,7 @@ function Start()
 
 	$filters = array('projectlist', 'assigntolist', 'timeperiodlist');
 	$this->DoTaskListPage($filters);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

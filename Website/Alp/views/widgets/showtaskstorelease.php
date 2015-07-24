@@ -4,8 +4,8 @@ if ($data) {
 	$form = $this->Forms();
 
 ?>
-<table width="100%" border="0" cellpadding="3" cellspacing="0" class="table">
-	<tr class="ColumnTitles">
+<table class="table table-striped">
+	<tr>
 		<th>Area</th>
 <?php
 	if ($this->UserSetting('Milestones')) {
