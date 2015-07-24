@@ -17,11 +17,13 @@ echo ($Function == 'C') ? 'Complete' : 'Rejected';
 $form->ShowFormErrors($errmsg);
 ?>
 <form method="post" name="form" id="form" >
-	<table>
+	<table cellpadding="3" cellspacing="0">
 <?php
 $form->ShowTextAreaField ('Comment', 'Comment', 4, 60);
 ?>
-		<tr><td></td><td>
+		<tr>
+        <td></td>
+        <td>
 <?php
 $form->ShowHiddenField ('TaskID', $TaskID);
 $form->ShowHiddenField ('Function', $Function);

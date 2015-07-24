@@ -12,7 +12,7 @@ function Start()
 	$db = $this->LoadModel(array('DatabaseDB', 'SuperDB'));
 	if (isset($_GET['def']))
 		$db->SetDefaultTaskStatus($_GET['def']);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

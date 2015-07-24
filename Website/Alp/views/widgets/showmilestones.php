@@ -11,7 +11,7 @@ if ($prjid > 0) {
 	$canedit = $db->IsProjectSuperUser($prjid);
 ?>
 </h2>
-<table class="ListTable">
+<table class="table table-striped">
 <?php
 	$data = $db->ListMilestones($prjid);
 ?>
@@ -39,12 +39,12 @@ if ($prjid > 0) {
 <?php
 			if ($canedit) {
 ?>
-		<a href="milestoneedit?mid=<?php echo $row->milestoneid; ?>&pid=<?php echo $prjid; ?>"><img src="/image/pencil.png" width="32" height="32" alt="Edit" title="Edit"></a>&nbsp;&nbsp;
+		<a href="milestoneedit?mid=<?php echo $row->milestoneid; ?>&pid=<?php echo $prjid; ?>"  alt="Edit Milestone" class="ActionIconLinks" ><span class="glyphicon glyphicon-pencil"></span></a>&nbsp;&nbsp;
 <?php
 				if (!$row->completedon) {
 					$args['msid'] = $row->milestoneid;
 ?>
-		<img src="/image/check.png" width="32" height="32" alt="Edit" title="Complete" onClick="<?php echo $ajax->Query('CompleteMilestone', 'AjaxList', $args); ?>">
+		<a href="#complete"  alt="Complete Milestone" class="ActionIconLinks" onClick="<?php echo $ajax->Query('CompleteMilestone', 'AjaxList', $args); ?>"><span class="glyphicon glyphicon-ok"></span></a>
 <?php
 			}
 			}
@@ -56,15 +56,11 @@ if ($prjid > 0) {
 		}
 	}
 ?>
-	<tr>
-		<td colspan="3">
+</table>
 <?php
 	$form->ShowRedirectButton ('milestoneedit&pid='.$prjid, 'New Milestone');
 	$form->ShowRedirectButton ('projects', 'Project List');
 ?>
-		</td>
-	</tr>
-</table>
 <?php 
 } else {
 	echo '<p>Please select a project.</p>';

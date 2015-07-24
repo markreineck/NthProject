@@ -50,7 +50,7 @@ function Start()
 
 	$this->PutData ('TaskID', $taskid);
 	$this->PutData ('Function', $func);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>
