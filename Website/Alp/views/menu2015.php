@@ -181,9 +181,13 @@ if ($db->IsGlobalSupervisor() || $db->IsUserManager())
 ?>
     </div><?php */?>
 
-</div>
+</div><br clear="all" />
 <div class="StaticSubMenu">
-<?php
-    ShowSubMenu($this, $menuname, $menuid, $menuitems);
-?>
+    <ul>
+        <li><a href="signin">Project Sign In</a></li>
+        <li><a href="signout">Signout</a></li>
+        <li><a href="recordtime">Record Time</a></li>
+        <li><a href="mytime">My Time</a></li>
+        <li><a href="signedin">Signed-in Staff</a></li>
+    </ul>
 </div>

@@ -46,7 +46,7 @@ $this->LoadSystemJavascript('Cookie');
     </div>
 </header>
 
-    <div class="container-full">
+    <div class="container-full" style="padding-bottom: 0;">
 <?php include ('menu2015.php'); ?>    	
     </div>
 <div class="container-full">
