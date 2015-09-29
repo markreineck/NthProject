@@ -309,7 +309,7 @@ if ($data) {
         <div class="memoarea ViewNote" id="ViewNote<?php echo $dx->noteid; ?>" >    
 <?php
 		echo str_replace('
-		', '<br>', $dx->message);
+', '<br>', $dx->message);
 ?>
         </div>    
 	</div>
