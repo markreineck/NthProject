@@ -12,7 +12,8 @@ public function __construct($url)
 
 function Start()
 {
-	$this->LoadView('home');
+	$this->PutData ('MenuID', 'Supervisor');
+	$this->LoadView('template2015');
 }
 }
 ?>

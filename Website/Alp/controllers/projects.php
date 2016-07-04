@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class projects extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 	$c = $this->Cookie();
@@ -19,7 +14,6 @@ function Start()
 	$ajax->SetFields(array("DefaultStatus","DefaultOrg"));
 
 	$this->PutData ('PageHeading', array('orglist', 'prjstatuslist'));
-//	$this->LoadView('home');
     $this->LoadView('template2015');
 }
 }

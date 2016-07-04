@@ -21,13 +21,13 @@ function Post()
 			$okmsg = 'Time records prior to ' . $_POST['DeleteTimeRecords'] . ' have been purged.';
 	}
 	$this->PutData ('OKMsg', $okmsg);
-	$this->LoadView('home');
+	$this->Start();
 }
 
 function Start()
 {
-	$this->PutData ('OKMsg', '');
-	$this->LoadView('home');
+	$this->PutData ('MenuID', 'Supervisor');
+	$this->LoadView('template2015');
 }
 
 }

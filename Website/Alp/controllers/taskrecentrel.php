@@ -3,11 +3,6 @@ include 'TaskListController.php';
 
 class taskrecentrel extends TaskListController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TaskListController($url);
-}
-
 function Start()
 {
 	$this->Ajax()->SetFunction('GetRecentReleasedTasks');

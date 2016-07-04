@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class projectcost extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::__construct($url);
-}
-
 function Start()
 {
 	$prjid = $this->Cookie('ProjectCookie')->GetDefaultProject();

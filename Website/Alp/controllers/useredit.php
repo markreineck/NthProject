@@ -38,7 +38,7 @@ function Start()
 
 	$this->PutData ('Verb', 'Edit');
 	$this->PutData ('UserID', $userid);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

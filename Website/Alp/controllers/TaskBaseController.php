@@ -1,9 +1,10 @@
 <?php
 abstract class TaskBaseController extends AlpFramework {
 
-public function TaskBaseController($url)
+public function __construct($url)
 {
-	parent::AlpFramework($url);
+	parent::__construct($url);
+	$this->PutData ('MenuID', 'Tasks');
 }
 
 function TaskInfoLink($taskid, $descr)

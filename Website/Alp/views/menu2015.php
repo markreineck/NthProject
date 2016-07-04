@@ -6,29 +6,17 @@ function ShowMenu($alp, $menuname, $menuid, $menuitems)
 	$db = $alp->Model();
 	
 	
-	echo "<li><a id='".$menuid."' class='link'>$menuname  <div id='' class='arrow-left'></div></a>";			
-	ShowSubMenu($alp, $menuname, $menuid, $menuitems);
+	echo "<li><a id='".$menuid."' class='link'>$menuname  <div id='' class='arrow-left'></div></a>";
+
+	echo "<div class='sub-menu'><ul class='child-menu' style='display:none' id='SubMenu_".$menuid."'>";
+	ShowSubMenu($alp, $menuitems);
+	echo '</ul></div>';
+
 	echo "</li>";
 	
-}
-	/*	if ($alp->UserSetting('Time') && $db->IsOwnerOrg())
-	ShowSubMenu($alp, $menuname, $timemenu, 'Time');
+}	
 	
-	if ($db->IsGlobalSupervisor()) {
-	if ($alp->UserSetting('Time') || $alp->UserSetting('TaskCost'))
-		ShowSubMenu($alp, $menuname, $timerptmenu, 'Financial');
-	}
-	
-	ShowSubMenu($alp, 'Tasks', $taskmenu, 'Tasks');
-	ShowSubMenu($alp, $menuname, $taskrptmenu, 'CompleteTask');
-	
-	if ($db->IsProjectSupervisor())
-	ShowSubMenu($alp, $menuname, $projectmenu, 'Projects');
-	
-	if ($db->IsGlobalSupervisor() || $db->IsUserManager())
-	ShowSubMenu($alp, $menuname, $supermenu, 'Supervisor');		*/		
-	
-function ShowSubMenu($alp, $menuname, $menuid, $menuitems)
+function ShowSubMenu($alp, $menuitems)
 {
 	$db = $alp->Model();	
 	
@@ -110,9 +98,6 @@ function ShowSubMenu($alp, $menuname, $menuid, $menuitems)
 	
 	}
 
-	echo "<div class='sub-menu'>";
-	echo "<ul class='child-menu' style='display:none' id='SubMenu_".$menuid."'>";
-
 	foreach ($itemarray as $menu) {
 		if ($menu['priv'] == 'G')
 			$ok = $db->IsGlobalSupervisor();
@@ -131,8 +116,6 @@ function ShowSubMenu($alp, $menuname, $menuid, $menuitems)
 		if ($ok)
 			echo '<li><a href="'.$menu['link'].'">'.$menu['name'].'</a></li>';
 	}
-	echo '</ul>';
-	echo "</div>";
 }
 ?>
 <div class="menu">
@@ -159,35 +142,14 @@ if ($db->IsGlobalSupervisor() || $db->IsUserManager())
 	<li><a href="newtask" class='link'>Add a Task</a></li>
 	</ul>
     <br clear="all" />
-    
-<?php /*?>    <div class="sub-menu">
-<?php
-if ($this->UserSetting('Time') && $db->IsOwnerOrg())
-	ShowSubMenu($this, 'Time', $timemenu, 'Time');
-
-if ($db->IsGlobalSupervisor()) {
-	if ($this->UserSetting('Time') || $this->UserSetting('TaskCost'))
-		ShowSubMenu($this, 'Financial', $timerptmenu, 'Financial');
-}
-
-ShowSubMenu($this, 'Tasks', $taskmenu, 'Tasks');
-ShowSubMenu($this, 'Completed Tasks', $taskrptmenu, 'CompleteTask');
-
-if ($db->IsProjectSupervisor())
-	ShowSubMenu($this, 'Projects', $projectmenu, 'Projects');
-
-if ($db->IsGlobalSupervisor() || $db->IsUserManager())
-	ShowSubMenu($this, 'Supervisor', $supermenu, 'Supervisor');
-?>
-    </div><?php */?>
 
 </div><br clear="all" />
 <div class="StaticSubMenu">
     <ul>
-        <li><a href="signin">Project Sign In</a></li>
-        <li><a href="signout">Signout</a></li>
-        <li><a href="recordtime">Record Time</a></li>
-        <li><a href="mytime">My Time</a></li>
-        <li><a href="signedin">Signed-in Staff</a></li>
+<?php
+if (isset($MenuID)) {
+	ShowSubMenu($this, $MenuID);
+}
+?>
     </ul>
 </div>

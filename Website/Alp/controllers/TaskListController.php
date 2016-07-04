@@ -3,9 +3,9 @@ include 'TaskBaseController.php';
 
 abstract class TaskListController extends TaskBaseController {
 
-public function TaskListController($url)
+public function __construct($url)
 {
-	parent::TaskBaseController($url);
+	parent::__construct($url);
 
 	if (isset($_POST['Keyword']) && is_numeric($_POST['Keyword'])) {
 		$this->RedirectTo('taskinfo?tid='.$_POST['Keyword']);

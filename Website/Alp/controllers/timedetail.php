@@ -3,11 +3,6 @@ include 'TimeReportController.php';
 
 class timedetail extends TimeReportController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TimeReportController($url);
-}
-
 function Start()
 {
     $c = $this->Cookie('ProjectCookie');

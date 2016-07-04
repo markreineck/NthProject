@@ -3,11 +3,6 @@ include 'TaskController.php';
 
 class taskstatus extends TaskController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TaskController($url);
-}
-
 function Start()
 {
 	$db = $this->Model();
@@ -50,6 +45,7 @@ function Start()
 
 	$this->PutData ('TaskID', $taskid);
 	$this->PutData ('Function', $func);
+	$this->PutData ('MenuID', 'Supervisor');
 	$this->LoadView('template2015');
 }
 }

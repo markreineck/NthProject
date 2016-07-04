@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class projectareaadd extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 if ($this->IsPosted('ProjectID')) {
@@ -36,7 +31,7 @@ if (!$prjid && !$areaid) {
 	$this->RedirectTo('projectareas');
 } else {
 	$this->PutData ('PrjID', $prjid);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 }

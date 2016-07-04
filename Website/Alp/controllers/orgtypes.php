@@ -33,12 +33,13 @@ function Post()
 		}
 	}
 
-	$this->LoadView('home');
+	$this->Start();
 }
 
 function Start()
 {
-	$this->LoadView('home');
+	$this->PutData ('MenuID', 'Supervisor');
+	$this->LoadView('template2015');
 }
 }
 ?>

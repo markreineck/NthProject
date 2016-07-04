@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class milestones extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 	$c = $this->Cookie();

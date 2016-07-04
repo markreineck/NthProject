@@ -17,9 +17,9 @@ function Post()
 		$err = $usertbl->DoUpdate();
 	}
 
-		if (!$err) {
-			$this->RedirectTo('users');
-		}
+	if (!$err) {
+		$this->RedirectTo('users');
+	}
 }
 
 function Start()
@@ -34,7 +34,7 @@ function Start()
 
 	$this->PutData ('Verb', 'Edit');
 	$this->PutData ('UserID', $userid);
-	$this->LoadView('home');
+	$this->LoadView('template2015');
 }
 }
 ?>

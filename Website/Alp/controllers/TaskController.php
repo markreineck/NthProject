@@ -3,9 +3,9 @@ include 'TaskBaseController.php';
 
 abstract class TaskController extends TaskBaseController {
 
-public function TaskController($url)
+public function __construct($url)
 {
-	parent::TaskBaseController($url);
+	parent::__construct($url);
 	$db = $this->LoadModel(array('DatabaseDB', 'TaskDB'));
 	$c = $this->Cookie('ProjectCookie');
 	$db->ValidateUserSession($this->Cookie());

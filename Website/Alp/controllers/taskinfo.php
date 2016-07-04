@@ -3,11 +3,6 @@ include 'TaskController.php';
 
 class taskinfo extends TaskController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TaskController($url);
-}
-
 private function ShowPage($taskid, $okmsg)
 {
 	$this->LoadLibrary('iconlinks');

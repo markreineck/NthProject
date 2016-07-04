@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class milestoneedit extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 	if ($this->IsPosted('ProjectID')) {
@@ -44,7 +39,7 @@ function Start()
 	} else {
 		$this->PutData ('MilestoneID', $mid);
 		$this->PutData ('PrjID', $prjid);
-		$this->LoadView('home');
+		$this->LoadView('template2015');
 	}
 }
 }

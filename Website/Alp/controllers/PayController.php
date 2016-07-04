@@ -3,9 +3,9 @@ include 'TaskBaseController.php';
 
 abstract class PayController extends TaskBaseController {
 
-public function PayController($url)
+public function __construct($url)
 {
-	parent::TaskBaseController($url);
+	parent::__construct($url);
 	$c = $this->Cookie('ProjectCookie');
 	$db = $this->LoadModel(array('DatabaseDB', 'TaskDB', 'TaskListDB'));
 	$db->ValidateUserSession($this->Cookie());
@@ -17,6 +17,8 @@ public function PayController($url)
 	$ajax->SetPage('ajaxtasklist');
 	$ajax->SetSection('TaskList');
 	$ajax->AddArg('sid', $this->Cookie()->GetSessionID());
+
+	$this->PutData ('MenuID', 'Financial');
 }
 }
 ?>

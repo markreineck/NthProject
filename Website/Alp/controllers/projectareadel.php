@@ -3,11 +3,6 @@ include 'ProjectController.php';
 
 class projectareadel extends ProjectController implements AlpController {
 
-public function __construct($url)
-{
-	parent::ProjectController($url);
-}
-
 function Start()
 {
 	if ($this->IsPosted('SourceArea')) {
@@ -38,7 +33,7 @@ function Start()
 	} else {
 		$this->PutData ('AreaID', $areaid);
 		$this->PutData ('PrjID', $prjid);
-		$this->LoadView('home');
+		$this->LoadView('template2015');
 	}
 }
 }

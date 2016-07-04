@@ -3,11 +3,6 @@ include 'TaskListController.php';
 
 class taskbymilestone extends TaskListController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TaskListController($url);
-}
-
 function Start()
 {
 	$c = $this->Cookie();

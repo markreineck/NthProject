@@ -1,9 +1,9 @@
 <?php
 abstract class TimeReportController extends AlpFramework {
 
-public function TimeReportController($url)
+public function __construct($url)
 {
-	parent::AlpFramework($url);
+	parent::__construct($url);
 	$c = $this->Cookie('ProjectCookie');
 	$db = $this->LoadModel(array('DatabaseDB', 'TimeDB', 'TimeRptDB'));
 	$db->ValidateUserSession($c);
@@ -30,6 +30,8 @@ public function TimeReportController($url)
 	$ajax->SetSection('TimeList');
 	$ajax->AddArg('sid', $this->Cookie()->GetSessionID());
 	$ajax->SetFields(array('DefaultDateRange','DefaultPrj','DefaultUser','TimeGroup'));
+
+	$this->PutData ('MenuID', 'Financial');
 }
 
 }

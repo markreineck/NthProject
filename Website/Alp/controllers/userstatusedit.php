@@ -25,7 +25,8 @@ function Start()
 		if (!$err)
 			$this->PutData('NextPage', 'userstatuses');
 	}
-	$this->LoadView('home');
+	$this->PutData ('MenuID', 'Supervisor');
+	$this->LoadView('template2015');
 }
 
 }

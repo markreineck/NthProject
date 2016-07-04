@@ -3,11 +3,6 @@ include 'TaskListController.php';
 
 class taskbyproject extends TaskListController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TaskListController($url);
-}
-
 function Start()
 {
 	$this->Ajax()->SetFunction('GetTasksByProject');

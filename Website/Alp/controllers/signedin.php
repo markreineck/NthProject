@@ -3,13 +3,9 @@ include 'TimeReportController.php';
 
 class signedin extends TimeReportController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TimeReportController($url);
-}
-
 function Start()
 {
+	$this->PutData ('MenuID', 'Time');
 	$this->LoadView('template2015');
 }
     

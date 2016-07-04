@@ -1,11 +1,6 @@
 <?php
 class taskstatusedit extends AlpFramework implements AlpController {
 
-public function __construct($url)
-{
-	parent::AlpFramework($url);
-}
-
 function Start()
 {
 	$c = $this->Cookie('ProjectCookie');
@@ -25,7 +20,8 @@ function Start()
 		if (!$err)
 			$this->PutData('NextPage', 'taskstatuses');
 	}
-	$this->LoadView('home');
+	$this->PutData ('MenuID', 'Supervisor');
+	$this->LoadView('template2015');
 }
 
 }

@@ -3,11 +3,6 @@ include 'PayController.php';
 
 class billhistory extends PayController implements AlpController {
 
-public function __construct($url)
-{
-	parent::PayController($url);
-}
-
 function Start()
 {
 	$this->Ajax()->SetFunction('GetBillingHistory');

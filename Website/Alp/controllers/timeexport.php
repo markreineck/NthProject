@@ -3,11 +3,6 @@ include 'TimeReportController.php';
 
 class timeexport extends TimeReportController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TimeReportController($url);
-}
-
 function Start()
 {
 	$this->Ajax()->SetFunction('GetTimeExport');
