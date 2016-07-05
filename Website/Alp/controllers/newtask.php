@@ -3,11 +3,6 @@ include 'TaskController.php';
 
 class newtask extends TaskController implements AlpController {
 
-public function __construct($url)
-{
-	parent::TaskController($url);
-}
-
 function Post()
 {
 	$db = $this->Model();

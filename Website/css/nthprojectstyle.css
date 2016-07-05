@@ -4,12 +4,13 @@
 @import url('table.css');
 @import url('phone.css');
 body {
-	background:url(../img/main-background.jpg) #57602b repeat-x;
+/*	background:url(../img/main-background.jpg) #57602b repeat-x; */
 	margin:15px;
 	line-height: 21px;
 	font-family:Arial, Helvetica, sans-serif;
 	font-size:12px;
-	color:#444444;
+	color:#444;
+	background-color:#3498db;
 }
 article,
 aside,
