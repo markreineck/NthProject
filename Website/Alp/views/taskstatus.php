@@ -1,6 +1,6 @@
 <?php
 $db = $this->Model();
-$form = $this->Forms();
+$form = $this->Forms('ProjectFormClass');
 $c = $this->Cookie();
 
 $errmsg = $db->ErrorMsg();
@@ -19,7 +19,7 @@ $form->ShowFormErrors($errmsg);
 <form method="post" name="form" id="form" >
 	<table cellpadding="3" cellspacing="0">
 <?php
-$form->ShowTextAreaField ('Comment', 'Comment', 4, 60);
+$form->ShowHTMLEditField ('Comment', 'Comment', 4, 60);
 ?>
 		<tr>
         <td></td>

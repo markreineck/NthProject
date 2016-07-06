@@ -1,7 +1,7 @@
 <?php
 $db = $this->Model();
 $c = $this->Cookie();
-$form = $this->Forms();
+$form = $this->Forms('ProjectFormClass');
 $json = $this->LoadClass('JsonClass');
 $json->JsonBase();
 ?>
@@ -80,7 +80,7 @@ if ($this->UserSetting('TaskCost')) {
 }
 $form->ShowListField ('Assign to', 'AssignTo', $db->GetAssignToList($PrjID), 0, $def->defassignedto);
 $form->ShowListField ('Approve by to', 'ApproveBy', $db->GetApproveByList($PrjID), 0, $def->defapprovedby);
-$form->ShowTextAreaField ('Notes', 'Notes', 5, 80);
+$form->ShowHTMLEditField ('Notes', 'Notes', 5, 80);
 ?>
 		<tr>
 			<td></td>

@@ -319,6 +319,9 @@ if ($data) {
 	<form name="EditNote<?php echo $dx->noteid; ?>" id="EditNote<?php echo $dx->noteid; ?>" method="post" action="" <?php echo 'style="display:none"'; ?>>
 		<textarea name="Notes" cols="45" rows="10" class="textbox"><?php echo $dx->message; ?></textarea>
 		<?php
+// Can't do this because of duplicate "Notes" fields on the page.
+// Either give them a unioue id  or else have a single add/edit notes form.
+//			$form->ShowHTMLEditField ('Notes', 'Notes', 10, 45, $dx->message);
 			$form->ShowHiddenField ('TaskID', $TaskID);
 			$form->ShowHiddenField ('NoteID', $dx->noteid);
 			$form->ShowSubmitButton();
@@ -339,7 +342,10 @@ if ($data) {
 
 <div class="field-container">
     <label for="FileDescr" class="LabelClass">Notes:</label>
-    <textarea name="Notes" cols="45" rows="10" class="textbox"></textarea>
+<?php
+//    <textarea name="Notes" cols="45" rows="10" class="textbox"></textarea>
+	$form->ShowHTMLEditField ('Notes', 'Notes', 10, 45);
+?>
 </div>
 
 <?php
