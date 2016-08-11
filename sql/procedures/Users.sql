@@ -1,3 +1,4 @@
+delimiter $$
 
 drop procedure if exists ResetUserAaccount$$
 create procedure ResetUserAaccount (

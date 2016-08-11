@@ -1,3 +1,5 @@
+delimiter $$
+
 /*
 * UserSession.sql
 * Sessions for logging in, renewing the session and validating session rights

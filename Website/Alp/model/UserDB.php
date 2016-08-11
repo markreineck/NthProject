@@ -87,8 +87,8 @@ where f.fieldtype='U' order by f.fieldid";
 function ReadUserAddProjects($userid, $deforg)
 {
 	$sql = "select prjid, name from projects where prjid not in (select prjid from projectusers where userid=$userid)";
-	if ($deforg > 0) 
-		$sql .= ' and orgid=' . $deforg;
+//	if ($deforg > 0) 
+//		$sql .= ' and orgid=' . $deforg;
 	$sql .= ' order by name';
 
 	return $this->SelectAll($sql,2);

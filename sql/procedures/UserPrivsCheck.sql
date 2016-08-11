@@ -1,3 +1,4 @@
+delimiter $$
 
 /* * * * * * * * * * * * * * * * * * * * * * * * * * *
  * User Session Validation

@@ -1,3 +1,4 @@
+delimiter $$
 
 DROP PROCEDURE IF EXISTS SetGlobalRights$$
 
