@@ -177,7 +177,7 @@ if ($files) {
 	<tr>
 		<td><?php echo $f->uploadedon; ?></td>
 		<td><?php echo $f->loadedby; ?></td>
-		<td><a href="http://projectserver.nth-generation.com/showimg.php?id=<?php echo $f->fileid; ?>" target=_new><?php echo $f->descr; ?></a></td>
+		<td><a href="/showimg?id=<?php echo $f->fileid; ?>" target=_new><?php echo $f->descr; ?></a></td>
 		<td></td>
 		<td>        	
             <a alt="Delete" title="Delete Attachment" class="ActionIconLinks Red" onclick="window.location='<?php echo $this->Controller()."?tid=$TaskID&df=$f->fileid"; ?>'">

@@ -1,7 +1,7 @@
 <?php
 abstract class BaseController extends AlpFramework {
 
-public function __construct($url, $models)
+public function __construct($url, $models=NULL)
 {
 	parent::__construct($url);
 	$c = $this->Cookie('ProjectCookie');
