@@ -39,11 +39,11 @@ CKEDITOR.editorConfig = function( config )
 */
 		{ name: 'basicstyles', items : [ 'Bold','Italic','Underline'] },	
 		{ name: 'justify', items : [ 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },																	
-		{ name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },									
+		/*{ name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },*/									
 		{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
-		{ name: 'bullet', items : [ 'NumberedList','BulletedList','-','Outdent','Indent' ] },
+		/*{ name: 'bullet', items : [ 'NumberedList','BulletedList','-','Outdent','Indent' ] },*/
 		{ name: 'link', items : [ 'Link', 'Unlink','Anchor' ] },	
-		{ name: 'insert', items : [ 'Image',/*'Flash',*/'Table' /*,'HorizontalRule'*/,'Source' ] },								
+		{ name: 'insert', items : [ 'Image','Table','Source' ] },								
 		{ name: 'colors', items : [ 'TextColor','BGColor' ] }
 	];
 	 
@@ -55,14 +55,12 @@ CKEDITOR.editorConfig = function( config )
 	
 	config.toolbar_TestsToolbar =
 	[
-		{ name: 'basicstyles', items : [ 'Bold','Italic','Underline'] },	
-		{ name: 'justify', items : [ 'JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock' ] },																	
-		{ name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },									
-		{ name: 'document', items : [ 'Save','NewPage' ] },
+		{ name: 'basicstyles', items : [ 'Bold','Italic','Underline'] },
+		{ name: 'styles', items : [ 'Styles','Format','Font','FontSize' ] },	
+		{ name: 'insert', items : [ 'Image','Table','Source' ] },	
 		{ name: 'clipboard', items : [ 'Cut','Copy','Paste','PasteText','PasteFromWord','-','Undo','Redo' ] },
 		{ name: 'bullet', items : [ 'NumberedList','BulletedList','-','Outdent','Indent' ] },
-		{ name: 'link', items : [ 'Link', 'Unlink','Anchor' ] },	
-		{ name: 'insert', items : [ 'Image','Flash','Table','HorizontalRule','Source' ] },								
+		{ name: 'link', items : [ 'Link', 'Unlink','Anchor' ] },								
 		{ name: 'colors', items : [ 'TextColor','BGColor' ] }
 	];
 	
