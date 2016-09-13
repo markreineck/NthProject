@@ -1,6 +1,6 @@
 <?php 
 /*
-Copyright (c) 2012, 2013, Nth Generation. All rights reserved.
+Copyright (c) 2012-2015, Nth Generation. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -25,6 +25,8 @@ var $bcc;
 var $msg;
 var $subject;
 var $phpmailerpath;
+var $engine;
+var $html;
 
 function EmailClass ($framework)
 {
@@ -39,6 +41,8 @@ function EmailClass ($framework)
 		$this->replyto = isset($settings['ReplyTo']) ? $settings['ReplyTo'] : '';
 		$this->bcc = isset($settings['BCC']) ? $settings['BCC'] : '';
 		$this->phpmailerpath = isset($settings['PHPMailer']) ? $settings['PHPMailer'] : '';
+		$this->engine = isset($settings['MailEngine']) ? $settings['MailEngine'] : '';
+		$this->html = isset($settings['HTML']) ? $settings['HTML'] : false;
 	}
 }
 
@@ -107,29 +111,46 @@ private function MakeHeaders()
 	return $headers;
 }
 
+private function PhpMailer()
+{
+	if (!$this->phpmailerpath) {
+		$this->Framework()->LogError('phpmailer path not provided');
+		return 2;
+	}
+
+	require_once ($this->phpmailerpath . '/class.phpmailer.php'); 
+	$mail = new PHPMailer();
+	$mail->SetFrom($this->from);
+	$mail->AddReplyTo($this->replyto);
+	$mail->AddBCC($this->bcc);
+	foreach($this->to as $to)
+		$mail->AddAddress($to);
+	foreach($this->cc as $cc)
+		$mail->AddCC($cc);
+	$mail->Subject = $this->subject;
+	$mail->MsgHTML($this->msg);
+	return $mail->Send();
+}
+
 // Returns 0 if the message was sent (not necessarily received)
 function Send ()
 {
 	if (!count($this->to) || empty($this->subject))
 		return 1;
 	$this->Debug();
-	if ($this->phpmailerpath) {
-		require_once ($this->phpmailerpath . '/class.phpmailer.php'); 
-		$mail = new PHPMailer();
-		$mail->SetFrom($this->from);
-		$mail->AddReplyTo($this->replyto);
-		$mail->AddBCC($this->bcc);
-		foreach($this->to as $to)
-			$mail->AddAddress($to);
-		foreach($this->cc as $cc)
-			$mail->AddCC($cc);
-		$mail->Subject = $this->subject;
-		$mail->MsgHTML($this->msg);
-		$x = $mail->Send();
-		return $x;
-	} else {
-		$headers = $this->MakeHeaders();
-		return (mail ($this->to, $this->subject, $this->msg, $headers)) ? 0 : 2;
+	switch ($this->engine) {
+		case 'PHPMailer' :
+			return $this->PhpMailer();
+		default:
+			$to = '';
+			foreach ($this->to as $t) {
+				if ($to)
+					$to .= ';';
+				$to .= $t;
+			}
+
+			$headers = $this->MakeHeaders();
+			return (mail ($to, $this->subject, $this->msg, $headers)) ? 0 : 2;
 	}
 }
 

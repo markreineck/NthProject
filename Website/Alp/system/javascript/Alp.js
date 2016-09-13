@@ -1,5 +1,5 @@
 /*
-Copyright (c) 2012, 2013, Nth Generation. All rights reserved.
+Copyright (c) 2012-2015 Nth Generation. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -13,6 +13,44 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
+function SetFieldValue (val, dest)
+{
+	d = document.getElementById(dest);
+	if (d) {
+		if (d.tagName && d.tagName.toLowerCase() == "input")
+			d.value = val;
+		else
+			d.innerHTML = val;
+	}
+}
+
+function CopyFieldValue (src, dest)
+{
+	d = document.getElementById(dest);
+	if (d) {
+		s = document.getElementById(src);
+		var val = '';
+		if (s) {
+			if (s.tagName && s.tagName.toLowerCase() == "input")
+				val = s.value;
+			else
+				val = s.innerHTML;
+		}
+		if (d.tagName && d.tagName.toLowerCase() == "input")
+			d.value = val;
+		else
+			d.innerHTML = val;
+	}
+}
+
+function CopyFields(src, dest)
+{
+	for (var x=0; x<src.length && x<dest.length; x++) {
+		CopyFieldValue (src[x], dest[x])
+	}
+}
+
 
 function ShowTag (tagid) 
 {

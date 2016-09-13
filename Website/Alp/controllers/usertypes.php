@@ -3,7 +3,7 @@ class usertypes extends AlpFramework implements AlpController {
 
 public function __construct($url)
 {
-	parent::AlpFramework($url);
+	parent::__construct($url);
 	$c = $this->Cookie('ProjectCookie');
 	$db = $this->LoadModel(array('DatabaseDB', 'OrgDB'));
 	$db->ValidateUserSession($this->Cookie());

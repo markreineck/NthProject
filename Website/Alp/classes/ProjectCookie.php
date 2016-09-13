@@ -95,6 +95,16 @@ function GetDefaultUser()
 	return $this->Get('DefaultUser');
 }
 
+function SetSubmitter($val)
+{
+	$this->Set('Submitter', $val);
+}
+
+function GetSubmitter()
+{
+	return $this->Get('Submitter');
+}
+
 function SetDefaultProjectStatus($val)
 {
 	$this->Set('DefaultPrjStatus', $val);

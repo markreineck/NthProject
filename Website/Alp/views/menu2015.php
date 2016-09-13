@@ -54,7 +54,7 @@ function ShowSubMenu($alp, $menuitems)
 			array('priv'=>'',	'opt'=>'',				'link'=>'tasksremoved',		'name'=>'Cancelled Tasks')
 		);
 	}
-	
+/*
 	if($menuitems=='Completed Tasks'){
 	
 		$itemarray = array(
@@ -66,7 +66,7 @@ function ShowSubMenu($alp, $menuitems)
 			array('priv'=>'',	'opt'=>'ReleaseTasks',	'link'=>'taskrecentrel',	'name'=>'Recently Released ')
 		);
 	}
-	
+*/
 	if($menuitems=='Projects'){
 	
 		$itemarray = array(
@@ -131,7 +131,7 @@ if ($db->IsGlobalSupervisor()) {
 }
 
 ShowMenu($this, 'Tasks', 'Tasks', 'Tasks');
-ShowMenu($this, 'Completed Tasks', 'CompleteTask', 'Completed Tasks');
+//ShowMenu($this, 'Completed Tasks', 'CompleteTask', 'Completed Tasks');
 
 if ($db->IsProjectSupervisor())
 	ShowMenu($this, 'Projects', 'Projects', 'Projects');

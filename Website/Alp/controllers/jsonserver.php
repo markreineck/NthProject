@@ -3,11 +3,6 @@ class jsonserver extends AlpFramework implements AlpController {
 
 var $SessionID;
 
-public function __construct($url)
-{
-	parent::AlpFramework($url);
-}
-
 function ShowJSONTask ($db, $taskid)
 {
 $json = new Services_JSON();

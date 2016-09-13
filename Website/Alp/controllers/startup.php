@@ -3,7 +3,7 @@ class startup extends AlpFramework implements AlpController {
 
 public function __construct($url)
 {
-	parent::AlpFramework($url);
+	parent::__construct($url);
 	$db = $this->LoadModel(array('DatabaseDB', 'LoginDB', 'StartupDB'));
 }
 

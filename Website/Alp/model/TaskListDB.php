@@ -69,6 +69,23 @@ function AssignedToWhere($cookie)
 	return $where;
 }
 
+function SubmittedByWhere($cookie)
+{
+	$uid = $cookie->GetSubmitter();
+	$where = '';
+	if ($uid > 0)
+		$where .= ' and t.submittedby='.$uid;
+
+	if (!$this->IsGlobalSupervisor()) {
+		$org = $this->IsSupervisor();
+		if ($org)
+			$where .= ' and p.orgid=' . $org;
+		else
+			$where .= ' and (t.assignedto='.$this->GetUserID().' or u.prjid is not null)';
+	}
+	return $where;
+}
+
 function PaidAssignedToWhere($cookie)
 {
 	if ($this->IsGlobalSupervisor()) {
@@ -208,6 +225,7 @@ function ProjectListWhere($cookie)
 	$where .= $this->ProjectWhere($cookie);
 	$where .= $this->ProjectAreaWhere($cookie);
 	$where .= $this->AssignedToWhere($cookie);
+	$where .= $this->SubmittedByWhere($cookie);
 	$where .= $this->TaskStatusWhere($cookie);
 	$where .= $this->MilestoneWhere($cookie);
 	$where .= $this->KeyWordWhere();
@@ -281,7 +299,6 @@ function ListMyPaidTasks($cookie)
 
 	$where = ' and t.assignedto='.$this->GetUserID();
 	$where .= $this->ProjectWhere($cookie);
-//	$where .= $this->AssignedToWhere($cookie);
 	$uid = $this->GetUserID();
 	$sql = "select p.orgid, t.taskid, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, t.complete, t.approved, t.cost, t.paid
 from tasks t
@@ -394,6 +411,7 @@ function ListTasksByMilestone($cookie)
 	if ($cookie->GetDefaultMilestone() > 0) {
 		$where = 'removed is null';
 		$where .= $this->AssignedToWhere($cookie);
+		$where .= $this->SubmittedByWhere($cookie);
 		$where .= $this->MilestoneWhere($cookie);
 		$where .= $this->KeyWordWhere();
 
@@ -473,7 +491,7 @@ function ListTasksByCompletedOn($cookie)
 	$where = '';
 	$where .= $this->ProjectWhere($cookie);
 	$where .= $this->AssignedToWhere($cookie);
-//	$where .= $this->TaskStatusWhere($cookie);
+	$where .= $this->SubmittedByWhere($cookie);
 	$where .= $this->KeyWordWhere();
 
 	$uid = $this->GetUserID();
@@ -495,7 +513,8 @@ function ListTasksByApprovedOn($cookie)
 	$where = $this->TaskApprovedOnWhere($cookie);
 	$where .= $this->ProjectWhere($cookie);
 	$where .= $this->AssignedToWhere($cookie);
-	
+	$where .= $this->SubmittedByWhere($cookie);
+
 	$sql = "select p.orgid, t.taskid, t.priority, p.name as project, a.name as area, t.name task, at.name assignedto, at.initials assignedinitials, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.approvedby
 from tasks t
 inner join projectareas a on a.areaid=t.areaid

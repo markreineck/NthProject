@@ -46,7 +46,7 @@ function ShowAreaLine($prjid, $areaid, $areaname, $icons=true)
 if ($icons)
 	//MakeIconLink('pencil.png', 'taskedit?aid='.$areaid, 'Edit Tasks');
 ?>
-	<a href="<?php echo "taskedit?pid='".$p->prjid."'";?>" role="menuitem" title="Edit Tasks" class="ActionIconLinks"><i class="glyphicon glyphicon-pencil"></i></a>
+	<a href="<?php echo "taskedit?pid='".$prjid."'";?>" role="menuitem" title="Edit Tasks" class="ActionIconLinks"><i class="glyphicon glyphicon-pencil"></i></a>
 	</td>
 	<td width="30" class="SubTitle" align="right">
 <?php

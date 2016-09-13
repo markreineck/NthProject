@@ -1,11 +1,6 @@
 <?php
 class ajaxserver extends AlpFramework implements AlpController {
 
-public function __construct($url)
-{
-	parent::AlpFramework($url);
-}
-
 function Start()
 {
 	switch ($this->Controller(1)) {

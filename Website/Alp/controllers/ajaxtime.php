@@ -1,11 +1,6 @@
 <?php
 class ajaxtime extends AlpFramework implements AlpController {
 
-public function __construct($url)
-{
-	parent::AlpFramework($url);
-}
-
 function Start()
 {
 	$db = $this->LoadModel(array('DatabaseDB', 'TimeDB', 'TimeRptDB'));
