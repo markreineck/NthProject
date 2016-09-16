@@ -14,6 +14,7 @@ $this->LoadSystemJavascript('Cookie');
 <link href="css/nthprojectstyle.css" rel="stylesheet" type="text/css">
 <script src="http://code.jquery.com/jquery.js"></script>
 <script type="text/javascript" src="js/menu2015.js"></script>
+<script src="js/bootstrap.min.js"></script>
 </head>
 
 <body>
@@ -39,7 +40,7 @@ $this->LoadSystemJavascript('Cookie');
                     </ul>
                 </li>
                 <li>
-                    <a href="" class="logout"><i class="glyphicon glyphicon-log-out"></i></a>
+                    <a href="logout" class="logout"><i class="glyphicon glyphicon-log-out"></i></a>
                 </li>
             </ul>
         </div>
@@ -79,6 +80,5 @@ if ($page != 'home')
 <div class="container-full footer">
 	<span>Web site design and hosting provided by <a href="http://www.nth-generation.com">Nth Generation</a> </span>
 </div>
-<script type="text/javascript" src="js/dropdown.js"></script>
 </body>
 </html>

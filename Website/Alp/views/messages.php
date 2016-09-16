@@ -64,7 +64,7 @@ if ($data) {
 	<tr class="stripe<?php echo $stripe; ?>">
 <?php
 		if (!empty($row->message)) {
-			echo "<tr class=\"stripe$stripe\"><td></td><td colspan=\"6\"><div id=\"msg$row->noteid\" style=\"display:none\">$row->message&nbsp;&nbsp;&nbsp;";
+			echo "<tr class=\"stripe$stripe\"><td></td><td colspan=\"6\"><div id=\"msg$row->noteid\" style=\"display:none\" class=\"msgcontainer\">$row->message&nbsp;&nbsp;&nbsp;";
 			if ($row->fromid > 0) {
 				MakeJSIcon('mail.png', "ShowContactPerson($row->fromid,$row->taskid,'$row->fromname','$row->email','$row->subject')", 'Respond');
 			}

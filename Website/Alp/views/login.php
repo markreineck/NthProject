@@ -1,49 +1,57 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nth-Generation Project Management</title>
 <?php
 $this->LoadCSS();
 $this->LoadCSSFile('login');
 $form = $this->Forms();
 ?>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Nth-Project</title>
+<link href="http://fonts.googleapis.com/css?family=Lusitana" type="text/css" rel="stylesheet">
+<link href="css/nthprojectstyle.css" rel="stylesheet" type="text/css">
+<script src="http://code.jquery.com/jquery.js"></script>
 </head>
 <body>
+<header>
+	<div class="container-full">
 <?php
 $this->LoadView('externalheader');
 ?>
-<div class="formbody">
-<div style="height:80px;"></div>
-<?php
-$form->ShowFormErrors($ErrorMsg);
-
-$args = '';
-foreach ($_GET as $name => $val) {
-	if ($name == 'n')
-		$nextpage = $val;
-	else if ($args)
-		$args .= "&$name=$val";
-	else
-		$args .= "?$name=$val";
-}
-if ($nextpage)
-?>
-	<form id="LoginForm" name="LoginForm" method="post" action="<?php echo $this->SiteURL(); ?>" class="login" >
-<?php
-$form->ShowHiddenField('NextPage', $nextpage . $args);
-?>
-		<h1>Log In</h1>
+    </div>
+</header>
+<br clear="all">
+<div class="container">
+	<form id="LoginForm" name="LoginForm" method="post" action="<?php echo $this->SiteURL(); ?>" class="form-signin" >
+		<?php
+        
+        $form->ShowFormErrors($ErrorMsg);
+        
+        $args = '';
+        foreach ($_GET as $name => $val) {
+            if ($name == 'n')
+                $nextpage = $val;
+            else if ($args)
+                $args .= "&$name=$val";
+            else
+                $args .= "?$name=$val";
+        }
+        if ($nextpage)
+        
+        $form->ShowHiddenField('NextPage', $nextpage . $args);
+        ?>
+		<h2 class="form-signin-heading">Project Login</h2>
 		<label style="color:#FF3030;"><?php if (isset($msg)) echo $msg; ?></label>
 		<label>Email Address</label><br />
 
-		<input  type="text" name="UserName" id="UserName" size="60" />
+		<input  type="email" name="UserName" id="UserName" class="form-control" />
 		<br /><br />
 		<label>Password</label><br />
-		<input name="Password" type="Password" id="Password" />
-		<br />
-     	<input type="submit" name="signin" id="signin" value="Sign In" style=" margin:10px 0 0 55px;" class="btn blue" />
-	</form>
-</div>
+		<input name="Password" type="password" id="Password" class="form-control" />
+		<br /><br />
+        <button class="btn btn-lg btn-primary btn-block" type="submit" name="signin" id="signin" >Sign in</button>
+	</form>    
+</div> 
 </body>
 </html>

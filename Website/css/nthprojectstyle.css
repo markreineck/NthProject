@@ -225,6 +225,7 @@ header .container-full{
     border-radius: 0 0 3px 3px;
 	position: absolute;
 	top: 39px;
+	z-index:1000;
     /*float: left;
     width: 100%;*/
 }
@@ -313,6 +314,8 @@ header .container-full{
 .searchbox {
     float: left;
     margin-top: -2px;
+    padding: 5px;
+    width: 150px;
 }
 .dark-bg {
 	background:none repeat scroll 0 0 #aaaaaa;
@@ -346,7 +349,11 @@ header .container-full{
     border-radius: 3px;
     padding: 3px 10px;
 }
-
+.msgcontainer {
+    padding: 3px 10px;
+    background: #ddd;
+    border-radius: 3px;
+}
 .footer {
     padding: 0 15px;
 	color:#FFF;
