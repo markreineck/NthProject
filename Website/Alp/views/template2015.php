@@ -40,7 +40,7 @@ $this->LoadSystemJavascript('Cookie');
                     </ul>
                 </li>
                 <li>
-                    <a href="logout" class="logout"><i class="glyphicon glyphicon-log-out"></i></a>
+                    <a href="" class="logout"><i class="glyphicon glyphicon-log-out"></i></a>
                 </li>
             </ul>
         </div>
