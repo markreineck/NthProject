@@ -1,3 +1,4 @@
+This appears to be unused
 <?php
 $timemenu = array(
 	array('priv'=>'',	'opt'=>'',				'link'=>'signin',			'name'=>'Project Sign In'),
@@ -25,7 +26,7 @@ $taskmenu = array(
 	array('priv'=>'',	'opt'=>'Milestones',	'link'=>'taskbymilestone',	'name'=>'Tasks by Milestone'),
 	array('priv'=>'',	'opt'=>'',				'link'=>'tasksremoved',		'name'=>'Deleted Tasks')
 );
-
+/*
 $taskrptmenu = array(
 	array('priv'=>'',	'opt'=>'',				'link'=>'taskcompleted',	'name'=>'Completed'),
 	array('priv'=>'',	'opt'=>'',				'link'=>'taskrecentdone',	'name'=>'Recently Completed '),
@@ -34,7 +35,7 @@ $taskrptmenu = array(
 	array('priv'=>'',	'opt'=>'ReleaseTasks',	'link'=>'releasetasks',		'name'=>'Release Tasks'),
 	array('priv'=>'',	'opt'=>'ReleaseTasks',	'link'=>'taskrecentrel',	'name'=>'Recently Released ')
 );
-
+*/
 $projectmenu = array(
 	array('priv'=>'',	'opt'=>'',				'link'=>'projects',			'name'=>'Projects'),
 	array('priv'=>'',	'opt'=>'',				'link'=>'projectareas',		'name'=>'Project Areas'),
@@ -100,7 +101,7 @@ if ($db->IsGlobalSupervisor()) {
 }
 
 ShowMenu($this, 'Tasks', $taskmenu);
-ShowMenu($this, 'Completed Tasks', $taskrptmenu);
+//ShowMenu($this, 'Completed Tasks', $taskrptmenu);
 
 if ($db->IsProjectSupervisor())
 	ShowMenu($this, 'Projects', $projectmenu);

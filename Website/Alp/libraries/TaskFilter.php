@@ -25,7 +25,7 @@ to fake out classed that are expecting certain fields to be held in the cookie.
 class TaskListFilter {
 
 var $DefaultMilestone, $DefaultUser, $DefaultPaymentStatus, $DefaultTaskStatus, $DefaultPrj, $DefaultArea;
-var $DefaultDateRange, $DefaultStartDate, $DefaultEndDate;
+var $DefaultDateRange, $DefaultStartDate, $DefaultEndDate, $Submitter;
 
 function TaskListFilter ()
 {
@@ -52,6 +52,16 @@ function SetDefaultUser($val)
 function GetDefaultUser()
 {
 	return $this->DefaultUser;
+}
+
+function SetSubmitter($val)
+{
+	$this->Submitter = $val;
+}
+
+function GetSubmitter()
+{
+	return $this->Submitter;
 }
 
 function SetDefaultPaymentStatus($val)

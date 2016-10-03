@@ -3,11 +3,6 @@ include 'TaskBaseController.php';
 
 class ajaxtasklist extends TaskBaseController implements AlpController {
 
-public function __construct($url)
-{
-	parent::AlpFramework($url);
-}
-
 function Start()
 {
 	$db = $this->LoadModel(array('DatabaseDB', 'TaskDB', 'TaskListDB'));
@@ -33,6 +28,7 @@ function Start()
 			$filter->DefaultUser = (isset($_GET['DefaultUser'])) ? $_GET['DefaultUser'] : -1;
 			$filter->DefaultTaskStatus = (isset($_GET['TaskStatus'])) ? $_GET['TaskStatus'] : '';
 			$filter->DefaultPaymentStatus = (isset($_GET['DefaultPaymentStatus'])) ? $_GET['DefaultPaymentStatus'] : '';
+			$filter->Submitter = (isset($_GET['Submitter'])) ? $_GET['Submitter'] : -1;
 
 			switch ($this->Controller(1)) {
 				case 'Test':

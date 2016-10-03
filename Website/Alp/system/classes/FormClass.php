@@ -102,7 +102,7 @@ function RedirectTo($url)
 
 function ShowHiddenField ($name, $value)
 {
-	if (ctype_alnum($value))
+	if (is_numeric($value))
 		echo "<input type=\"hidden\" name=\"$name\" id=\"$name\" value=\"$value\">";
 	else
 		echo "<textarea name=\"$name\" id=\"$name\" style=\"visibility:hidden;height:0px;width:0px\">$value</textarea>";

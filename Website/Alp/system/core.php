@@ -1,6 +1,6 @@
 <?php 
 /*
-Copyright (c) 2012, 2013, Nth Generation. All rights reserved.
+Copyright (c) 2012-2015 Nth Generation. All rights reserved.
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -14,6 +14,13 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 */
+
+define('DEBUG_SQL', 1);
+define('DEBUG_AJAX', 2);
+define('DEBUG_CLASSES', 4);
+define('DEBUG_INPUT', 8);
+define('DEBUG_INCLUDE', 16);
+
 interface AlpController
 {
     public function Start();
@@ -24,6 +31,7 @@ abstract class AlpFramework implements AlpController {
 var $URLBase;
 var $DatabaseDriver;
 var $DebugMode;
+var $DebugMask;
 var $DateFormat;
 
 var $DatabaseLoaded = 0;
@@ -31,9 +39,7 @@ var $ModelList = array();
 var $TableList = array();
 var $LoadedClassList = array();
 var $DataList = array();
-//var $PostData = array();
-//var $GetData = array();
-var $FormClass = NULL;
+var $FormClass = array();
 var $DateClass = NULL;
 var $AjaxClass = NULL;
 var $CookieClass = NULL;
@@ -44,6 +50,7 @@ var $cssloaded=false;
 
 var $controllerlist;
 var $UserSettings;
+var $TermList = NULL, $DefaultTermList = NULL;
 
 var $ModelPath = 'model';
 var $SystemPath = 'system';
@@ -52,55 +59,110 @@ var $ViewPath = 'views';
 
 var $DeviceType = '';
 var $ActionList = array();
+var $ErrorList = array();
+var $MsgList = array();
+var $FormBindings = array();
 
 /**********************************************************************
  *	Class Initialize
  **********************************************************************/
-function AlpFramework($controller)
+function __construct ($controller)
 {
-	/*
-	foreach ($_POST as $var => $val) {
-		$this->PostData[$var] = $val;
-	}
-	foreach ($_GET as $var => $val) {
-		$this->GetData[$var] = $val;
-	}
-*/
 	$this->controllerlist = $controller;
+
+	ob_start();
 
 	include ('Alp/config/globals.php');
 	if ($this->DebugMode > 0) {
 		set_exception_handler('exception_handler');
 		set_error_handler("error_handler");
-		if ($this->DebugMode > 2) {
-			if (count($_POST) > 0) {
-				echo '<p>Post:';
-				print_r($_POST);
-				echo '</p>';
-			}
-			if (count($_GET) > 0) {
-				echo '<p>Get:';
-				print_r($_GET);
-				echo '</p>';
-			}
-			echo '<p>Cookie:';
-			print_r($_COOKIE);
-			echo '</p>';
-		}
+
+		$this->DebugPrint($_POST, DEBUG_INPUT, '_POST data:');
+		$this->DebugPrint($_GET, DEBUG_INPUT, '_GET data:');
+		$this->DebugPrint($_COOKIE, DEBUG_INPUT, 'Cookie:');
 	}
 }
 
-function Process()
+function __destruct ()
 {
-	if (count($_POST) && method_exists($controller, 'Post'))
-		$controller->Post();
-	else
-		$controller->Start();
+	ob_end_flush();
 }
-/*
-function PostData($var, $val)
+
+function BindForms ($bind)
 {
-	$this->PostData[$var] = $val;
+	$this->FormBindings = array_merge($this->FormBindings, $bind);
+}
+
+function Launch()
+{
+	if (count($_POST)) {
+		if (isset($this->FormBindings)) {
+			foreach ($this->FormBindings as $fld => $method) {
+				if (isset($_POST[$fld]) && method_exists($this, $method)) {
+					$this->$method();
+					return;
+				}
+			}
+		}
+
+		if (method_exists($this, 'Post')) {
+			$this->Post();
+			return;
+		}
+	}
+	$this->Start();
+}
+
+/**********************************************************************
+ *	Error Messages
+ **********************************************************************/
+
+function LogError($msg)
+{
+	$this->ErrorList[] = $msg;
+}
+
+function ErrorString()
+{
+	$msg = '';
+	foreach ($this->ErrorList as $e) {
+		if ($msg)
+			$msg .= '<br>';
+		$msg .= $e;
+	}
+	return $msg;
+}
+
+function LogMsg($msg)
+{
+	$this->MsgList[] = $msg;
+}
+
+function MsgString()
+{
+	$msg = '';
+	foreach ($this->MsgList as $e) {
+		if ($msg)
+			$msg .= '<br>';
+		$msg .= $e;
+	}
+	return $msg;
+}
+
+function ShowMessages()
+{
+	$err = $this->ErrorString();
+	$donemsg = $this->MsgString();
+
+	if (empty($err))
+		echo "<div class=\"$this->ErrorClass\" id=\"ErrorBlock\" style=\"display:none\"></div>
+";
+	else
+		echo "<div class=\"$this->ErrorClass\" id=\"ErrorBlock\">$err</div>
+";
+	if (!empty($donemsg))
+		echo "<div class=\"$this->MessageClass\" id=\"MessageBlock\">$donemsg</div>
+";
 }
 
 /**********************************************************************
@@ -114,8 +176,8 @@ function SiteURL()
 private function FrameworkFilePath ($folder, $filename)
 {
 	$path = 'Alp/'.$folder.'/'.$filename.'.php';
-if ($this->DebugMode > 2)
-echo "<p>$path</p>";
+	if ($this->DebugMode > 2)
+		echo "<p>$path</p>";
 	return $path;
 }
 
@@ -127,7 +189,9 @@ function ConfigurationFilePath ($filename)
 //Depricated
 function LoadClassConfig($filename)
 {
-	include ($this->ConfigurationFilePath ($filename));
+	$path = $this->ConfigurationFilePath ($filename);
+	$this->DebugMsg('Include: ' . $path, DEBUG_INCLUDE);
+	include_once ($path);
 	return $settings;
 }
 
@@ -156,6 +220,25 @@ window.onload = function(){
 </script>
 ';
 	exit();
+}
+
+/**********************************************************************
+ *	Language Files
+ **********************************************************************/
+private function LanguageFilePath ($filename)
+{
+	return $this->FrameworkFilePath('language',$filename);
+}
+
+function GetText ($key)
+{
+	if (!$this->TermList) {
+		include $this->LanguageFilePath('en');
+		$this->TermList = $termlist;
+	}
+	if (isset($this->TermList[$key]))
+		return $this->TermList[$key];
+	return '';
 }
 
 /**********************************************************************
@@ -218,7 +301,7 @@ function LoadSystemLibrary($libfile)
 {
 	$path = $this->FrameworkFilePath($this->SystemPath.'/libraries',$libfile);
 	if (is_file($path)) {
-		include ($path);
+		$this->IncludePhpFile ($path);
 	}
 }
 
@@ -226,9 +309,9 @@ function LoadLibrary ($libfile)
 {
 	$path = $this->FrameworkFilePath('libraries',$libfile);
 	if (is_file($path)) {
-		include_once ($path);
+		$this->IncludePhpFile ($path);
 	} else {
-		include_once ($this->FrameworkFilePath($this->SystemPath.'/libraries',$libfile));
+		$this->IncludePhpFile ($this->FrameworkFilePath($this->SystemPath.'/libraries',$libfile));
 	}
 }
 
@@ -253,25 +336,31 @@ function LoadView ($viewname='')
 /**********************************************************************
  *	Class Loading
  **********************************************************************/
+ 
+private function IncludePhpFile($path)
+{
+	$this->DebugMsg('Include: ' . $path, DEBUG_INCLUDE);
+	include_once ($path);
+}
 
 private function IncludeBaseClass()
 {
 	$path = $this->FrameworkFilePath($this->SystemPath,'AlpClass');
-	include_once ($path);
+	$this->IncludePhpFile($path);
 }
 
 private function IncludeSystemClass($name)
 {
 	$this->IncludeBaseClass();
 	$path = $this->FrameworkFilePath($this->SystemPath.'/classes',$name);
-	if (is_file($path)) {
-		include ($path);
-	}
+	if (is_file($path))
+		$this->IncludePhpFile($path);
 }
 
 private function LoadSystemClass($name)
 {
 	$this->IncludeSystemClass($name);
+	$this->DebugMsg('Class: ' . $name, DEBUG_CLASSES);
 	return new $name($this);
 }
 
@@ -281,8 +370,10 @@ function Cookie($classname='')
 		if (empty($classname)) {
 			$this->CookieClass = $this->LoadSystemClass('CookieClass');
 		} else {
+			$this->IncludeBaseClass();
 			$this->IncludeSystemClass('CookieClass');
-			include ($this->FrameworkFilePath('classes',$classname));
+			$this->IncludePhpFile($this->FrameworkFilePath('classes',$classname));
+			$this->DebugMsg('Cookie: ' . $classname, DEBUG_CLASSES);
 			$this->CookieClass = new $classname($this);
 		}
 	}
@@ -310,26 +401,43 @@ private function IncludeClassFile($libfile)
 	if (!is_file($path)) {
 		$path = $this->FrameworkFilePath('classes',$libfile);
 	}
-	include ($path);
+	$this->IncludePhpFile($path);
 }
 
 function Forms($classname='')
 {
-	if (!$this->FormClass) {
+    if (!count($this->FormClass)) {
 		if (empty($classname)) {
-			$this->FormClass = $this->LoadSystemClass('FormClass');
+            $this->FormClassName = 'FormClass';
+            $this->FormClass[] = $this->LoadSystemClass('FormClass');
 		} else {
+            $this->FormClassName = $classname;
 			$this->IncludeSystemClass('FormClass');
-			include ($this->FrameworkFilePath('classes',$classname));
-			$this->FormClass = new $classname($this);
+			$this->IncludePhpFile($this->FrameworkFilePath('classes',$classname));
+			$this->DebugMsg('Form: ' . $classname, DEBUG_CLASSES);
+			$this->FormClass[] = new $classname($this);
 		}
-	}
-	return $this->FormClass;
+	} else
+		$this->DebugMsg('Fetch Form: ' . get_class($this->FormClass[0]), DEBUG_CLASSES);
+	return $this->FormClass[0];
+}
+
+function MakeForm($classname)
+{
+    if (!$this->FormClass) {
+        $this->IncludeSystemClass('FormClass');
+    }
+    if (!$this->FormClass || !isset($this->FormClass[$classname])) {
+		$this->DebugMsg('Form: ' . $classname, DEBUG_CLASSES);
+        $this->FormClass[$classname] = new $this->FormClassName($this);
+    }
+	$this->DebugMsg('Fetch Form: ' . get_class($this->FormClass[$classname]), DEBUG_CLASSES);
+    return $this->FormClass[$classname];
 }
 
 function GetForm()
 {
-	return $this->FormClass;
+	return $this->FormClass[0];
 }
 
 function DBTable($modelname='', $myclassname='')
@@ -346,19 +454,19 @@ function DBTable($modelname='', $myclassname='')
 		}
 	} else {
 		// If we have not loaded any DB tables yet then load the necessary classes
-		include ($this->FrameworkFilePath($this->SystemPath,'model/DBField'));
-		include ($this->FrameworkFilePath($this->SystemPath,'model/DBProcedure'));
-		include ($this->FrameworkFilePath($this->SystemPath,'model/DBTable'));
+		$this->IncludePhpFile ($this->FrameworkFilePath($this->SystemPath,'model/DBField'));
+		$this->IncludePhpFile ($this->FrameworkFilePath($this->SystemPath,'model/DBProcedure'));
+		$this->IncludePhpFile ($this->FrameworkFilePath($this->SystemPath,'model/DBTable'));
 	}
 
 	if (is_array($modelname)) {
 		foreach ($modelname as $mname) {
-			include ($this->FrameworkFilePath($this->ModelPath,$mname));
+			$this->IncludePhpFile ($this->FrameworkFilePath($this->ModelPath,$mname));
 			$classname = $mname;
 		}
 	} else {
 		if ($modelname) {
-			include ($this->FrameworkFilePath($this->ModelPath,$modelname));
+			$this->IncludePhpFile ($this->FrameworkFilePath($this->ModelPath,$modelname));
 			$classname = $modelname;
 		}
 	}
@@ -366,6 +474,7 @@ function DBTable($modelname='', $myclassname='')
 	if (!empty($classname)) {
 		if (!$myclassname)
 			$myclassname = $classname;
+		$this->DebugMsg('DBTable: ' . $classname, DEBUG_CLASSES);
 		return $this->TableList[$myclassname] = new $myclassname($this);
 	} else
 		return FALSE;
@@ -376,13 +485,15 @@ function DBForm($binding, $classname='')
 	if (!$this->FormClass) {
 		$this->IncludeSystemClass('FormClass');
 		$path = $this->FrameworkFilePath($this->SystemPath,'model/DBField');
-		include ($path);
+		$this->IncludePhpFile ($path);
 		if (empty($classname)) {
 			$this->IncludeSystemClass('DBFormClass');
+			$this->DebugMsg('DBForm: DBFormClass', DEBUG_CLASSES);
 			$this->FormClass = new DBFormClass($this, $binding);
 		} else {
 			$this->IncludeSystemClass('DBFormClass');
-			include ($this->FrameworkFilePath('classes',$classname));
+			$this->IncludePhpFile ($this->FrameworkFilePath('classes',$classname));
+			$this->DebugMsg('DBForm: ' . $classname, DEBUG_CLASSES);
 			$this->FormClass = new $classname($this, $binding);
 		}
 	}
@@ -415,6 +526,7 @@ function LoadClass ($libfile, $classname='', $libidx='')
 			$lib = new $classname();
 		}
 */
+		$this->DebugMsg('Class: ' . $classname, DEBUG_CLASSES);
 		$lib = new $classname($this);
 		$this->LoadedClassList[$libidx] = $lib;
 	}
@@ -431,7 +543,7 @@ function LoadDatabaseConfig()
 
 function LoadBindingConfig ($filename)
 {
-	include $this->FrameworkFilePath($this->ModelPath.'/binding',$filename);
+	$this->IncludePhpFile($this->FrameworkFilePath($this->ModelPath.'/binding',$filename));
 	return $bindings;
 }
 
@@ -440,25 +552,26 @@ function LoadModel ($modelname='', $dbindex=0, $pwd='', $username='', $dbname=''
 	$classname = '';
 
 	if (!$this->DatabaseLoaded) {
-		include ($this->FrameworkFilePath($this->SystemPath.'/database',$this->DatabaseDriver));
+		$this->IncludePhpFile ($this->FrameworkFilePath($this->SystemPath.'/database',$this->DatabaseDriver));
 		$this->DatabaseLoaded = 1;
 	}
 
 	if (is_array($modelname)) {
 		foreach ($modelname as $mname) {
-			include ($this->FrameworkFilePath($this->ModelPath,$mname));
+			$this->IncludePhpFile ($this->FrameworkFilePath($this->ModelPath,$mname));
 			$classname = $mname;
 		}
 	} else {
 		if (empty($modelname)) {
 			$classname = 'DatabaseClass';
 		} else {
-			include ($this->FrameworkFilePath($this->ModelPath,$modelname));
+			$this->IncludePhpFile ($this->FrameworkFilePath($this->ModelPath,$modelname));
 			$classname = $modelname;
 		}
 	}
 
 	if (!empty($classname)) {
+		$this->DebugMsg('Model: ' . $classname, DEBUG_CLASSES);
 		$db = new $classname($this, $pwd, $username, $dbname, $host);
 		$this->ModelList[$dbindex] = $db;
 		return $this->ModelList[$dbindex];
@@ -466,17 +579,17 @@ function LoadModel ($modelname='', $dbindex=0, $pwd='', $username='', $dbname=''
 		return FALSE;
 }
 
+// Depricated. Please use Model()
 function Database ($dbindex=0)
 {
-	if (!isset($this->ModelList[$dbindex]) || !$this->ModelList[$dbindex])
-		$this->LoadModel('',$dbindex); 
-	return $this->ModelList[$dbindex];
+	return $this->Model($dbindex);
 }
 
 function Model ($dbindex=0)
 {
 	if (!isset($this->ModelList[$dbindex]) || !$this->ModelList[$dbindex])
 		$this->LoadModel('',$dbindex); 
+	$this->DebugMsg('Fetch Model: ' . get_class($this->ModelList[$dbindex]), DEBUG_CLASSES);
 	return $this->ModelList[$dbindex];
 }
 
@@ -488,31 +601,35 @@ function Controller($idx=0)
 	return (isset($this->controllerlist[$idx])) ? $this->controllerlist[$idx] : '';
 }
 
-function DebugPrint($data, $desc='')
+function DebugPrint($data, $mask=0, $desc='')
 {
-	if ($this->DebugMode == 1)
-		echo '<!-- ';
-	if ($this->DebugMode > 0) {
-		if ($desc)
-			echo $desc . ': ';
-		print_r($data);
+	if (!$mask || !$this->DebugMask || $mask & $this->DebugMask) {
+		if ($this->DebugMode == 1)
+			echo '<!-- ';
+		if ($this->DebugMode > 0) {
+			if ($desc)
+				echo $desc . ': ';
+			print_r($data);
+		}
+		if ($this->DebugMode == 1)
+			echo ' -->';
+		else if ($this->DebugMode > 1)
+			echo '<br>';
 	}
-	if ($this->DebugMode == 1)
-		echo ' -->';
-	else if ($this->DebugMode > 1)
-		echo '<br>';
 }
 
-function DebugMsg($msg)
+function DebugMsg($msg, $mask=0)
 {
-	if ($this->DebugMode == 1)
-		echo '<!-- ';
-	if ($this->DebugMode > 0)
-		echo $msg;
-	if ($this->DebugMode == 1)
-		echo ' -->';
-	else if ($this->DebugMode > 1)
-		echo '<br>';
+	if (!$mask || !$this->DebugMask || $mask & $this->DebugMask) {
+		if ($this->DebugMode == 1)
+			echo '<!-- ';
+		if ($this->DebugMode > 0)
+			echo $msg;
+		if ($this->DebugMode == 1)
+			echo ' -->';
+		else if ($this->DebugMode > 1)
+			echo '<br>';
+	}
 }
 
 function DebugMode($mode=-1)
@@ -600,8 +717,9 @@ function DeviceType()
 			$this->DeviceType = $_GET['DeviceType'];
 		} else {
 			$this->LoadLibrary('Mobile_Detect');
+			$this->DebugMsg('Class: Mobile_Detect', DEBUG_CLASSES);
 			$md = new Mobile_Detect();
-			if ($md->isMobile())
+			if ($md->isMobile() && !$md->isTablet())
 				$this->DeviceType = 'P';
 			else if ($md->isTablet())
 				$this->DeviceType = 'T';
@@ -634,7 +752,7 @@ function isComputer()
 function FilteredInputData($method, $var, $filter, $options=0)
 {
 	$result = trim(filter_input($method, $var, $filter, $options));
-	$this->DebugMsg("$var=[$result]");
+	$this->DebugMsg("$var=[$result]", DEBUG_INPUT);
 	return $result;
 }
 

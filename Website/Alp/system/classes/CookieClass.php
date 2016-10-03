@@ -23,29 +23,15 @@ a cookie with the appropriate fields.
 
 class CookieClass extends AlpClass {
 
-function CookieClass ($framework)
-{
-	parent::__construct($framework);
-}
-
-function Debug()
-{
-	if ($this->Framework()->DebugMode()) {
-		echo 'Cookie: ';
-		print_r($_COOKIE);
-		echo '<br>';
-	}
-}
-
 function Clear ($var)
 {
 	setcookie($var, '', 0, '/');
 	unset($_COOKIE[$var]);
 }
 
-function Set ($var, $val)
+function Set ($var, $val, $expires=0)
 {
-	setcookie($var, $val, 0, '/');
+	setcookie($var, $val, $expires, '/');
 	$_COOKIE[$var] = $val;
 }
 

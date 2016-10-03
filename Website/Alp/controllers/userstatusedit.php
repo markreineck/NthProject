@@ -1,11 +1,6 @@
 <?php
 class userstatusedit extends AlpFramework implements AlpController {
 
-public function __construct($url)
-{
-	parent::AlpFramework($url);
-}
-
 function Start()
 {
 	$c = $this->Cookie('ProjectCookie');
