@@ -15,10 +15,11 @@ function Start()
 
 	if ($this->IsPosted('TaskID')) {
 		$taskid = $this->PostedDigit('TaskID');
+		$branch = $this->PostedString('Branch');
 		$notes = $this->PostedString('Comment');
 		$func = $this->PostedString('Function');
 		if ($func == 'C') {
-			$err = $db->CompleteTask($taskid, $notes);
+			$err = $db->CompleteTask($taskid, $branch, $notes);
 			if (!$err) {
 				$email = $this->LoadClass(array('EmailClass', 'TaskEmailClass'));
 				$email->SendTaskComplete($taskid);

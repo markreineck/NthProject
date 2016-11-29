@@ -126,7 +126,7 @@ function TaskStatusWhere($cookie)
 			break;
 		default:
 			if ($cookie->GetDefaultTaskStatus() > 0)
-				$where .= ' and t.status='.$cookie->GetDefaultTaskStatus();
+				$where .= ' and t.complete is null and t.approved is null and t.removed is null and t.status='.$cookie->GetDefaultTaskStatus();
 	}
 	return $where;
 }
@@ -376,7 +376,7 @@ left outer join (select prjid, superuser, edit, assign from projectusers where u
 where $where and p.completed is null and p.status='A' ".$this->ProjectListWhere($cookie)."
 order by $orderby, t.priority";
 */
-	$sql = "select p.orgid, t.taskid, t.priority, s.name status, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost,
+	$sql = "select p.orgid, t.taskid, t.priority, s.name status, p.name as project, a.name as area, t.name task, at.$namefield assignedto, p.prjid, u.edit, u.assign, u.superuser, t.complete, t.approved, t.cost, t.branch,
 date_format($datefld, '%b %e, %Y') needby, 
 date_format(t.submittedon, '%b %e, %Y') submitted, 
 date_format(t.removed, '%b %e, %Y') removedon

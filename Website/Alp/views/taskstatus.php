@@ -16,9 +16,10 @@ echo ($Function == 'C') ? 'Complete' : 'Rejected';
 <?php
 $form->ShowFormErrors($errmsg);
 ?>
-<form method="post" name="form" id="form" >
+<form method="post" name="form" id="form" <?php if ($Function == 'C') $form->ShowOnSubmit(); ?>>
 	<table cellpadding="3" cellspacing="0">
 <?php
+$form->ShowTextField ('Branch', 'Branch', 40, 40, $data->branch, 1);
 $form->ShowHTMLEditField ('Comment', 'Comment', 4, 60);
 ?>
 		<tr>
@@ -33,3 +34,6 @@ $form->ShowRedirectButton($c->GetLastTaskPage());
 		</td></tr>
 	</table>
 </form>
+<?php
+$form->FormValidation();
+?>

@@ -75,7 +75,8 @@ create procedure EditTask (
 	i_areaid	int unsigned,
 	i_status	int unsigned,
 	i_priority	tinyint unsigned,
-	i_name		varchar(80)
+	i_name		varchar(80),
+	i_branch	varchar(40)
 ) begin
 
 declare v_me int unsigned;
@@ -93,7 +94,7 @@ if @err = 0 then
 		where taskid=i_taskid;
 	else
 		update tasks set edited=now(), editedby=v_me,
-		areaid=i_areaid, status=i_status, priority=i_priority, name=i_name
+		areaid=i_areaid, status=i_status, priority=i_priority, name=i_name, branch=i_branch
 		where taskid=i_taskid;
 	end if;
 

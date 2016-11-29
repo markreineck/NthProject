@@ -13,3 +13,6 @@ alter table users add payrate int comment 'Hourly pay rate in cents';
 alter table tasks areaid null;
 alter table tasks add branch varchar(40);
 alter table tasks drop foreign key tasks_area;
+
+-- 11/28/2016
+alter table tasks add branch varchar(40);

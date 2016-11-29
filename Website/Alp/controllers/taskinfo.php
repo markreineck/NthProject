@@ -26,12 +26,13 @@ function Post()
 	} else if ($this->IsPosted('TaskID')) {
 		$taskid = $this->PostedDigit('TaskID');
 		if ($this->IsPosted('Status')) {
-			if ($this->DataChanged(array('Area','Status','Priority','Description'))) {
+			if ($this->DataChanged(array('Area','Status','Priority','Description','Branch'))) {
 				if (!$db->EditTask($taskid, 
 						$this->PostedDigit('Area'), 
 						$this->PostedDigit('Status'), 
 						$this->PostedDigit('Priority'), 
-						$this->PostedString('Description')))
+						$this->PostedString('Description'),
+						$this->PostedString('Branch')))
 					$okmsg .= 'Task status was successfully changed. ';
 			}
 			if ($this->DataChanged('NeedBy')) {

@@ -18,22 +18,34 @@ if ($data && count($data)) {
 	<tr class="ColumnTitles">
 		<th>Project</th>
 		<th colspan="2">Task</th>
+		<th>Branch</th>
 		<th><?php echo $datefield; ?></th>
 		<th>Assigned to</th>
+<?php
+			if ($filter->DefaultTaskStatus != -4 && $filter->DefaultTaskStatus != -5 && $filter->DefaultTaskStatus != -7) {
+?>
 		<th>Status</th>
+<?php
+			}
+?>
 		<th colspan="2"></th>
 	</tr>
 <?php
 		}
 ?>
 	<tr class="stripe<?php echo $stripe; ?>">
-		<td><a class="parent"  href="projectinfo?id=<?php echo $dt->prjid; ?>"><?php echo $dt->project; ?></a>: <?php echo $dt->area; ?></td>
+		<td><a class="parent"  href="projectinfo?id=<?php echo $dt->prjid; ?>"><?php echo $dt->project; ?></a></td>
 		<td><?php $this->TaskInfoLink($dt->taskid, $dt->taskid); ?></a></td>
 		<td><?php $this->TaskInfoLink($dt->taskid, $dt->task); ?></a></td>
+		<td><?php echo $dt->branch; ?></td>
 		<td><?php echo $dt->needby; ?></td>
 		<td><?php echo $dt->assignedto; ?></td>
+<?php
+		if ($filter->DefaultTaskStatus != -4 && $filter->DefaultTaskStatus != -5 && $filter->DefaultTaskStatus != -7) {
+?>
 		<td id="status<?php echo $dt->taskid; ?>"><?php echo TaskStatus($dt); ?></td>
-<?php 
+<?php
+		}
 		ShowTaskIcons($db->GetUserID(), $db->IsSupervisor(), $dt);
 ?>
 	</tr>

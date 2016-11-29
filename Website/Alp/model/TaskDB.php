@@ -49,7 +49,7 @@ function ReadTaskUnix($taskid)
 UNIX_TIMESTAMP(submittedon) submittedon, UNIX_TIMESTAMP(removed) removed, UNIX_TIMESTAMP(released) released,
 UNIX_TIMESTAMP(startafter) startafter, UNIX_TIMESTAMP(needby) needby, UNIX_TIMESTAMP(complete) complete, 
 UNIX_TIMESTAMP(approved) approved, startmilestone, endmilestone, 
-removedby, assignedto, submittedby, approvedby, releasedby, name
+removedby, assignedto, submittedby, approvedby, releasedby, name, branch
 from tasks where taskid='.$taskid;
 	return $this->SelectRow($sql);
 }
@@ -58,7 +58,7 @@ function ReadTask($taskid)
 {
 	$sql = 'select taskid, areaid, status, edited, editedby, priority, submittedon, removed, released,
 startafter, needby, complete, approved, startmilestone, endmilestone, 
-removedby, assignedto, submittedby, approvedby, releasedby, name
+removedby, assignedto, submittedby, approvedby, releasedby, name, branch
 from tasks where taskid='.$taskid;
 	return $this->SelectRow($sql);
 }
@@ -66,7 +66,7 @@ from tasks where taskid='.$taskid;
 function ReadTaskDesc($taskid)
 {
 	$sql = "select p.orgid, p.name project, a.prjid, t.areaid, a.name area, t.priority, t.name, t.status statusid, s.name status, 
-t.startmilestone, t.endmilestone, t.cost, t.removed, t.submittedby, t.assignedto, t.approvedby, 
+t.startmilestone, t.endmilestone, t.cost, t.removed, t.submittedby, t.assignedto, t.approvedby, t.branch,
 date_format(t.submittedon,'%b %d, %Y') submittedon,
 date_format(t.complete,'%b %d, %Y') complete,
 date_format(t.approved,'%b %d, %Y') approved,
@@ -269,15 +269,16 @@ function CreateTask($prjid, $area, $status, $priority, $name, $startms, $endms, 
 	return $this->SelectMysqlVariable('taskid');
 }
 
-function EditTask($taskid, $area, $status, $priority, $name='')
+function EditTask($taskid, $area, $status, $priority, $name='', $branch='')
 {
 	$sid = $this->GetSessionID();
 	$area = $this->MakeNumericValue($area);
 	$status = $this->MakeNumericValue($status);
 	$priority = $this->MakeNumericValue($priority);
 	$name = $this->MakeStringValue($name);
+	$branch = $this->MakeStringValue($branch);
 
-	$sql = "call EditTask($sid, $taskid, $area, $status, $priority, $name)";
+	$sql = "call EditTask($sid, $taskid, $area, $status, $priority, $name, $branch)";
 
 	return $this->ExecuteProc ($sql);
 }
@@ -413,11 +414,12 @@ function DeleteTaskFile($taskid, $fileid)
 	return $this->ExecuteProc ($sql);
 }
 
-function CompleteTask($taskid, $notes)
+function CompleteTask($taskid, $branch, $notes)
 {
 	$sid = $this->GetSessionID();
+	$branch = $this->MakeStringValue($branch);
 	$notes = $this->MakeStringValue($notes);
-	$sql = "call CompleteTask($sid, $taskid, $notes)";
+	$sql = "call CompleteTask($sid, $taskid, $branch, $notes)";
 	return $this->ExecuteProc ($sql);
 }
 

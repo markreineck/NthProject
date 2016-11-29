@@ -93,6 +93,7 @@ if ($canedit) { MakeJSIcon('pencil', "ToggleViews('ViewTask','EditTask')", 'Edit
 	<label>Area: </label><strong><span><a href="projectinfo?id=<?php echo $data->prjid; ?>"><?php echo $data->project; ?></a>: <?php echo $data->area; ?></span></strong><br />
     <label>Priority: </label><strong><span><?php echo $data->priority; ?></span></strong><br />
     <label>Status: </label><strong><span><?php echo $status; ?></span></strong><br />
+    <label>Branch: </label><strong><span><?php echo $data->branch; ?></span></strong><br />
     <label>Submitted on:</label><strong><span><?php echo $data->submittedon; ?></span></strong><br />
 <?php
 if (!empty($data->complete)) {
@@ -210,6 +211,7 @@ if ($canedit) {
 	$form->ShowTextField ('Description', 'Description', 80, 40, $data->name, 1);
 	$form->ShowListField ('Area', 'Area', $arealist, 2, $data->areaid);
 	$form->ShowListField ('Status', 'Status', $statuslist, 2, $data->statusid);
+	$form->ShowTextField ('Branch', 'Branch', 40, 40, $data->branch);
 	$form->ShowNumericListField ('Priority', 'Priority', 1, 5, 1, $data->priority, 2);
 }
 if ($canassn) {

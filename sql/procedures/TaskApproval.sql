@@ -5,6 +5,7 @@ DROP PROCEDURE IF EXISTS CompleteTask$$
 create procedure CompleteTask (
 	i_session	bigint unsigned,
 	i_taskid	bigint unsigned,
+	i_branch	varchar(40),
 	i_descr		text
 ) begin
 
@@ -29,7 +30,7 @@ end if;
 if @err = 0 then
 	start transaction;
 
-	update tasks set complete=curdate(), assignedto=v_me where taskid=i_taskid;
+	update tasks set branch=i_branch, complete=curdate(), assignedto=v_me where taskid=i_taskid;
 	if row_count() < 1 then
 		select -2001 into @err;
 	end if;

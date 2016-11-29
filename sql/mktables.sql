@@ -322,7 +322,7 @@ ALTER TABLE projectfiles
 -- --------------------------------------------------------
 
 --
--- Table structure for table projectfiles
+-- Table structure for table projectlinks
 --
 
 CREATE TABLE IF NOT EXISTS projectlinks (
@@ -401,6 +401,7 @@ CREATE TABLE IF NOT EXISTS tasks (
 	released date COMMENT 'date the task is released',
 	cost int unsigned,
 	paid date,
+	branch varchar(40),
 	PRIMARY KEY (taskid)
 ) ENGINE=InnoDB;
 
