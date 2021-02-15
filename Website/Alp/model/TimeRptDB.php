@@ -141,10 +141,10 @@ function ReadPayroll($start, $end)
 	
 	$where = "starton>=$start and endon<$end";
 
-	$sql = "select u.name, t.time, u.payrate, t.time*u.payrate pay
+	$sql = "select u.name, t.time, t.adjustedtime, u.payrate, t.adjustedtime*u.payrate pay
 from usernames u, (
-select userid, sum(round(time_to_sec(timediff(ifnull(t.endon,now()),t.starton))/3600,1)) time
-from usertime t where $where group by userid) t
+select userid, sum(totaltime) time, sum(adjustedtime) adjustedtime
+from adjustedtime t where $where group by userid) t
 where t.userid=u.userid
 order by u.name";
 
